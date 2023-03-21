@@ -5,6 +5,7 @@
  */
 package ejb.session.singleton;
 
+import entity.Customer;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
@@ -28,7 +29,7 @@ public class DataInitSessionBean {
     // "Insert Code > Add Business Method")
     @PostConstruct
     public void postConstruct() {
-        
+        em.persist(new Customer("Person A"));
     }
 
 }
