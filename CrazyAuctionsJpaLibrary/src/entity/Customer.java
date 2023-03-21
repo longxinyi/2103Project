@@ -25,6 +25,8 @@ public class Customer implements Serializable {
     private Long CustomerId;
     @Column(length = 32)
     private String firstName;
+    @Column(length = 32)
+    private String lastName;
 
     public Customer() {
     }
@@ -35,6 +37,14 @@ public class Customer implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Customer(String firstName) {
@@ -72,6 +82,20 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "entity.Customer[ id=" + getCustomerId() + " ]";
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
     
 }
