@@ -27,6 +27,7 @@ public class Customer implements Serializable {
     private String firstName;
     @Column(length = 32)
     private String lastName;
+    private Integer age;
 
     public Customer() {
     }
@@ -96,6 +97,20 @@ public class Customer implements Serializable {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    /**
+     * @return the age
+     */
+    public Integer getAge() {
+        return age;
+    }
+
+    /**
+     * @param age the age to set
+     */
+    public void setAge(Integer age) {
+        this.age = age;
     }
     
 }
