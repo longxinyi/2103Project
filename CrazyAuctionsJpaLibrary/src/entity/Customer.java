@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     private Long CustomerId;
     @Column(length = 32)
     private String firstName;
-    @Column(length = 32)
+    @Column(length = 128)
     private String lastName;
     private Integer age;
 
