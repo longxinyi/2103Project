@@ -86,20 +86,6 @@ public class Customer implements Serializable {
     }
 
     /**
-     * @return the lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * @param lastName the lastName to set
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
      * @return the age
      */
     public Integer getAge() {
