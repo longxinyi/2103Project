@@ -20,12 +20,12 @@ public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer addressId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long addressId;
     private String addressName;
     private boolean associated;
 
-    public Integer getAddressId() {
+    public Long getAddressId() {
         return addressId;
     }
 
@@ -59,7 +59,7 @@ public class Address implements Serializable {
     /**
      * @param addressId the addressId to set
      */
-    public void setAddressId(Integer addressId) {
+    public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
 
