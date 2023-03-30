@@ -6,11 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -23,34 +25,21 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long CustomerId;
-    @Column(length = 32)
-    private String firstName;
-    @Column(length = 128)
-    private String lastName;
-    private Integer age;
+    private String deliveryAddress;
+    private BigDecimal creditBalance;
+    private String emailAddress;
+    private String username;
+    private String password;
+    //private String paymentDetails
+    
+    @ManyToOne
+    private AuctionListing auctionListing;
+           
 
     public Customer() {
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Customer(String firstName) {
-        this.firstName = firstName;
-    }
 
     public Long getCustomerId() {
         return CustomerId;
@@ -86,17 +75,74 @@ public class Customer implements Serializable {
     }
 
     /**
-     * @return the age
+     * @return the deliveryAddress
      */
-    public Integer getAge() {
-        return age;
+    public String getDeliveryAddress() {
+        return deliveryAddress;
     }
 
     /**
-     * @param age the age to set
+     * @param deliveryAddress the deliveryAddress to set
      */
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
+
+    /**
+     * @return the creditBalance
+     */
+    public BigDecimal getCreditBalance() {
+        return creditBalance;
+    }
+
+    /**
+     * @param creditBalance the creditBalance to set
+     */
+    public void setCreditBalance(BigDecimal creditBalance) {
+        this.creditBalance = creditBalance;
+    }
+
+    /**
+     * @return the emailAddress
+     */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    /**
+     * @param emailAddress the emailAddress to set
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     
 }

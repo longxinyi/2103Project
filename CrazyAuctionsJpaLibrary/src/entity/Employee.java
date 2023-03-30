@@ -13,39 +13,42 @@ import javax.persistence.Id;
 
 /**
  *
- * @author xinyi
+ * @author chiaangyong
  */
 @Entity
-public class Bid implements Serializable {
+public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long bidId;
+    private Long employeeId;
+    private String firstName;
+    private String lastName;
+    private String password;
 
-    public Long getBidId() {
-        return bidId;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setBidId(Long bidId) {
-        this.bidId = bidId;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (bidId != null ? bidId.hashCode() : 0);
+        hash += (employeeId != null ? employeeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Bid)) {
+        // TODO: Warning - this method won't work in the case the employeeId fields are not set
+        if (!(object instanceof Employee)) {
             return false;
         }
-        Bid other = (Bid) object;
-        if ((this.bidId == null && other.bidId != null) || (this.bidId != null && !this.bidId.equals(other.bidId))) {
+        Employee other = (Employee) object;
+        if ((this.employeeId == null && other.employeeId != null) || (this.employeeId != null && !this.employeeId.equals(other.employeeId))) {
             return false;
         }
         return true;
@@ -53,7 +56,7 @@ public class Bid implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Bid[ id=" + bidId + " ]";
+        return "entity.Employee[ id=" + employeeId + " ]";
     }
     
 }
