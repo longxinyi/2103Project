@@ -7,6 +7,8 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +29,7 @@ public class Customer implements Serializable {
     private Long CustomerId;
     private String firstName;
     private String lastName;
-    private String deliveryAddress;
+    private List<Address> listOfAddresses;
     private BigDecimal creditBalance;
     private int postalCode;
     private int contactNumber;
@@ -41,6 +43,19 @@ public class Customer implements Serializable {
            
 
     public Customer() {
+    }
+
+    public Customer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password, AuctionListing auctionListing) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.listOfAddresses = new ArrayList<Address>();
+        this.creditBalance = creditBalance;
+        this.postalCode = postalCode;
+        this.contactNumber = contactNumber;
+        this.emailAddress = emailAddress;
+        this.username = username;
+        this.password = password;
+        this.auctionListing = auctionListing;
     }
 
 
@@ -78,19 +93,6 @@ public class Customer implements Serializable {
         return "entity.Customer[ id=" + getCustomerId() + " ]";
     }
 
-    /**
-     * @return the deliveryAddress
-     */
-    public String getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    /**
-     * @param deliveryAddress the deliveryAddress to set
-     */
-    public void setDeliveryAddress(String deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
 
     /**
      * @return the creditBalance
@@ -146,6 +148,90 @@ public class Customer implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * @return the listOfAddresses
+     */
+    public List<Address> getListOfAddresses() {
+        return listOfAddresses;
+    }
+
+    /**
+     * @param listOfAddresses the listOfAddresses to set
+     */
+    public void setListOfAddresses(List<Address> listOfAddresses) {
+        this.listOfAddresses = listOfAddresses;
+    }
+
+    /**
+     * @return the postalCode
+     */
+    public int getPostalCode() {
+        return postalCode;
+    }
+
+    /**
+     * @param postalCode the postalCode to set
+     */
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    /**
+     * @return the contactNumber
+     */
+    public int getContactNumber() {
+        return contactNumber;
+    }
+
+    /**
+     * @param contactNumber the contactNumber to set
+     */
+    public void setContactNumber(int contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    /**
+     * @return the auctionListing
+     */
+    public AuctionListing getAuctionListing() {
+        return auctionListing;
+    }
+
+    /**
+     * @param auctionListing the auctionListing to set
+     */
+    public void setAuctionListing(AuctionListing auctionListing) {
+        this.auctionListing = auctionListing;
     }
 
     
