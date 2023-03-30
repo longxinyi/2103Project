@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,7 @@ public class AuctionListingBid implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long auctionListingBidId;
+    private BigDecimal bidPrice;
 
     public Long getAuctionListingBidId() {
         return auctionListingBidId;
@@ -54,6 +56,20 @@ public class AuctionListingBid implements Serializable {
     @Override
     public String toString() {
         return "entity.AuctionListingBid[ id=" + auctionListingBidId + " ]";
+    }
+
+    /**
+     * @return the bidPrice
+     */
+    public BigDecimal getBidPrice() {
+        return bidPrice;
+    }
+
+    /**
+     * @param bidPrice the bidPrice to set
+     */
+    public void setBidPrice(BigDecimal bidPrice) {
+        this.bidPrice = bidPrice;
     }
     
 }
