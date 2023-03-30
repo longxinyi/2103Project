@@ -223,19 +223,6 @@ public class Customer implements Serializable {
         this.contactNumber = contactNumber;
     }
 
-    /**
-     * @return the auctionListing
-     */
-    public AuctionListing getAuctionListing() {
-        return auctionListing;
-    }
-
-    /**
-     * @param auctionListing the auctionListing to set
-     */
-    public void setAuctionListing(AuctionListing auctionListing) {
-        this.auctionListing = auctionListing;
-    }
 
     
 }
