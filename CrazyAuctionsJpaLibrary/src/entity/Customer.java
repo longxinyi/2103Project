@@ -25,8 +25,12 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long CustomerId;
+    private String firstName;
+    private String lastName;
     private String deliveryAddress;
     private BigDecimal creditBalance;
+    private int postalCode;
+    private int contactNumber;
     private String emailAddress;
     private String username;
     private String password;
