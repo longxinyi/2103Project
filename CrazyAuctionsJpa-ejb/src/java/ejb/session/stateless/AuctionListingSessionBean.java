@@ -5,7 +5,7 @@
  */
 package ejb.session.stateless;
 
-import entity.Listing;
+import entity.AuctionListing;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,17 +15,17 @@ import javax.persistence.PersistenceContext;
  * @author xinyi
  */
 @Stateless
-public class ListingSessionBean implements ListingSessionBeanRemote, ListingSessionBeanLocal {
+public class AuctionListingSessionBean implements ListingSessionBeanRemote, ListingSessionBeanLocal {
 
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
     
     
-    public Long createNewListing(Listing listing){
-        em.persist(listing);
+    public Long createNewListing(AuctionListing auctionListing){
+        em.persist(auctionListing);
         em.flush();
         
-        return listing.getListingId();
+        return auctionListing.getAuctionListingId();
     }
     
     
