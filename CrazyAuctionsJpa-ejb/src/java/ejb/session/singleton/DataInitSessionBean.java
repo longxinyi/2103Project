@@ -29,7 +29,7 @@ public class DataInitSessionBean {
     // "Insert Code > Add Business Method")
     @PostConstruct
     public void postConstruct() {
-        em.persist(new Customer("Person A"));
+        //em.persist(new Customer("Person A"));
     }
 
 }

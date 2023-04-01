@@ -11,19 +11,34 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author xinyi
  */
 @Entity
-public class TransactionEntity implements Serializable {
+public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
     private BigDecimal amount;
+
+    @OneToMany(mappedBy = "transaction")
+    private CreditPackage creditPackage;
+    
+    @ManyToOne(optional = false)
+    private Customer customer;
+    
+    @OneToOne
+    private AuctionListingBid refund;
+    
+    @OneToOne
+    private AuctionListingBid bid;
 
     public Long getTransactionId() {
         return transactionId;
@@ -43,10 +58,10 @@ public class TransactionEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TransactionEntity)) {
+        if (!(object instanceof Transaction)) {
             return false;
         }
-        TransactionEntity other = (TransactionEntity) object;
+        Transaction other = (Transaction) object;
         if ((this.transactionId == null && other.transactionId != null) || (this.transactionId != null && !this.transactionId.equals(other.transactionId))) {
             return false;
         }
@@ -55,7 +70,7 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.TransactionEntity[ id=" + transactionId + " ]";
+        return "entity.Transaction[ id=" + transactionId + " ]";
     }
 
     /**

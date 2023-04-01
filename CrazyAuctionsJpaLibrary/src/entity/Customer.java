@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -40,7 +41,15 @@ public class Customer implements Serializable {
     
     @ManyToOne
     private AuctionListing auctionListing;
+    
+    @OneToMany(mappedBy = "customer")
+    private Transaction transaction;
+    
+    @OneToMany(mappedBy = "customer")
+    private AuctionListingBid bid;
            
+    @OneToMany(mappedBy = "customer")
+    private Address address;
 
     public Customer() {
     }

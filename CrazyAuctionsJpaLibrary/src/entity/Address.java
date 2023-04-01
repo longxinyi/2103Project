@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,6 +26,12 @@ public class Address implements Serializable {
     private Long addressId;
     private String addressName;
     private boolean associated;
+    
+    @OneToMany(mappedBy = "Address")
+    private AuctionListing winningAuction;
+    
+    @OneToOne
+    private Customer customer;
 
     public Long getAddressId() {
         return addressId;

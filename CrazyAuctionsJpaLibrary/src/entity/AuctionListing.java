@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,6 +27,13 @@ public class AuctionListing implements Serializable {
     private Long auctionListingId;
     private BigDecimal reservePrice;
     private String startDateTime;
+    
+    @ManyToOne
+    private AuctionListingBid bid;
+    
+    @OneToOne
+    private Address address;
+    
 
     public Long getAuctionListingId() {
         return auctionListingId;
