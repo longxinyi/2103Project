@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Address implements Serializable {
     private Long addressId;
     private String addressName;
     private boolean associated;
+    private boolean enabled;
     
     @OneToMany(mappedBy = "address")
     private List<AuctionListing> listOfWinningAuction;
@@ -36,6 +38,16 @@ public class Address implements Serializable {
     @ManyToOne
     @JoinColumn(nullable=false)
     private Customer customer;
+
+    public Address() {
+        this.listOfWinningAuction = new ArrayList<AuctionListing>();
+    }
+
+    public Address(String addressName) {
+        this.addressName = addressName;
+        this.associated = false;
+        this.enabled = true;
+    }
 
     public Long getAddressId() {
         return addressId;
@@ -101,6 +113,48 @@ public class Address implements Serializable {
      */
     public void setAssociated(boolean associated) {
         this.associated = associated;
+    }
+
+    /**
+     * @return the enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * @param enabled the enabled to set
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * @return the listOfWinningAuction
+     */
+    public List<AuctionListing> getListOfWinningAuction() {
+        return listOfWinningAuction;
+    }
+
+    /**
+     * @param listOfWinningAuction the listOfWinningAuction to set
+     */
+    public void setListOfWinningAuction(List<AuctionListing> listOfWinningAuction) {
+        this.listOfWinningAuction = listOfWinningAuction;
+    }
+
+    /**
+     * @return the customer
+     */
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     
 }

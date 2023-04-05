@@ -5,10 +5,13 @@
  */
 package crazyauctionsjpaclient;
 
+import ejb.session.stateless.AddressSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Scanner;
+import util.exception.AddressNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
 
@@ -19,17 +22,19 @@ import util.exception.InvalidLoginCredentialException;
 public class MainApp {
 
     private CustomerSessionBeanRemote customerSessionBeanRemote;
+    private AddressSessionBeanRemote addressSessionBeanRemote;
     private Customer currentCustomer;
 
     public MainApp() {
 
     }
 
-    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote) {
+    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote) {
         this.customerSessionBeanRemote = customerSessionBeanRemote;
+        this.addressSessionBeanRemote = addressSessionBeanRemote;
     }
 
-    public void runApp() {
+    public void runApp() throws AddressNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -124,7 +129,7 @@ public class MainApp {
 
     }
 
-    private void menuMain() throws InvalidLoginCredentialException {
+    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -209,10 +214,46 @@ public class MainApp {
     
     public void browseNewAuctionListing(){};
     
-    public void selectDeliveryAddress(){};
+    public void selectDeliveryAddress(){
     
-    public void deleteAddress(){};
+    };
     
-    public void updateCustomerProfile(){};
+    public void deleteAddress() throws AddressNotFoundException{
+    //check if it is associated with a winning bid
+    //if yes, marked as disabled -> cannot be enabled
+    //if no, deleted
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Which address you would like to delete? ");
+        String addressName = scanner.nextLine().trim();
+        try {
+        addressSessionBeanRemote.deleteAddress(addressName);
+        } catch (AddressNotFoundException e) {
+            System.out.println("An error occurred while deleting address!");
+        }
+        
+        
+    };
+    
+    public void updateCustomerProfile(){
+        Scanner scanner = new Scanner(System.in);
+        Integer response = 0;
+
+        while(true){
+            System.out.println("*** Which part of your profile would you like to update? ***\n");
+            System.out.println("Press E to Exit\n");
+            response = 0;
+
+            System.out.print("> ");
+
+            response = scanner.nextInt();
+
+            if (Objects.equals(response, "E")) {
+                break;
+            }
+
+        }    
+       
+    
+    };
 
 }
