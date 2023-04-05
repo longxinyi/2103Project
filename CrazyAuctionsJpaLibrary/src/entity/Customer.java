@@ -53,14 +53,14 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(String username, String password) {
-        
-        this.username = username;
-        this.password = password;
-        
-    }
+//    public Customer(String username, String password) {
+//        
+//        this.username = username;
+//        this.password = password;
+//        
+//    }
     
-    public Customer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password, AuctionListing auctionListing) {
+    public Customer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.listOfAddresses = new ArrayList<Address>();
@@ -70,7 +70,7 @@ public class Customer implements Serializable {
         this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
-        this.auctionListing = auctionListing;
+        
     }
     
     

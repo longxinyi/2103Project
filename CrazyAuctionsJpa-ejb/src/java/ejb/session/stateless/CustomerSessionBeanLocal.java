@@ -6,9 +6,11 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import java.math.BigDecimal;
 import javax.ejb.Local;
-import util.exception.CustomerNotFoundException;
-import util.exception.InvalidLoginCredentialException;
+import util.exception.CustomerUsernameExistException;
+//import util.exception.CustomerNotFoundException;
+//import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -17,9 +19,9 @@ import util.exception.InvalidLoginCredentialException;
 @Local
 public interface CustomerSessionBeanLocal {
     
-    public Customer createNewCustomer(String username, String password);
+    public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException;
     
-    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
-    
-    public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
+//    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
+//    
+//    public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
 }

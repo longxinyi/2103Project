@@ -5,7 +5,10 @@
  */
 package ejb.session.stateless;
 
+
+import entity.AuctionListing;
 import entity.Customer;
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,6 +16,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.CustomerNotFoundException;
+import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -26,10 +30,13 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
     private EntityManager em;
     
     
-    @Override
-    public Customer createNewCustomer(String username, String password)
+    @Override 
+    public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException
     {
-        return new Customer(username, password);
+        
+        em.persist(customer);
+        
+        return customer.getCustomerId();
         
     }
 
@@ -72,6 +79,8 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
             throw new CustomerNotFoundException("Customer Username " + username + " does not exist! Please Register!");
         }
     }
+
+   
     
     
     

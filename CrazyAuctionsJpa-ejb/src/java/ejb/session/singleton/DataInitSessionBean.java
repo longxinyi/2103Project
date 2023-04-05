@@ -7,6 +7,7 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.CustomerSessionBeanLocal;
 import entity.Customer;
+import java.math.BigDecimal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -14,6 +15,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.exception.CustomerUsernameExistException;
 
 /**
  *
@@ -37,12 +39,15 @@ public class DataInitSessionBean {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @PostConstruct
-    public void postConstruct() {
+    public void postConstruct(){
+         System.out.println("hello111");
         if(em.find(Customer.class, 1l) == null){
-            Customer customer = customerSessionBeanLocal.createNewCustomer("apple","password");
+            System.out.println("hello");
+            Customer customer = new Customer("alice", "tan", new BigDecimal(0), 2, 999, "email", "alice", "password");
+            //Long customerId = customerSessionBeanLocal.createNewCustomer(customer);
             em.persist(customer);
             em.flush();
-            
+            //String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password
 
        }
     }
