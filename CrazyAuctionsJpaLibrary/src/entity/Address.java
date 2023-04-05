@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,9 +31,10 @@ public class Address implements Serializable {
     private boolean associated;
     
     @OneToMany(mappedBy = "address")
-    private AuctionListing winningAuction;
+    private List<AuctionListing> listOfWinningAuction;
     
     @ManyToOne
+    @JoinColumn(nullable=false)
     private Customer customer;
 
     public Long getAddressId() {

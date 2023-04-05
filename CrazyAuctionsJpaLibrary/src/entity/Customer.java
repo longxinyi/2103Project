@@ -30,7 +30,6 @@ public class Customer implements Serializable {
     private Long CustomerId;
     private String firstName;
     private String lastName;
-    private List<Address> listOfAddresses;
     private BigDecimal creditBalance;
     private int postalCode;
     private int contactNumber;
@@ -43,13 +42,13 @@ public class Customer implements Serializable {
     private AuctionListing auctionListing;
     
     @OneToMany(mappedBy = "customer")
-    private Transaction transaction;
+    private List<Transaction> listOfTransaction;
     
     @OneToMany(mappedBy = "customer")
-    private AuctionListingBid bid;
+    private List<AuctionListingBid> listOfAuctionListingBid;
            
     @OneToMany(mappedBy = "customer")
-    private Address address;
+    private List<Address> listOfAddresses;
 
     public Customer() {
     }

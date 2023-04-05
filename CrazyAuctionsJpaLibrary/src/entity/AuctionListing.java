@@ -29,7 +29,7 @@ public class AuctionListing implements Serializable {
     private String startDateTime;
     
     @ManyToOne
-    private AuctionListingBid bid;
+    private AuctionListingBid auctionListingBid;
     
     @OneToOne
     private Address address;

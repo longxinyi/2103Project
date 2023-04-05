@@ -7,10 +7,12 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -29,7 +31,7 @@ public class AuctionListingBid implements Serializable {
     private BigDecimal bidPrice;
     
     @OneToMany
-    private Transaction refundTransaction;
+    private List<Transaction> listOfRefundTransaction;
     
     @OneToOne
     private Transaction bidTransaction;
@@ -38,6 +40,7 @@ public class AuctionListingBid implements Serializable {
     private Customer customer;
     
     @ManyToOne(optional = false)
+    @JoinColumn
     private AuctionListing auction;
 
     public Long getAuctionListingBidId() {
