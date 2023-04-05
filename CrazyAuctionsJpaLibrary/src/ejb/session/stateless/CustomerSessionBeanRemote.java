@@ -16,6 +16,9 @@ import util.exception.InvalidLoginCredentialException;
  */
 @Remote
 public interface CustomerSessionBeanRemote {
+    
+    public Customer createNewCustomer(String username, String password);
+    
     public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
     
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;

@@ -25,7 +25,13 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
     
-
+    
+    @Override
+    public Customer createNewCustomer(String username, String password)
+    {
+        return new Customer(username, password);
+        
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
