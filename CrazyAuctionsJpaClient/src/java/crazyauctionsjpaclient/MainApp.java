@@ -96,27 +96,27 @@ public class MainApp {
 
     private void doRegister() {
         Scanner scanner = new Scanner(System.in);
-        Customer newCustomer = new Customer();
+        currentCustomer = new Customer();
 
         System.out.println("*** CrazyAuctions: Registration ***\n");
         System.out.print("Enter First Name> ");
-        newCustomer.setFirstName(scanner.nextLine().trim());
+        currentCustomer.setFirstName(scanner.nextLine().trim());
         System.out.print("Enter Last Name> ");
-        newCustomer.setLastName(scanner.nextLine().trim());
+        currentCustomer.setLastName(scanner.nextLine().trim());
         System.out.print("Enter Postal Code> ");
-        newCustomer.setPostalCode(Integer.valueOf(scanner.nextLine().trim()));
+        currentCustomer.setPostalCode(Integer.valueOf(scanner.nextLine().trim()));
         System.out.print("Enter Contact Number> ");
-        newCustomer.setContactNumber(Integer.valueOf(scanner.nextLine().trim()));
+        currentCustomer.setContactNumber(Integer.valueOf(scanner.nextLine().trim()));
         System.out.print("Enter Email Address> ");
-        newCustomer.setEmailAddress(scanner.nextLine().trim());
+        currentCustomer.setEmailAddress(scanner.nextLine().trim());
         System.out.print("Enter Username> ");
-        newCustomer.setUsername(scanner.nextLine().trim());
+        currentCustomer.setUsername(scanner.nextLine().trim());
         System.out.print("Enter Password> ");
-        newCustomer.setPassword(scanner.nextLine().trim());
-        newCustomer.setCreditBalance(new BigDecimal(0));
+        currentCustomer.setPassword(scanner.nextLine().trim());
+        currentCustomer.setCreditBalance(new BigDecimal(0));
 
         try {
-            Long customerId = customerSessionBeanRemote.createNewCustomer(newCustomer);
+            Long customerId = customerSessionBeanRemote.createNewCustomer(currentCustomer);
             
         } catch (CustomerUsernameExistException ex) {
             System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
