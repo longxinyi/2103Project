@@ -6,3 +6,7 @@
 /CrazyAuctionsJpaLibrary/build/
 /CrazyAuctionsJpaLibrary/dist/
 /build/
+/dist/
+/CrazyAuctionsJpaClient/build/
+/CrazyAuctionsJpaClient/dist/
+/CrazyAuctionsJpa-ejb/dist/

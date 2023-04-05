@@ -12,6 +12,6 @@ import javax.ejb.Local;
  * @author xinyi
  */
 @Local
-public interface ListingSessionBeanLocal {
+public interface AuctionListingSessionBeanLocal {
     
 }

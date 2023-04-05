@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author xinyi
  */
 @Stateless
-public class AuctionListingSessionBean implements ListingSessionBeanRemote, ListingSessionBeanLocal {
+public class AuctionListingSessionBean implements ListingSessionBeanRemote, AuctionListingSessionBeanLocal {
 
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
