@@ -70,7 +70,7 @@ public class MainApp {
                 }
             }
 
-            if (response == 2) {
+            if (response == 3) {
                 break;
             }
         }
@@ -147,7 +147,47 @@ public class MainApp {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
-
+                if (response == 1){
+                    
+                    purchaseCreditPackage();
+                    
+                } else if (response == 2){
+                    
+                    viewCreditTransactionHistory();
+                    
+                } else if (response == 3){
+                    
+                    browseAllAuctionListing();
+                    
+                } else if (response == 4){
+                    
+                    viewAuctionListingDetails();
+                
+                } else if (response == 5){
+                    
+                    placeNewBid();
+                
+                } else if (response == 6){
+                    
+                    browseNewAuctionListing();
+                
+                } else if (response == 7){
+                    
+                    selectDeliveryAddress();
+                
+                } else if (response == 8){
+                    
+                    deleteAddress();
+                
+                } else if (response == 9){
+                    
+                    updateCustomerProfile();
+                
+                } else if (response == 10){
+                    break;
+                } else {
+                    System.out.println("Invalid option, please try again!\n");
+                }
             }
 
             if (response == 10) {
@@ -156,5 +196,23 @@ public class MainApp {
             }
         }
     }
+    
+    public void purchaseCreditPackage(){};
+    
+    public void viewCreditTransactionHistory(){};
+    
+    public void browseAllAuctionListing(){};
+    
+    public void viewAuctionListingDetails(){};
+    
+    public void placeNewBid(){};
+    
+    public void browseNewAuctionListing(){};
+    
+    public void selectDeliveryAddress(){};
+    
+    public void deleteAddress(){};
+    
+    public void updateCustomerProfile(){};
 
 }
