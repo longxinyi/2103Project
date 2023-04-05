@@ -40,13 +40,12 @@ public class DataInitSessionBean {
     // "Insert Code > Add Business Method")
     @PostConstruct
     public void postConstruct(){
-         System.out.println("hello111");
+        
         if(em.find(Customer.class, 1l) == null){
-            System.out.println("hello");
-            Customer customer = new Customer("alice", "tan", new BigDecimal(0), 2, 999, "email", "alice", "password");
+            
+            customerSessionBeanLocal.createNewCustomer("alice", "tan", new BigDecimal(0), 2, 999, "email", "alice", "password");
             //Long customerId = customerSessionBeanLocal.createNewCustomer(customer);
-            em.persist(customer);
-            em.flush();
+            
             //String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password
 
        }

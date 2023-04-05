@@ -20,6 +20,7 @@ import util.exception.CustomerUsernameExistException;
 public interface CustomerSessionBeanLocal {
     
     public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException;
+    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password);
     
 //    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 //    

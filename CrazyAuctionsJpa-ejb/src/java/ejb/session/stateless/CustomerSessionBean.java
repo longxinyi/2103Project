@@ -39,6 +39,12 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         return customer.getCustomerId();
         
     }
+    
+    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password){
+        Customer customer = new Customer(firstName, lastName, creditBalance, postalCode, contactNumber, emailAddress, username, password);
+        em.persist(customer);
+        return customer;
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
