@@ -19,7 +19,7 @@ import util.exception.InvalidLoginCredentialException;
 @Remote
 public interface CustomerSessionBeanRemote {
 
-    //public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password);
+    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password);
 
     public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException;
 
