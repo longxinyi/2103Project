@@ -5,13 +5,15 @@
  */
 package ejb.session.stateless;
 
+import entity.AuctionListing;
 import javax.ejb.Remote;
+import util.exception.AuctionListingNotFoundException;
 
 /**
  *
  * @author xinyi
  */
 @Remote
-public interface ListingSessionBeanRemote {
-    
+public interface AuctionListingSessionBeanRemote {
+    public AuctionListing retrieveAuctionListing() throws AuctionListingNotFoundException;
 }

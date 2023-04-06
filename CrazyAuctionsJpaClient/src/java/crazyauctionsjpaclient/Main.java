@@ -5,6 +5,8 @@
  */
 package crazyauctionsjpaclient;
 
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import javax.ejb.EJB;
 
@@ -14,8 +16,18 @@ import javax.ejb.EJB;
  */
 public class Main {
 
+
+
+    @EJB(name = "CreditPackageSessionBeanRemote")
+    private static CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
+
     @EJB(name = "CustomerSessionBeanRemote")
     private static CustomerSessionBeanRemote customerSessionBeanRemote;
+    
+    @EJB(name = "AuctionListingSessionBeanRemote")
+    private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
+    
+    
 
     
     /**
@@ -23,7 +35,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MainApp mainApp = new MainApp(customerSessionBeanRemote);
+        MainApp mainApp = new MainApp(customerSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote);
         mainApp.runApp();
         
     }

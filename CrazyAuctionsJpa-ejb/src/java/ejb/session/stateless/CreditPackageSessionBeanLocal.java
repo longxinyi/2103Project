@@ -5,15 +5,13 @@
  */
 package ejb.session.stateless;
 
-import entity.AuctionListing;
 import javax.ejb.Local;
-import util.exception.AuctionListingNotFoundException;
 
 /**
  *
- * @author xinyi
+ * @author chiaangyong
  */
 @Local
-public interface AuctionListingSessionBeanLocal {
-    public AuctionListing retrieveAuctionListing() throws AuctionListingNotFoundException;
+public interface CreditPackageSessionBeanLocal {
+    
 }

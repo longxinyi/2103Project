@@ -5,10 +5,13 @@
  */
 package crazyauctionsjpaclient;
 
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import entity.Customer;
 import java.math.BigDecimal;
 import java.util.Scanner;
+import util.exception.AuctionListingNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
 
@@ -19,14 +22,18 @@ import util.exception.InvalidLoginCredentialException;
 public class MainApp {
 
     private CustomerSessionBeanRemote customerSessionBeanRemote;
+    private CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
+    private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
     private Customer currentCustomer;
 
     public MainApp() {
 
     }
 
-    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote) {
+    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote) {
         this.customerSessionBeanRemote = customerSessionBeanRemote;
+        this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
+        this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
     }
 
     public void runApp() {
@@ -203,7 +210,15 @@ public class MainApp {
     
     public void browseAllAuctionListing(){};
     
-    public void viewAuctionListingDetails(){};
+    public void viewAuctionListingDetails(){
+        
+        try {
+            auctionListingSessionBeanRemote.retrieveAuctionListing();
+            
+        } catch (AuctionListingNotFoundException ex) {
+            System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
+        } 
+    }
     
     public void placeNewBid(){};
     
