@@ -11,6 +11,7 @@ import ejb.session.stateless.AddressSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import javax.ejb.EJB;
 import util.exception.AddressNotFoundException;
+import util.exception.CustomerNotFoundException;
 
 /**
  *
@@ -35,7 +36,7 @@ public class Main {
      /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws AddressNotFoundException {
+    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException {
         // TODO code application logic here
         MainApp mainApp = new MainApp(customerSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote, addressSessionBeanRemote);
         mainApp.runApp();

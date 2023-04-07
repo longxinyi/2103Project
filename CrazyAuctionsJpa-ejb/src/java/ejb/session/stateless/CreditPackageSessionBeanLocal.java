@@ -5,6 +5,8 @@
  */
 package ejb.session.stateless;
 
+import entity.CreditPackage;
+import java.math.BigDecimal;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +15,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface CreditPackageSessionBeanLocal {
-    
+    public Long createNewCreditPackage(BigDecimal creditPrice, String creditPackageType, BigDecimal creditPackageQuantity);
+    public Long createNewCreditPackage(CreditPackage creditPackage);
 }
