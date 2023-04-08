@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,16 @@ public class AuctionListingBid implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn
     private AuctionListing auction;
+
+    public AuctionListingBid() {
+        this.listOfRefundTransaction = new ArrayList<Transaction>();
+    }
+
+    public AuctionListingBid(BigDecimal bidPrice) {
+        this.bidPrice = bidPrice;
+    }
+    
+    
 
     public Long getAuctionListingBidId() {
         return auctionListingBidId;

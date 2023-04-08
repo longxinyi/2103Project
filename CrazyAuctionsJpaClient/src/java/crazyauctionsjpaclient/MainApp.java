@@ -225,7 +225,7 @@ public class MainApp {
         System.out.print("Which listing would you like to bid for? Enter name > ");
         String listingName = scanner.nextLine().trim();
         AuctionListing auctionListing = auctionListingSessionBeanRemote.findListingByName(listingName);
-        auctionListingBidSessionBeanRemote.placeNewBid();
+        //auctionListingBidSessionBeanRemote.placeNewBid();
     
     };
     

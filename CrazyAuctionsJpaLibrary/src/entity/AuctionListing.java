@@ -25,6 +25,7 @@ public class AuctionListing implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long auctionListingId;
+    private String auctionName;
     private BigDecimal reservePrice;
     private String startDateTime;
     
@@ -33,6 +34,15 @@ public class AuctionListing implements Serializable {
     
     @OneToOne
     private Address address;
+
+    public AuctionListing() {
+    }
+
+    public AuctionListing(String auctionName, BigDecimal reservePrice, String startDateTime) {
+        this.auctionName = auctionName;
+        this.reservePrice = reservePrice;
+        this.startDateTime = startDateTime;
+    }
     
 
     public Long getAuctionListingId() {
@@ -94,6 +104,48 @@ public class AuctionListing implements Serializable {
      */
     public void setStartDateTime(String startDateTime) {
         this.startDateTime = startDateTime;
+    }
+
+    /**
+     * @return the auctionName
+     */
+    public String getAuctionName() {
+        return auctionName;
+    }
+
+    /**
+     * @param auctionName the auctionName to set
+     */
+    public void setAuctionName(String auctionName) {
+        this.auctionName = auctionName;
+    }
+
+    /**
+     * @return the auctionListingBid
+     */
+    public AuctionListingBid getAuctionListingBid() {
+        return auctionListingBid;
+    }
+
+    /**
+     * @param auctionListingBid the auctionListingBid to set
+     */
+    public void setAuctionListingBid(AuctionListingBid auctionListingBid) {
+        this.auctionListingBid = auctionListingBid;
+    }
+
+    /**
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
     }
     
 }
