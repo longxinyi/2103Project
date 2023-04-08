@@ -18,6 +18,7 @@ import java.util.Scanner;
 import util.exception.AuctionListingNotFoundException;
 
 import util.exception.AddressNotFoundException;
+import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.CustomerNotFoundException;
 
 import util.exception.CustomerUsernameExistException;
@@ -304,7 +305,15 @@ public class MainApp {
         }  
     };
     
-    public void viewCreditTransactionHistory(){};
+    public void viewCreditTransactionHistory(){
+        try {
+            creditPackageSessionBeanRemote.retrieveCreditTransactionHistory();
+            
+        } catch (CreditTransactionHistoryNotFoundException ex) {
+            System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
+        } 
+    
+    };
     
     public void browseAllAuctionListing(){
         try {

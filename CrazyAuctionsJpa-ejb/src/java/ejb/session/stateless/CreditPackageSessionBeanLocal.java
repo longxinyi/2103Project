@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.CreditPackage;
 import java.math.BigDecimal;
 import javax.ejb.Local;
+import util.exception.CreditTransactionHistoryNotFoundException;
 
 /**
  *
@@ -17,4 +18,5 @@ import javax.ejb.Local;
 public interface CreditPackageSessionBeanLocal {
     public Long createNewCreditPackage(BigDecimal creditPrice, String creditPackageType, BigDecimal creditPackageQuantity);
     public Long createNewCreditPackage(CreditPackage creditPackage);
+    public CreditPackage retrieveCreditTransactionHistory(String username) throws CreditTransactionHistoryNotFoundException;
 }

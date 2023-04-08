@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.CustomerNotFoundException;
 
 /**
@@ -40,6 +41,22 @@ public class CreditPackageSessionBean implements CreditPackageSessionBeanRemote,
         
         return creditPackage.getCreditPackageId();
     }
+    
+    @Override
+    public CreditPackage retrieveCreditTransactionHistory() throws CreditTransactionHistoryNotFoundException
+    {
+//        Query query = em.createQuery("SELECT c FROM CreditPackage c WHERE c.username = :inUsername");
+//        query.setParameter("inUsername", username);
+//        
+//        try
+//        {
+//            return (Customer)query.getSingleResult();
+//        }
+//        catch(NoResultException | NonUniqueResultException ex)
+//        {
+//            throw new CustomerNotFoundException("Customer Username " + username + " does not exist! Please Register!");
+//        }
+    };
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
