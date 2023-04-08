@@ -15,13 +15,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
 import util.exception.AuctionListingNotFoundException;
-
 import util.exception.AddressNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.CustomerNotFoundException;
-
+import util.exception.AddressNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
 
@@ -34,7 +32,6 @@ public class MainApp {
     private CustomerSessionBeanRemote customerSessionBeanRemote;
     private CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
     private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
-
     private AddressSessionBeanRemote addressSessionBeanRemote;
 
     private Customer currentCustomer;
@@ -43,16 +40,18 @@ public class MainApp {
 
     }
 
+
     public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote)
     {
- 
         this.customerSessionBeanRemote = customerSessionBeanRemote;
         this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
         this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
         this.addressSessionBeanRemote = addressSessionBeanRemote;
     }
 
+
     public void runApp() throws AddressNotFoundException, CustomerNotFoundException {
+
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -148,6 +147,7 @@ public class MainApp {
     }
 
     private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException {
+
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
