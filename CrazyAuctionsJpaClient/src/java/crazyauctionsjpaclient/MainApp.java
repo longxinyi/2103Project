@@ -6,14 +6,20 @@
 package crazyauctionsjpaclient;
 
 import ejb.session.stateless.AddressSessionBeanRemote;
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.auctionListingBidSessionBeanRemote;
+import entity.AuctionListing;
 import entity.Customer;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Scanner;
 import util.exception.AddressNotFoundException;
+import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ListingNotFoundException;
+import util.exception.UpdateCustomerException;
 
 /**
  *
@@ -23,18 +29,20 @@ public class MainApp {
 
     private CustomerSessionBeanRemote customerSessionBeanRemote;
     private AddressSessionBeanRemote addressSessionBeanRemote;
+    private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
     private Customer currentCustomer;
 
     public MainApp() {
 
     }
 
-    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote) {
+    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote) {
         this.customerSessionBeanRemote = customerSessionBeanRemote;
         this.addressSessionBeanRemote = addressSessionBeanRemote;
+        this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
     }
 
-    public void runApp() throws AddressNotFoundException {
+    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -129,7 +137,7 @@ public class MainApp {
 
     }
 
-    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException {
+    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -210,12 +218,21 @@ public class MainApp {
     
     public void viewAuctionListingDetails(){};
     
-    public void placeNewBid(){};
+    public void placeNewBid() throws ListingNotFoundException{
+    //enter bid amount -> check if higher than current highest
+    //if no bid, check if more than 0.05
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Which listing would you like to bid for? Enter name > ");
+        String listingName = scanner.nextLine().trim();
+        AuctionListing auctionListing = auctionListingSessionBeanRemote.findListingByName(listingName);
+        auctionListingBidSessionBeanRemote.placeNewBid();
+    
+    };
     
     public void browseNewAuctionListing(){};
     
     public void selectDeliveryAddress(){
-    
+        
     };
     
     public void deleteAddress() throws AddressNotFoundException{
@@ -234,22 +251,98 @@ public class MainApp {
         
     };
     
-    public void updateCustomerProfile(){
+    public void updateCustomerProfile() throws CustomerNotFoundException, UpdateCustomerException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
         while(true){
             System.out.println("*** Which part of your profile would you like to update? ***\n");
-            System.out.println("Press E to Exit\n");
+            System.out.println("1: First Name");
+            System.out.println("2: Last Name");
+            System.out.println("3: Postal Code");
+            System.out.println("4: Contact Number");
+            System.out.println("5: Email Address");
+            System.out.println("6: Password");
+            System.out.println("7: Exit\n");
+
+            
             response = 0;
+            while (response < 1 || response > 7) {
+                System.out.print("> ");
 
-            System.out.print("> ");
+                response = scanner.nextInt();
+                if (response == 1) {
+                    
+                    try {
+                        System.out.print("Enter New First Name> ");
+                        String firstName = scanner.nextLine().trim();
+                        currentCustomer.setFirstName(firstName);
+                        System.out.println("testing");
+                        customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
+                        System.out.print("First Name has been successfully changed! ");
+                    } catch (UpdateCustomerException ex) {
+                        System.out.print("There was an error, please try again ");
+                    }
+                    
+                    
+       
+                } else if (response == 2) {
+                    
+                    System.out.print("Enter New Last Name> ");
+                    currentCustomer.setLastName(scanner.nextLine().trim());
+                    try {
+                        customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
+                    } catch (UpdateCustomerException ex) {
+                        System.out.print("Last Name has been successfully changed! ");
+                    }
 
-            response = scanner.nextInt();
+                    
+                } else if (response == 3) {
+                    
+                    System.out.print("Enter Postal Code> ");
+                    currentCustomer.setPostalCode(Integer.valueOf(scanner.nextLine().trim()));
+                    try {
+                        customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
+                    } catch (UpdateCustomerException ex) {
+                        System.out.print("Last Name has been successfully changed! ");
+                    }
+                
+                } else if (response == 4) {
+                    
+                    System.out.print("Enter Contact Number> ");
+                    currentCustomer.setContactNumber(Integer.valueOf(scanner.nextLine().trim()));
+                    customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
+                    System.out.print("Contact Number has been successfully changed! ");
+                
+                } else if (response == 5) {
+                    
+                    System.out.print("Enter New Email Address> ");
+                    currentCustomer.setEmailAddress(scanner.nextLine().trim());
+                    try {
+                        customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
+                    } catch (UpdateCustomerException ex) {
+                        System.out.print("Last Name has been successfully changed! ");
+                    }
+                
+                } else if (response == 6) {
 
-            if (Objects.equals(response, "E")) {
-                break;
+                    System.out.print("Enter New Password> ");
+                    currentCustomer.setPassword(scanner.nextLine().trim());
+                    try {
+                        customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
+                    } catch (UpdateCustomerException ex) {
+                        System.out.print("Last Name has been successfully changed! ");
+                    }
+                } else if (response == 7) {
+                
+                    break;
+                    
+                } else {
+                    System.out.println("Invalid option, please try again!\n");
+                }
+                    
             }
+
 
         }    
        

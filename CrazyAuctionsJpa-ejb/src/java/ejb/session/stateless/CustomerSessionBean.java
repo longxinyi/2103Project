@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.UpdateCustomerException;
 
 /**
  *
@@ -83,6 +84,32 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         catch(NoResultException | NonUniqueResultException ex)
         {
             throw new CustomerNotFoundException("Customer Username " + username + " does not exist! Please Register!");
+        }
+    }
+    
+    public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException{
+        if(customer != null && customer.getCustomerId() != null)
+        {
+            Customer customerToUpdate = retrieveCustomerByUsername(customer.getUsername());
+            
+            if(customerToUpdate.getUsername().equals(customer.getUsername()))
+            {
+                customerToUpdate.setFirstName(customer.getFirstName());
+                customerToUpdate.setLastName(customer.getLastName());
+                customerToUpdate.setPostalCode(customer.getPostalCode());
+                customerToUpdate.setContactNumber(customer.getContactNumber());
+                customerToUpdate.setEmailAddress(customer.getEmailAddress());
+                customerToUpdate.setPassword(customer.getPassword());
+                
+            }
+            else
+            {
+                throw new UpdateCustomerException("Username of user record to be updated does not match the existing record");
+            }
+        }
+        else
+        {
+            throw new CustomerNotFoundException("User not found!");
         }
     }
 

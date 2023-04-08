@@ -6,15 +6,22 @@
 package crazyauctionsjpaclient;
 
 import ejb.session.stateless.AddressSessionBeanRemote;
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import javax.ejb.EJB;
 import util.exception.AddressNotFoundException;
+import util.exception.CustomerNotFoundException;
+import util.exception.ListingNotFoundException;
+import util.exception.UpdateCustomerException;
 
 /**
  *
  * @author xinyi
  */
 public class Main {
+
+    @EJB
+    private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
 
     @EJB(name = "CustomerSessionBeanRemote")
     private static CustomerSessionBeanRemote customerSessionBeanRemote;
@@ -26,9 +33,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws AddressNotFoundException {
+    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
         // TODO code application logic here
-        MainApp mainApp = new MainApp(customerSessionBeanRemote, addressSessionBeanRemote);
+        MainApp mainApp = new MainApp(customerSessionBeanRemote, addressSessionBeanRemote, auctionListingSessionBeanRemote);
         mainApp.runApp();
         
     }

@@ -6,14 +6,14 @@
 package ejb.session.stateless;
 
 import entity.AuctionListing;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 import util.exception.ListingNotFoundException;
 
 /**
  *
  * @author xinyi
  */
-@Local
-public interface AuctionListingSessionBeanLocal {
+@Remote
+public interface AuctionListingSessionBeanRemote {
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException;
 }

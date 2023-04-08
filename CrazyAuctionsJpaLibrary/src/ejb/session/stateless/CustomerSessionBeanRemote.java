@@ -11,6 +11,7 @@ import javax.ejb.Remote;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.UpdateCustomerException;
 
 /**
  *
@@ -26,4 +27,5 @@ public interface CustomerSessionBeanRemote {
     public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
+    public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException;
 }
