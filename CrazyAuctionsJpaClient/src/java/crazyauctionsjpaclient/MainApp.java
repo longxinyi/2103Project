@@ -12,6 +12,7 @@ import ejb.session.stateless.CustomerSessionBeanRemote;
 import entity.CreditPackage;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 

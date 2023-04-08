@@ -7,6 +7,7 @@ package ejb.session.stateless;
 import entity.CreditPackage;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -43,19 +44,18 @@ public class CreditPackageSessionBean implements CreditPackageSessionBeanRemote,
     }
     
     @Override
-    public CreditPackage retrieveCreditTransactionHistory() throws CreditTransactionHistoryNotFoundException
+    public List<CreditPackage> retrieveCreditTransactionHistory() throws CreditTransactionHistoryNotFoundException
     {
-//        Query query = em.createQuery("SELECT c FROM CreditPackage c WHERE c.username = :inUsername");
-//        query.setParameter("inUsername", username);
-//        
-//        try
-//        {
-//            return (Customer)query.getSingleResult();
-//        }
-//        catch(NoResultException | NonUniqueResultException ex)
-//        {
-//            throw new CustomerNotFoundException("Customer Username " + username + " does not exist! Please Register!");
-//        }
+        Query query = em.createQuery("SELECT c FROM CreditPackage c ");
+        
+        try
+        {
+            return (List<CreditPackage>)query.getResultList();
+        }
+        catch(NoResultException | NonUniqueResultException ex)
+        {
+            throw new CreditTransactionHistoryNotFoundException("Credit Transaction History " + " does not exist! Please Register!");
+        }
     };
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
