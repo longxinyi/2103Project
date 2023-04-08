@@ -49,8 +49,15 @@ public class Customer implements Serializable {
            
     @OneToMany(mappedBy = "customer")
     private List<Address> listOfAddresses;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<CreditPackage> listOfCreditPackages;
 
     public Customer() {
+        this.listOfAddresses = new ArrayList<Address>();
+        this.listOfCreditPackages = new ArrayList<CreditPackage>();
+        this.listOfTransaction = new ArrayList<Transaction>();
+        this.listOfAuctionListingBid = new ArrayList<AuctionListingBid>();
     }
 
 //    public Customer(String username, String password) {

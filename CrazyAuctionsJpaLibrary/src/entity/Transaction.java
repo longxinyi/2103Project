@@ -22,7 +22,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Transaction implements Serializable {
-
+//?? ask if this class is required
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,11 @@ public class Transaction implements Serializable {
     
     @OneToOne
     private AuctionListingBid bid;
+
+    public Transaction() {
+    }
+    
+    
 
     public Long getTransactionId() {
         return transactionId;

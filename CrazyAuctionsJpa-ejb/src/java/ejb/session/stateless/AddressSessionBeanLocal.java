@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
 import javax.ejb.Local;
 import util.exception.AddressNotFoundException;
 
@@ -15,4 +16,5 @@ import util.exception.AddressNotFoundException;
 @Local
 public interface AddressSessionBeanLocal {
     public void deleteAddress(String addressName) throws AddressNotFoundException;
+    public Long createAddress(String addressName, Customer customer);
 }

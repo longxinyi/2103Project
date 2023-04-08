@@ -43,10 +43,11 @@ public class Address implements Serializable {
         this.listOfWinningAuction = new ArrayList<AuctionListing>();
     }
 
-    public Address(String addressName) {
+    public Address(String addressName, boolean associated, boolean enabled, Customer customer) {
         this.addressName = addressName;
-        this.associated = false;
-        this.enabled = true;
+        this.associated = associated;
+        this.enabled = enabled;
+        this.customer = customer;
     }
 
     public Long getAddressId() {

@@ -5,6 +5,9 @@
  */
 package crazyauctionsjpaclient;
 
+
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.AddressSessionBeanRemote;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
@@ -20,8 +23,12 @@ import util.exception.UpdateCustomerException;
  */
 public class Main {
 
-    @EJB
-    private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
+
+
+
+    @EJB(name = "CreditPackageSessionBeanRemote")
+    private static CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
+
 
     @EJB(name = "CustomerSessionBeanRemote")
     private static CustomerSessionBeanRemote customerSessionBeanRemote;
@@ -29,13 +36,20 @@ public class Main {
     @EJB(name = "AddressSessionBeanRemote")
     private static AddressSessionBeanRemote addressSessionBeanRemote;
 
+    @EJB(name = "AuctionListingSessionBeanRemote")
+    private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
     
-    /**
+     /**
      * @param args the command line arguments
      */
+
     public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
+
+
         // TODO code application logic here
-        MainApp mainApp = new MainApp(customerSessionBeanRemote, addressSessionBeanRemote, auctionListingSessionBeanRemote);
+
+        MainApp mainApp = new MainApp(customerSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote, addressSessionBeanRemote);
+
         mainApp.runApp();
         
     }

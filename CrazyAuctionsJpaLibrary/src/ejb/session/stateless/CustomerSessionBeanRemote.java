@@ -27,5 +27,10 @@ public interface CustomerSessionBeanRemote {
     public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
+
     public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException;
+
+    
+    public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
+
 }

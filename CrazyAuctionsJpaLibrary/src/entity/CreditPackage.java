@@ -28,17 +28,23 @@ public class CreditPackage implements Serializable {
     private Long creditPackageId;
     private BigDecimal creditPrice;
     private String creditPackageType;
+    private BigDecimal creditPackageQuantity;
 
     @ManyToOne (optional = false)
     @JoinColumn
     private Transaction transaction;
+    
+    @ManyToOne (optional = false)
+    @JoinColumn
+    private Customer customer;
 
     public CreditPackage() {
     }
 
-    public CreditPackage(BigDecimal creditPrice, String creditPackageType) {
+    public CreditPackage(BigDecimal creditPrice, String creditPackageType, BigDecimal creditPackageQuantity) {
         this.creditPrice = creditPrice;
         this.creditPackageType = creditPackageType;
+        this.creditPackageQuantity = creditPackageQuantity;
     }
     
 
@@ -101,6 +107,20 @@ public class CreditPackage implements Serializable {
      */
     public void setCreditPackageType(String creditPackageType) {
         this.creditPackageType = creditPackageType;
+    }
+
+    /**
+     * @return the creditPackageQuantity
+     */
+    public BigDecimal getCreditPackageQuantity() {
+        return creditPackageQuantity;
+    }
+
+    /**
+     * @param creditPackageQuantity the creditPackageQuantity to set
+     */
+    public void setCreditPackageQuantity(BigDecimal creditPackageQuantity) {
+        this.creditPackageQuantity = creditPackageQuantity;
     }
     
 }

@@ -26,6 +26,17 @@ public class Employee implements Serializable {
     private String lastName;
     private String password;
 
+    public Employee() {
+    }
+
+    public Employee(String firstName, String lastName, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
+    
+    
     public Long getEmployeeId() {
         return employeeId;
     }

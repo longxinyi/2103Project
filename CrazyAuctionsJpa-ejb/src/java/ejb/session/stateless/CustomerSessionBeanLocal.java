@@ -22,8 +22,15 @@ import util.exception.UpdateCustomerException;
 public interface CustomerSessionBeanLocal {
     
     public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException;
+    
     public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password);
+
     public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException;
+
+    
+    public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
+    
+
 //    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 //    
 //    public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;

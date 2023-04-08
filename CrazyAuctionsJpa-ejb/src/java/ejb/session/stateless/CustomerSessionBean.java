@@ -41,6 +41,7 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         
     }
     
+    @Override
     public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password){
         Customer customer = new Customer(firstName, lastName, creditBalance, postalCode, contactNumber, emailAddress, username, password);
         em.persist(customer);
@@ -87,6 +88,7 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         }
     }
     
+
     public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException{
         if(customer != null && customer.getCustomerId() != null)
         {
@@ -111,6 +113,19 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         {
             throw new CustomerNotFoundException("User not found!");
         }
+        
+    }
+
+    @Override
+    public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException
+    {
+        Customer currentCustomer = retrieveCustomerByUsername(username);
+        BigDecimal currentBalance = currentCustomer.getCreditBalance();
+        currentBalance = currentBalance.add(topup);
+        currentCustomer.setCreditBalance(currentBalance);
+        em.persist(currentCustomer);
+        return currentCustomer.getCustomerId(); //not done yet
+
     }
 
    

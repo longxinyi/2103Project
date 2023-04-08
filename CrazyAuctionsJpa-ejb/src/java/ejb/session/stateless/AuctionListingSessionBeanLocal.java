@@ -7,7 +7,11 @@ package ejb.session.stateless;
 
 import entity.AuctionListing;
 import javax.ejb.Local;
+
 import util.exception.ListingNotFoundException;
+
+import util.exception.AuctionListingNotFoundException;
+
 
 /**
  *
@@ -15,5 +19,9 @@ import util.exception.ListingNotFoundException;
  */
 @Local
 public interface AuctionListingSessionBeanLocal {
+
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException;
+
+    public AuctionListing retrieveAuctionListing() throws AuctionListingNotFoundException;
+
 }

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Address;
+import entity.Customer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -28,6 +29,12 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
     
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
+    
+    public Long createAddress(String addressName, Customer customer){
+        Address address = new Address(addressName, false, true, customer);
+        em.persist(address);
+        return address.getAddressId();
+    }
  
     
     public void deleteAddress(String addressName) throws AddressNotFoundException {
