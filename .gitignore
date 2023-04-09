@@ -10,3 +10,6 @@
 /CrazyAuctionsJpaClient/build/
 /CrazyAuctionsJpaClient/dist/
 /CrazyAuctionsJpa-ejb/dist/
+/CrazyAuctionsJpaAdminClient/nbproject/private/
+/CrazyAuctionsJpaAdminClient/dist/
+/CrazyAuctionsJpaAdminClient/build/
