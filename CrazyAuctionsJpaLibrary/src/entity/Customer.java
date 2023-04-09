@@ -38,8 +38,8 @@ public class Customer implements Serializable {
     private String password;
     //private String paymentDetails
     
-    @ManyToOne
-    private AuctionListing auctionListing;
+    @OneToMany(mappedBy = "customer")
+    private List<AuctionListing> listOfAuctionListings;
     
     @OneToMany(mappedBy = "customer")
     private List<Transaction> listOfTransaction;
@@ -52,12 +52,17 @@ public class Customer implements Serializable {
     
     @OneToMany(mappedBy = "customer")
     private List<CreditPackage> listOfCreditPackages;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<AuctionListing> listOfWonAuctionListings;
 
     public Customer() {
         this.listOfAddresses = new ArrayList<Address>();
         this.listOfCreditPackages = new ArrayList<CreditPackage>();
         this.listOfTransaction = new ArrayList<Transaction>();
         this.listOfAuctionListingBid = new ArrayList<AuctionListingBid>();
+        this.listOfAuctionListings = new ArrayList<AuctionListing>();
+        this.listOfWonAuctionListings = new ArrayList<AuctionListing>();
     }
 
 //    public Customer(String username, String password) {
@@ -243,6 +248,76 @@ public class Customer implements Serializable {
      */
     public void setContactNumber(int contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    /**
+     * @return the listOfAuctionListings
+     */
+    public List<AuctionListing> getListOfAuctionListings() {
+        return listOfAuctionListings;
+    }
+
+    /**
+     * @param listOfAuctionListings the listOfAuctionListings to set
+     */
+    public void setListOfAuctionListings(List<AuctionListing> listOfAuctionListings) {
+        this.listOfAuctionListings = listOfAuctionListings;
+    }
+
+    /**
+     * @return the listOfTransaction
+     */
+    public List<Transaction> getListOfTransaction() {
+        return listOfTransaction;
+    }
+
+    /**
+     * @param listOfTransaction the listOfTransaction to set
+     */
+    public void setListOfTransaction(List<Transaction> listOfTransaction) {
+        this.listOfTransaction = listOfTransaction;
+    }
+
+    /**
+     * @return the listOfAuctionListingBid
+     */
+    public List<AuctionListingBid> getListOfAuctionListingBid() {
+        return listOfAuctionListingBid;
+    }
+
+    /**
+     * @param listOfAuctionListingBid the listOfAuctionListingBid to set
+     */
+    public void setListOfAuctionListingBid(List<AuctionListingBid> listOfAuctionListingBid) {
+        this.listOfAuctionListingBid = listOfAuctionListingBid;
+    }
+
+    /**
+     * @return the listOfCreditPackages
+     */
+    public List<CreditPackage> getListOfCreditPackages() {
+        return listOfCreditPackages;
+    }
+
+    /**
+     * @param listOfCreditPackages the listOfCreditPackages to set
+     */
+    public void setListOfCreditPackages(List<CreditPackage> listOfCreditPackages) {
+        this.listOfCreditPackages = listOfCreditPackages;
+    }
+
+    /**
+     * @return the listOfWonAuctionListings
+     */
+    public List<AuctionListing> getListOfWonAuctionListings() {
+        return listOfWonAuctionListings;
+    }
+
+    /**
+     * @param listOfWonAuctionListings the listOfWonAuctionListings to set
+     */
+    public void setListOfWonAuctionListings(List<AuctionListing> listOfWonAuctionListings) {
+        this.listOfWonAuctionListings = listOfWonAuctionListings;
     }
 
 

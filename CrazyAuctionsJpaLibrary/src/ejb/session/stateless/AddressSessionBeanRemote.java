@@ -5,6 +5,8 @@
  */
 package ejb.session.stateless;
 
+import entity.Address;
+import entity.AuctionListing;
 import entity.Customer;
 import javax.ejb.Remote;
 import util.exception.AddressNotFoundException;
@@ -16,5 +18,6 @@ import util.exception.AddressNotFoundException;
 @Remote
 public interface AddressSessionBeanRemote {
     public void deleteAddress(String addressName) throws AddressNotFoundException;
-    public Long createAddress(String addressName, Customer customer);
+    public Address createAddress(String addressName, Customer customer);
+    public void selectAddressForWinningBid(String addressName, Customer customer, AuctionListing wonListing) throws AddressNotFoundException;
 }

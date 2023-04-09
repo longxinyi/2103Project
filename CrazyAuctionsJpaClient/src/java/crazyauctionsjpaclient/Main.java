@@ -9,12 +9,16 @@ package crazyauctionsjpaclient;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.AddressSessionBeanRemote;
+import ejb.session.stateless.AuctionListingBidSessionBeanRemote;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import javax.ejb.EJB;
 import util.exception.AddressNotFoundException;
+import util.exception.BidIncrementException;
 import util.exception.CustomerNotFoundException;
+import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotFoundException;
+import util.exception.MinimumBidException;
 import util.exception.UpdateCustomerException;
 
 /**
@@ -23,7 +27,10 @@ import util.exception.UpdateCustomerException;
  */
 public class Main {
 
+    @EJB
+    private static AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote;
 
+   
 
 
     @EJB(name = "CreditPackageSessionBeanRemote")
@@ -39,16 +46,18 @@ public class Main {
     @EJB(name = "AuctionListingSessionBeanRemote")
     private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
     
+    
+    
      /**
      * @param args the command line arguments
      */
 
-    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
+    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
 
 
         // TODO code application logic here
 
-        MainApp mainApp = new MainApp(customerSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote, addressSessionBeanRemote);
+        MainApp mainApp = new MainApp(customerSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote, addressSessionBeanRemote, auctionListingBidSessionBeanRemote);
 
         mainApp.runApp();
         

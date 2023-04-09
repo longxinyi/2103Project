@@ -7,11 +7,13 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -28,20 +30,26 @@ public class AuctionListing implements Serializable {
     private String auctionName;
     private BigDecimal reservePrice;
     private String startDateTime;
+    private boolean active;
     
-    @ManyToOne
-    private AuctionListingBid auctionListingBid;
+    @OneToMany
+    private List<AuctionListingBid> auctionListingBids;
     
     @OneToOne
     private Address address;
+    
+    @ManyToOne
+    private Customer customer;
+    
 
     public AuctionListing() {
     }
 
-    public AuctionListing(String auctionName, BigDecimal reservePrice, String startDateTime) {
+    public AuctionListing(String auctionName, BigDecimal reservePrice, String startDateTime, boolean active) {
         this.auctionName = auctionName;
         this.reservePrice = reservePrice;
         this.startDateTime = startDateTime;
+        this.active = active;
     }
     
 
@@ -123,15 +131,15 @@ public class AuctionListing implements Serializable {
     /**
      * @return the auctionListingBid
      */
-    public AuctionListingBid getAuctionListingBid() {
-        return auctionListingBid;
+    public List<AuctionListingBid> getAuctionListingBids() {
+        return auctionListingBids;
     }
 
     /**
      * @param auctionListingBid the auctionListingBid to set
      */
-    public void setAuctionListingBid(AuctionListingBid auctionListingBid) {
-        this.auctionListingBid = auctionListingBid;
+    public void setAuctionListingBids(List<AuctionListingBid> auctionListingBids) {
+        this.auctionListingBids = auctionListingBids;
     }
 
     /**

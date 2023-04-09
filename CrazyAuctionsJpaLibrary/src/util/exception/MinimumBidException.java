@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ejb.session.stateless;
-
-import javax.ejb.Local;
+package util.exception;
 
 /**
  *
  * @author xinyi
  */
-@Local
-public interface auctionListingBidSessionBeanLocal {
+public class MinimumBidException extends Exception {
+
+    public MinimumBidException() {
+    }
+
+    public MinimumBidException(String string) {
+        super(string);
+    }
     
+   
 }

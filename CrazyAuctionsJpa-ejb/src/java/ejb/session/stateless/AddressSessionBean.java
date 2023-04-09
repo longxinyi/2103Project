@@ -6,7 +6,11 @@
 package ejb.session.stateless;
 
 import entity.Address;
+import entity.AuctionListing;
+import entity.AuctionListingBid;
 import entity.Customer;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -30,10 +34,31 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
     
-    public Long createAddress(String addressName, Customer customer){
+    public Address createAddress(String addressName, Customer customer){
         Address address = new Address(addressName, false, true, customer);
         em.persist(address);
-        return address.getAddressId();
+        return address;
+    }
+    
+    
+    public void selectAddressForWinningBid(String addressName, Customer customer, AuctionListing wonListing) throws AddressNotFoundException{
+        //check if address input exists, if not create new one, associate with address
+        Query query = em.createQuery("SELECT a from Address a WHERE a.addressName = :inAddressName");
+        query.setParameter("inAddressName", addressName);
+        Address address;
+        
+        try {
+            address = (Address) query.getSingleResult();
+            address.setListOfWinningAuction(new ArrayList<AuctionListing>((Collection<? extends AuctionListing>) wonListing));
+        } catch(NoResultException | NonUniqueResultException ex) {
+            address = createAddress(addressName, customer);
+            
+        }
+        
+        address.setAssociated(true);
+        address.getListOfWinningAuction().add(wonListing);
+        
+        
     }
  
     

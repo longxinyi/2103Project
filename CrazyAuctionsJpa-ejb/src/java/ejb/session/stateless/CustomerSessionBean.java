@@ -9,6 +9,7 @@ package ejb.session.stateless;
 import entity.AuctionListing;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -128,7 +129,9 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
 
     }
 
-   
+    public List<AuctionListing> browseWonAuctionListings(Customer customer){
+        return customer.getListOfWonAuctionListings();
+    }
     
     
     

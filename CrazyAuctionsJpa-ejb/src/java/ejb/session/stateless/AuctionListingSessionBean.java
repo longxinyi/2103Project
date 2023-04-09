@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.AuctionListing;
 import entity.Customer;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -55,18 +56,31 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     
 
     @Override
-    public AuctionListing retrieveAuctionListing() throws AuctionListingNotFoundException
+    public List<AuctionListing> retrieveAuctionListing() throws AuctionListingNotFoundException
     {
         Query query = em.createQuery("SELECT a FROM AuctionListing a ");
         
         try
         {
-            return (AuctionListing)query.getResultList();
+            return (List<AuctionListing>)query.getResultList();
         }
         catch(NoResultException | NonUniqueResultException ex)
         {
             throw new AuctionListingNotFoundException("Auction Listing not ready!");
         }
+    }
+    
+    public List<AuctionListing> viewActiveListings() throws ListingNotFoundException{
+        Query query = em.createQuery("SELECT l FROM AuctionListing l WHERE l.active = :true");
+        List<AuctionListing> activeAuctions;
+        
+        try{
+            activeAuctions = query.getResultList();
+        } catch (NoResultException ex){
+            throw new ListingNotFoundException("No Active Listing at the moment!");
+        }
+        
+        return activeAuctions;
     }
 
     

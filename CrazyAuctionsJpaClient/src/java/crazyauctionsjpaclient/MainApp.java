@@ -6,10 +6,12 @@
 package crazyauctionsjpaclient;
 
 import ejb.session.stateless.AddressSessionBeanRemote;
+import ejb.session.stateless.AuctionListingBidSessionBeanRemote;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import entity.AuctionListing;
+import entity.AuctionListingBid;
 import entity.CreditPackage;
 import entity.Customer;
 import java.math.BigDecimal;
@@ -18,10 +20,13 @@ import java.util.Scanner;
 import util.exception.AuctionListingNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.AddressNotFoundException;
+import util.exception.BidIncrementException;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
+import util.exception.InvalidBidIncrementException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ListingNotFoundException;
+import util.exception.MinimumBidException;
 import util.exception.UpdateCustomerException;
 
 /**
@@ -34,8 +39,10 @@ public class MainApp {
     private CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
     private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
     private AddressSessionBeanRemote addressSessionBeanRemote;
-
+    private AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote;
+    
     private Customer currentCustomer;
+    private AuctionListing currentListing;
 
     public MainApp() {
 
@@ -44,18 +51,20 @@ public class MainApp {
 
 
 
-    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote)
+    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote, AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote)
     {
 
         this.customerSessionBeanRemote = customerSessionBeanRemote;
         this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
         this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
         this.addressSessionBeanRemote = addressSessionBeanRemote;
+        this.auctionListingBidSessionBeanRemote = auctionListingBidSessionBeanRemote;
+        
         
     }
 
 
-    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
+    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
 
 
 
@@ -154,7 +163,7 @@ public class MainApp {
     }
 
 
-    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException {
+    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
 
 
         Scanner scanner = new Scanner(System.in);
@@ -338,27 +347,47 @@ public class MainApp {
         } 
     }
     
-    public void viewAuctionListingDetails(){};
+    public void viewAuctionListingDetails() throws ListingNotFoundException{
+        List<AuctionListing> activeAuctions = auctionListingSessionBeanRemote.viewActiveListings();
+        for(AuctionListing auctionListing : activeAuctions){
+                System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+        }
+    };
     
-    public void placeNewBid() throws ListingNotFoundException{
+    public void placeNewBid() throws ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException{
     //enter bid amount -> check if higher than current highest
     //if no bid, check if more than 0.05
         Scanner scanner = new Scanner(System.in);
         System.out.print("Which listing would you like to bid for? Enter name > ");
-        String listingName = scanner.nextLine().trim();
-        AuctionListing auctionListing = auctionListingSessionBeanRemote.findListingByName(listingName);
-        //auctionListingBidSessionBeanRemote.placeNewBid();
-    
+        String auctionName = scanner.nextLine().trim();
+        System.out.println("How much would you like to bid for? Enter amount >");
+        String priceString = scanner.nextLine().trim();
+        BigDecimal price = new BigDecimal(priceString);
+        
+        auctionListingBidSessionBeanRemote.placeNewBid(auctionName, price);
+
+
     };
     
-    public void browseWonAuctionListing(){};
+    public void browseWonAuctionListing(){
+        List<AuctionListing> wonListings = customerSessionBeanRemote.browseWonAuctionListings(currentCustomer);
+        
+        if(wonListings.size() == 0){
+            System.out.println("You have won 0 listings.");
+        } else {
+            for(AuctionListing auctionListing : wonListings){
+                System.out.println("Name of listing won: " + auctionListing.getAuctionName() + " with the bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+            }
+            
+        }
+    };
     
-    public void selectDeliveryAddress(){
+    public void selectDeliveryAddress() throws AddressNotFoundException{
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter address name > ");
         String addressName = scanner.nextLine().trim();
-        Long addressId = addressSessionBeanRemote.createAddress(addressName, currentCustomer);
-       
+        addressSessionBeanRemote.selectAddressForWinningBid(addressName, currentCustomer, currentListing);
+        System.out.println("Address successfully selected");
     };
     
     public void deleteAddress() throws AddressNotFoundException{
@@ -370,7 +399,6 @@ public class MainApp {
         System.out.print("Which address you would like to delete? ");
         String addressName = scanner.nextLine().trim();
         try {
-            
             addressSessionBeanRemote.deleteAddress(addressName);
         } catch (AddressNotFoundException e) {
             System.out.println("An error occurred while deleting address!");

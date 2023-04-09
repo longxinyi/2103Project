@@ -5,8 +5,10 @@
  */
 package ejb.session.stateless;
 
+import entity.AuctionListing;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Remote;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
@@ -33,4 +35,5 @@ public interface CustomerSessionBeanRemote {
     
     public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
 
+    public List<AuctionListing> browseWonAuctionListings(Customer customer);
 }
