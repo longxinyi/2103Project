@@ -5,13 +5,18 @@
  */
 package crazyauctionsjpaadminclient;
 
+import entity.Employee;
 import java.util.Scanner;
+import util.enumeration.AccessRightEnum;
+import util.exception.InvalidAccessRightException;
 
 /**
  *
  * @author xinyi
  */
 public class SalesModule {
+    
+    private Employee currentEmployee;
 
     public SalesModule() {
     }
@@ -19,8 +24,12 @@ public class SalesModule {
     
     
     
-    public void salesOperation()
+    public void salesOperation() throws InvalidAccessRightException
     {
+        if(currentEmployee.getAccessRightEnum() != AccessRightEnum.SALES)
+        {
+            throw new InvalidAccessRightException("You don't have SALES rights to access the system administration module.");
+        }
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         

@@ -10,6 +10,7 @@ import entity.Employee;
 import java.util.Scanner;
 import util.enumeration.AccessRightEnum;
 import util.exception.EmployeeUsernameExistException;
+import util.exception.InvalidAccessRightException;
 
 /**
  *
@@ -31,8 +32,13 @@ public class SystemAdminModule {
     
     
     
-    public void systemAdminOperation()
+    public void systemAdminOperation() throws InvalidAccessRightException
     {
+        if(currentEmployee.getAccessRightEnum() != AccessRightEnum.SYSTEMADMIN)
+        {
+            throw new InvalidAccessRightException("You don't have SYSTEMADMIN rights to access the system administration module.");
+        }
+        
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         
@@ -122,5 +128,5 @@ public class SystemAdminModule {
     public void updateEmployee(){}
     
     public void viewAllEmployees(){}
-                   
+    
 }

@@ -5,20 +5,29 @@
  */
 package crazyauctionsjpaadminclient;
 
+import entity.Employee;
 import java.util.Scanner;
+import util.enumeration.AccessRightEnum;
+import util.exception.InvalidAccessRightException;
 
 /**
  *
  * @author xinyi
  */
 public class FinanceModule {
+    
+    private Employee currentEmployee;
 
     public FinanceModule() {
     }
     
     
-    public void financeOperation()
+    public void financeOperation() throws InvalidAccessRightException
     {
+        if(currentEmployee.getAccessRightEnum() != AccessRightEnum.FINANCE)
+        {
+            throw new InvalidAccessRightException("You don't have FINANCE rights to access the system administration module.");
+        }
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         
