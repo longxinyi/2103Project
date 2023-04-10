@@ -24,17 +24,17 @@ public class Employee implements Serializable {
     private Long employeeId;
     private String firstName;
     private String lastName;
-    private String password;
     private String username;
+    private String password;
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, String password, String username) {
+    public Employee(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.username = username;
+        this.password = password;
     }
 
     

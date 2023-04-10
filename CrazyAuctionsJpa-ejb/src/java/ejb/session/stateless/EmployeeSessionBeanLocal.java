@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Employee;
 import javax.ejb.Local;
 import util.exception.EmployeeNotFoundException;
+import util.exception.EmployeeUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -16,6 +17,8 @@ import util.exception.InvalidLoginCredentialException;
  */
 @Local
 public interface EmployeeSessionBeanLocal {
+    public Long createNewEmployee(Employee employee) throws EmployeeUsernameExistException;
+    public Employee createNewEmployee(String firstName, String lastName, String username, String password);
     public Employee retrieveEmployeeByUsername(String username) throws EmployeeNotFoundException;
     public Employee employeeLogin(String username, String password) throws InvalidLoginCredentialException;
 }

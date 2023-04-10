@@ -3,38 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsjpaclient;
+package crazyauctionsjpaemployeeclient;
 
-
-import ejb.session.stateless.AuctionListingSessionBeanRemote;
-import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.AddressSessionBeanRemote;
 import ejb.session.stateless.AuctionListingBidSessionBeanRemote;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanRemote;
 import javax.ejb.EJB;
 import util.exception.AddressNotFoundException;
 import util.exception.BidIncrementException;
-import util.exception.CustomerNotFoundException;
+import util.exception.EmployeeNotFoundException;
 import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
-import util.exception.UpdateCustomerException;
 
 /**
  *
- * @author xinyi
+ * @author chiaangyong
  */
 public class Main {
+
+    @EJB(name = "EmployeeSessionBeanRemote")
+    private static EmployeeSessionBeanRemote employeeSessionBeanRemote;
 
     @EJB(name ="AuctionListingBidSessionBeanRemote")
     private static AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote;
 
     @EJB(name = "CreditPackageSessionBeanRemote")
     private static CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
-
-    @EJB(name = "CustomerSessionBeanRemote")
-    private static CustomerSessionBeanRemote customerSessionBeanRemote;
     
     @EJB(name = "AddressSessionBeanRemote")
     private static AddressSessionBeanRemote addressSessionBeanRemote;
@@ -44,19 +42,15 @@ public class Main {
     
     
     
-     /**
+    /**
      * @param args the command line arguments
      */
-
-    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
-
-
+    public static void main(String[] args) throws AddressNotFoundException, EmployeeNotFoundException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
         // TODO code application logic here
-
-        MainApp mainApp = new MainApp(customerSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote, addressSessionBeanRemote, auctionListingBidSessionBeanRemote);
+        
+        MainApp mainApp = new MainApp(employeeSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote, addressSessionBeanRemote, auctionListingBidSessionBeanRemote);
 
         mainApp.runApp();
-        
     }
     
 }
