@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsjpaclient;
+package crazyauctionsjpaadminclient;
 
 import java.util.Scanner;
 
@@ -12,14 +12,21 @@ import java.util.Scanner;
  * @author xinyi
  */
 public class SalesModule {
-    public void SalesOperation()
+
+    public SalesModule() {
+    }
+    
+    
+    
+    
+    public void salesOperation()
     {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         
         while(true)
         {
-            System.out.println("*** Crazy Auctions :: Finance Operation ***\n");
+            System.out.println("*** Crazy Auctions :: Sales Operation ***\n");
             System.out.println("1: Create Auction Listing");
             System.out.println("2: View Auction Listing Details");
             System.out.println("3: Update Auction Listing");
@@ -71,6 +78,16 @@ public class SalesModule {
                 break;
             }
         }
+        
+        
     }
+    
+
+    public void createAuctionListing(){}
+    public void viewAuctionListingDetails(){}
+    public void updateAuctionListing(){}
+    public void deleteAuctionListing(){}
+    public void viewAllAuctionListing(){}
+    public void assignWinningBid(){}
     
 }

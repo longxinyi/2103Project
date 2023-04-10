@@ -8,9 +8,8 @@ package crazyauctionsjpaadminclient;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
 import java.util.Scanner;
-import util.enumeration.AccessRightEnum;
 import util.exception.EmployeeNotFoundException;
-import util.exception.EmployeeUsernameExistException;
+import util.exception.InvalidAccessRightException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.UpdateEmployeeException;
 
@@ -23,6 +22,12 @@ public class MainApp {
     private Employee currentEmployee;
     
     private EmployeeSessionBeanRemote employeeSessionBeanRemote;
+    
+    private SystemAdminModule systemAdminModule;
+    
+    private FinanceModule financeModule;
+    
+    private SalesModule salesModule;
 
     public MainApp() {
         
@@ -51,6 +56,11 @@ public class MainApp {
                     try {
                         doLogin();
                         System.out.println("Login successful!\n");
+                        
+                        SystemAdminModule systemAdminModule = new SystemAdminModule();
+                        FinanceModule financeModule = new FinanceModule();
+                        SalesModule salesModule = new SalesModule();
+                        
 
                         menuMain();
                     } catch (InvalidLoginCredentialException ex) {
@@ -97,17 +107,13 @@ public class MainApp {
             System.out.println("*** Crazy Auction Employee ***\n");
             System.out.println("You are login as " + currentEmployee.getFirstName() + " " + currentEmployee.getLastName());
             System.out.println("1: Change Password");
-           
-            System.out.println("3: Delete Credit Package");
-            System.out.println("4: Create Auction Listing");
-            System.out.println("5: Delete Auction Listing");
-            System.out.println("6: Close Expired Auction Listings and Assign Winning Bid");
-            System.out.println("7: View All Auction Listings with Bids but Below Reserve Price");
-            System.out.println("8: Assign Winning Bid for Listing with Bids but Below Reserve Price");
-            System.out.println("9: Logout\n");
+            System.out.println("2: Access System Admin Module");
+            System.out.println("3: Access Finance Module");
+            System.out.println("4: Access Sales Module");
+            System.out.println("5: Logout\n");
             response = 0;
 
-            while (response < 1 || response > 9) {
+            while (response < 1 || response > 5) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
@@ -117,34 +123,41 @@ public class MainApp {
                     
                 } else if (response == 2){
                     
-                    createNewEmployee();
+                    try
+                    {
+                        systemAdminModule.systemAdminOperation();
+                    }
+                    catch (InvalidAccessRightException ex)
+                    {
+                        System.out.println("Invalid option, please try again!: " + ex.getMessage() + "\n");
+                    }
                     
                 } else if (response == 3){
                     
-                    deleteCreditPackage();
+                    try
+                    {
+                        financeModule.financeOperation();
+                    }
+                    catch (InvalidAccessRightException ex)
+                    {
+                        System.out.println("Invalid option, please try again!: " + ex.getMessage() + "\n");
+                    }
                     
                 } else if (response == 4){
+                    try
+                    {
+                        salesModule.salesOperation();
+                    }
+                    catch (InvalidAccessRightException ex)
+                    {
+                        System.out.println("Invalid option, please try again!: " + ex.getMessage() + "\n");
+                    }
                     
-                    createAuctionListing();
                 
                 } else if (response == 5){
                     
-                    deleteAuctionListing();
-                
-                } else if (response == 6){
-                    
-                    closeExpiredListingsAssignWinningBid();
-                
-                } else if (response == 7){
-                    
-                    viewAllListingsWBidsBelowReservePrice();
-                
-                } else if (response == 8){
-                    
-                    assignWinningBidforListingsWBids();
-                
-                } else if (response == 9){
                     break;
+
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
@@ -172,17 +185,7 @@ public class MainApp {
         
     
     
-    public void deleteCreditPackage(){}
-    
-    public void createAuctionListing(){}
-    
-    public void deleteAuctionListing(){}
-    
-    public void closeExpiredListingsAssignWinningBid(){}
-    
-    public void viewAllListingsWBidsBelowReservePrice(){}
-    
-    public void assignWinningBidforListingsWBids(){}
+   
     
     
 }

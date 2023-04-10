@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsjpaclient;
+package crazyauctionsjpaadminclient;
 
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
@@ -17,6 +17,8 @@ import util.exception.EmployeeUsernameExistException;
  */
 public class SystemAdminModule {
     
+    
+    
     private Employee currentEmployee;
     private EmployeeSessionBeanRemote employeeSessionBeanRemote;
 
@@ -29,7 +31,7 @@ public class SystemAdminModule {
     
     
     
-    public void SystemAdminOperation()
+    public void systemAdminOperation()
     {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;

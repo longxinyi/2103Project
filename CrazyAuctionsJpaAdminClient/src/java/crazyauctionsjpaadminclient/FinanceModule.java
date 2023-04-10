@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsjpaclient;
+package crazyauctionsjpaadminclient;
 
 import java.util.Scanner;
 
@@ -12,7 +12,12 @@ import java.util.Scanner;
  * @author xinyi
  */
 public class FinanceModule {
-    public void FinanceOperation()
+
+    public FinanceModule() {
+    }
+    
+    
+    public void financeOperation()
     {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
