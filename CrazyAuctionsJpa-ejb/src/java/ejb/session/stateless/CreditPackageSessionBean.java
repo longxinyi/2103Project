@@ -44,9 +44,10 @@ public class CreditPackageSessionBean implements CreditPackageSessionBeanRemote,
     }
     
     @Override
-    public List<CreditPackage> retrieveCreditTransactionHistory() throws CreditTransactionHistoryNotFoundException
+    public List<CreditPackage> retrieveCreditTransactionHistory(Customer customer) throws CreditTransactionHistoryNotFoundException
     {
         Query query = em.createQuery("SELECT c FROM CreditPackage c ");
+        //query.setParameter("inCustomer", customer);
         
         try
         {

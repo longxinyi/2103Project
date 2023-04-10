@@ -30,6 +30,8 @@ public class Customer implements Serializable {
     private Long CustomerId;
     private String firstName;
     private String lastName;
+    
+    @Column(precision = 22, scale = 4)
     private BigDecimal creditBalance;
     private int postalCode;
     private int contactNumber;

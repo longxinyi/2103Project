@@ -36,7 +36,7 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
     
     public AuctionListingBid createNewBid(BigDecimal price){
         AuctionListingBid newBid = new AuctionListingBid(price);
-        em.persist(price);
+        em.persist(newBid);
         return newBid;
     }
     
@@ -53,7 +53,7 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
         
         List<AuctionListingBid> listingBids = currentListing.getAuctionListingBids();
         if (listingBids.size() == 0){
-            if (doubleValue(price) >= 0.00500){
+            if (price.compareTo(new BigDecimal(0.05)) == 1 | price.compareTo(new BigDecimal(0.05)) == 0){
                 listingBids.add(newBid);
             } else {
                 throw new MinimumBidException("Minimum Bid is 0.0500");

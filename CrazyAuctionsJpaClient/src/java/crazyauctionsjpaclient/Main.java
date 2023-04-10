@@ -14,8 +14,10 @@ import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
 import javax.ejb.EJB;
 import util.exception.AddressNotFoundException;
+import util.exception.AuctionListingNotFoundException;
 import util.exception.BidIncrementException;
 import util.exception.CustomerNotFoundException;
+import util.exception.ImposterWinnerException;
 import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
@@ -48,7 +50,7 @@ public class Main {
      * @param args the command line arguments
      */
 
-    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
+    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, AuctionListingNotFoundException, ImposterWinnerException {
 
 
         // TODO code application logic here

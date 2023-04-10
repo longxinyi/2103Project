@@ -23,6 +23,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import util.exception.AddressNotFoundException;
+import util.exception.AuctionListingNotFoundException;
+import util.exception.ImposterWinnerException;
 
 /**
  *
@@ -34,29 +36,51 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
     
-    public Address createAddress(String addressName, Customer customer){
-        Address address = new Address(addressName, false, true, customer);
+    public Address createAddress(String addressName){
+        Address address = new Address(addressName, false, true);
+        em.persist(address);
+        return address;
+    }
+    
+    public Address createNewAddress(Address address){
         em.persist(address);
         return address;
     }
     
     
-    public void selectAddressForWinningBid(String addressName, Customer customer, AuctionListing wonListing) throws AddressNotFoundException{
+    public void selectAddressForWinningBid(String addressName, Customer customer, String wonListing) throws AddressNotFoundException, AuctionListingNotFoundException, ImposterWinnerException{
         //check if address input exists, if not create new one, associate with address
-        Query query = em.createQuery("SELECT a from Address a WHERE a.addressName = :inAddressName");
-        query.setParameter("inAddressName", addressName);
+        Query query1 = em.createQuery("SELECT a from Address a WHERE a.addressName = :inAddressName");
+        query1.setParameter("inAddressName", addressName);
+        Query query2 = em.createQuery("SELECT l from AuctionListing l WHERE l.listingName = :inwonListing");
+        query2.setParameter("inwonListing", wonListing);
         Address address;
+        AuctionListing auctionListing;
         
         try {
-            address = (Address) query.getSingleResult();
-            address.setListOfWinningAuction(new ArrayList<AuctionListing>((Collection<? extends AuctionListing>) wonListing));
+            auctionListing = (AuctionListing) query2.getSingleResult();
+            
+            if(customer.getListOfWonAuctionListings().contains(auctionListing)){
+                
+            } else {
+                throw new ImposterWinnerException("You did not win this listing, please try again");
+            }
+           
         } catch(NoResultException | NonUniqueResultException ex) {
-            address = createAddress(addressName, customer);
+            throw new AuctionListingNotFoundException("Auction Listing not found, please add address!");
+            
+        }
+        
+        try {
+            address = (Address) query1.getSingleResult();
+            address.getListOfWinningAuction().add(address.getListOfWinningAuction().size(), auctionListing);
+        } catch(NoResultException | NonUniqueResultException ex) {
+            throw new AddressNotFoundException("Address not found, please add address!");
             
         }
         
         address.setAssociated(true);
-        address.getListOfWinningAuction().add(wonListing);
+       
         
         
     }

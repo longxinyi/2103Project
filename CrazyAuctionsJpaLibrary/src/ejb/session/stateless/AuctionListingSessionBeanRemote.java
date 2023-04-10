@@ -18,6 +18,7 @@ import util.exception.AuctionListingNotFoundException;
  */
 @Remote
 public interface AuctionListingSessionBeanRemote {
+    public Long createNewAuctionListing(AuctionListing auctionListing);
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException;
     public List<AuctionListing> retrieveAuctionListing() throws AuctionListingNotFoundException;
     public List<AuctionListing> viewActiveListings() throws ListingNotFoundException;

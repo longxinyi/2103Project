@@ -23,6 +23,7 @@ import util.exception.AddressNotFoundException;
 import util.exception.BidIncrementException;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
+import util.exception.ImposterWinnerException;
 import util.exception.InvalidBidIncrementException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ListingNotFoundException;
@@ -40,7 +41,7 @@ public class MainApp {
     private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
     private AddressSessionBeanRemote addressSessionBeanRemote;
     private AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote;
-    
+
     private Customer currentCustomer;
     private AuctionListing currentListing;
 
@@ -48,25 +49,17 @@ public class MainApp {
 
     }
 
-
-
-
-    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote, AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote)
-    {
+    public MainApp(CustomerSessionBeanRemote customerSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote, AddressSessionBeanRemote addressSessionBeanRemote, AuctionListingBidSessionBeanRemote auctionListingBidSessionBeanRemote) {
 
         this.customerSessionBeanRemote = customerSessionBeanRemote;
         this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
         this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
         this.addressSessionBeanRemote = addressSessionBeanRemote;
         this.auctionListingBidSessionBeanRemote = auctionListingBidSessionBeanRemote;
-        
-        
+
     }
 
-
-    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
-
-
+    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, AuctionListingNotFoundException, ImposterWinnerException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -98,7 +91,7 @@ public class MainApp {
                         System.out.println("Login successful!\n");
 
                         menuMain();
-                    } catch (InvalidLoginCredentialException ex ) {
+                    } catch (InvalidLoginCredentialException ex) {
                         System.out.println("Invalid login credential: " + ex.getMessage() + "\n");
                     }
                 } else if (response == 3) {
@@ -155,16 +148,14 @@ public class MainApp {
 
         try {
             Long customerId = customerSessionBeanRemote.createNewCustomer(currentCustomer);
-            
+
         } catch (CustomerUsernameExistException ex) {
             System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
-        } 
+        }
 
     }
 
-
-    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException {
-
+    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, AuctionListingNotFoundException, ImposterWinnerException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -188,43 +179,43 @@ public class MainApp {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
-                if (response == 1){
-                    
+                if (response == 1) {
+
                     purchaseCreditPackage();
-                    
-                } else if (response == 2){
-                    
+
+                } else if (response == 2) {
+
                     viewCreditTransactionHistory();
-                    
-                } else if (response == 3){
-                    
+
+                } else if (response == 3) {
+
                     browseAllAuctionListing();
-                    
-                } else if (response == 4){
-                    
+
+                } else if (response == 4) {
+
                     viewAuctionListingDetails();
-                
-                } else if (response == 5){
-                    
+
+                } else if (response == 5) {
+
                     placeNewBid();
-                
-                } else if (response == 6){
-                    
+
+                } else if (response == 6) {
+
                     browseWonAuctionListing();
-                
-                } else if (response == 7){
-                    
+
+                } else if (response == 7) {
+
                     selectDeliveryAddress();
-                
-                } else if (response == 8){
-                    
+
+                } else if (response == 8) {
+
                     deleteAddress();
-                
-                } else if (response == 9){
-                    
+
+                } else if (response == 9) {
+
                     updateCustomerProfile();
-                
-                } else if (response == 10){
+
+                } else if (response == 10) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");
@@ -237,13 +228,13 @@ public class MainApp {
             }
         }
     }
-    
-    public void purchaseCreditPackage() throws CustomerNotFoundException{
+
+    public void purchaseCreditPackage() throws CustomerNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         BigDecimal quantity = new BigDecimal(0);
 
-        while(true){
+        while (true) {
             System.out.println("*** We have numerous credit package for you, please select the one you need. ***\n");
             System.out.println("1: Credit Package 1($10)");
             System.out.println("2: Credit Package 2($100)");
@@ -256,145 +247,160 @@ public class MainApp {
             quantity = new BigDecimal(0);
 
             while (response < 1 || response > 7) {
-            
+
                 System.out.print("> ");
-                
+
                 response = scanner.nextInt();
-                if (response ==1){
+                if (response == 1) {
                     System.out.println("How many quantity of Credit Package 1?");
                     System.out.print("> ");
                     quantity = scanner.nextBigDecimal();
-                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(10),"1", quantity); 
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(10), "1", quantity);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10)));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package 1");
-                }
-                else if (response ==2){
+                } else if (response == 2) {
                     System.out.println("How many quantity of Credit Package 2?");
                     System.out.print("> ");
                     quantity = scanner.nextBigDecimal();
-                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(100),"2", quantity); 
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(100), "2", quantity);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(100)));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package 1");
-                }
-                else if (response ==3){
+                } else if (response == 3) {
                     System.out.println("How many quantity of Credit Package 3?");
                     System.out.print("> ");
                     quantity = scanner.nextBigDecimal();
-                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(1000),"3", quantity);
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(1000), "3", quantity);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(1000)));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package 1");
-                }
-                else if (response ==4){
+                } else if (response == 4) {
                     System.out.println("How many quantity of Credit Package 4?");
                     System.out.print("> ");
                     quantity = scanner.nextBigDecimal();
-                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(10000),"4", quantity); 
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(10000), "4", quantity);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10000)));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package 1");
-                }
-                else if (response ==5){
+                } else if (response == 5) {
                     System.out.println("How many quantity of Credit Package 5?");
                     System.out.print("> ");
                     quantity = scanner.nextBigDecimal();
-                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(100000),"5", quantity);
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(100000), "5", quantity);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(100000)));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package 1");
-                }
-                else if (response ==6){
+                } else if (response == 6) {
                     System.out.println("How many quantity of Credit Package 6?");
                     System.out.print("> ");
                     quantity = scanner.nextBigDecimal();
-                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(1000000),"6", quantity); 
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(new BigDecimal(1000000), "6", quantity);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(1000000)));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package 1");
-                }
-                else  if (response == 7) {
+                } else if (response == 7) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
-                
-            
+
             }
             if (response == 7) {
                 break;
 
             }
 
-        }  
-    };
+        }
+    }
+
+    ;
     
-    public void viewCreditTransactionHistory(){
+    public void viewCreditTransactionHistory() {
         try {
-            
-            
-            List<CreditPackage> creditPackage = creditPackageSessionBeanRemote.retrieveCreditTransactionHistory();
-            for(CreditPackage credPackage : creditPackage){
-                System.out.println(credPackage.getCreditPackageType() + " " + credPackage.getCreditPackageQuantity() + "\n" );
+
+            List<CreditPackage> creditPackage = creditPackageSessionBeanRemote.retrieveCreditTransactionHistory(currentCustomer);
+
+            for (CreditPackage credPackage : creditPackage) {
+                System.out.println(credPackage.getCreditPackageType() + " " + credPackage.getCreditPackageQuantity() + "\n");
             }
         } catch (CreditTransactionHistoryNotFoundException ex) {
             System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
-        } 
+        }
+
+    }
+
+    ;
     
-    };
-    
-    public void browseAllAuctionListing(){
+    public void browseAllAuctionListing() {
         try {
-            auctionListingSessionBeanRemote.retrieveAuctionListing();
-            
+            List<AuctionListing> auctionListings = auctionListingSessionBeanRemote.retrieveAuctionListing();
+
+            for (AuctionListing auctionListing : auctionListings) {
+                if (auctionListing.isActive() == true) {
+                    System.out.println("Auction listing : " + auctionListing.getAuctionName() + " with reserve price of: " + auctionListing.getReservePrice() + "\n");
+                }
+            }
+
         } catch (AuctionListingNotFoundException ex) {
             System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
-        } 
-    }
-    
-    public void viewAuctionListingDetails() throws ListingNotFoundException{
-        List<AuctionListing> activeAuctions = auctionListingSessionBeanRemote.viewActiveListings();
-        for(AuctionListing auctionListing : activeAuctions){
-                System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
         }
-    };
+    }
+
+    public void viewAuctionListingDetails() throws ListingNotFoundException {
+        List<AuctionListing> activeAuctions = auctionListingSessionBeanRemote.viewActiveListings();
+        for (AuctionListing auctionListing : activeAuctions) {
+            System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+        }
+    }
+
+    ;
     
-    public void placeNewBid() throws ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException{
-    //enter bid amount -> check if higher than current highest
-    //if no bid, check if more than 0.05
+    public void placeNewBid() throws ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException {
+        //enter bid amount -> check if higher than current highest
+        //if no bid, check if more than 0.05
         Scanner scanner = new Scanner(System.in);
         System.out.print("Which listing would you like to bid for? Enter name > ");
         String auctionName = scanner.nextLine().trim();
-        System.out.println("How much would you like to bid for? Enter amount >");
-        String priceString = scanner.nextLine().trim();
-        BigDecimal price = new BigDecimal(priceString);
+        System.out.println("How much would you like to bid for? Enter amount  ");
+        System.out.print("> ");
+        BigDecimal price = new BigDecimal(0);
+        price = scanner.nextBigDecimal();
         
+
         auctionListingBidSessionBeanRemote.placeNewBid(auctionName, price);
 
+    }
 
-    };
+    ;
     
-    public void browseWonAuctionListing(){
+    public void browseWonAuctionListing() {
         List<AuctionListing> wonListings = customerSessionBeanRemote.browseWonAuctionListings(currentCustomer);
-        
-        if(wonListings.size() == 0){
+
+        if (wonListings.size() == 0) {
             System.out.println("You have won 0 listings.");
         } else {
-            for(AuctionListing auctionListing : wonListings){
+            for (AuctionListing auctionListing : wonListings) {
                 System.out.println("Name of listing won: " + auctionListing.getAuctionName() + " with the bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
             }
-            
+
         }
-    };
+    }
+
+    ;
     
-    public void selectDeliveryAddress() throws AddressNotFoundException{
+    public void selectDeliveryAddress() throws AddressNotFoundException, AuctionListingNotFoundException, ImposterWinnerException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter address name > ");
         String addressName = scanner.nextLine().trim();
-        addressSessionBeanRemote.selectAddressForWinningBid(addressName, currentCustomer, currentListing);
+        System.out.print("Enter listing name > ");
+        String listingName = scanner.nextLine().trim();
+        
+        addressSessionBeanRemote.selectAddressForWinningBid(addressName, currentCustomer, listingName);
         System.out.println("Address successfully selected");
-    };
+    }
+
+    ;
     
-    public void deleteAddress() throws AddressNotFoundException{
-    //check if it is associated with a winning bid
-    //if yes, marked as disabled -> cannot be enabled
-    //if no, deleted
-    
+    public void deleteAddress() throws AddressNotFoundException {
+        //check if it is associated with a winning bid
+        //if yes, marked as disabled -> cannot be enabled
+        //if no, deleted
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Which address you would like to delete? ");
         String addressName = scanner.nextLine().trim();
@@ -403,15 +409,16 @@ public class MainApp {
         } catch (AddressNotFoundException e) {
             System.out.println("An error occurred while deleting address!");
         }
-        
-        
-    };
+
+    }
+
+    ;
     
-    public void updateCustomerProfile() throws CustomerNotFoundException, UpdateCustomerException{
+    public void updateCustomerProfile() throws CustomerNotFoundException, UpdateCustomerException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
-        while(true){
+        while (true) {
             System.out.println("*** Which part of your profile would you like to update? ***\n");
             System.out.println("1: First Name");
             System.out.println("2: Last Name");
@@ -421,7 +428,6 @@ public class MainApp {
             System.out.println("6: Password");
             System.out.println("7: Exit\n");
 
-            
             response = 0;
             while (response < 1 || response > 7) {
                 Scanner newScanner = new Scanner(System.in);
@@ -429,21 +435,21 @@ public class MainApp {
 
                 response = scanner.nextInt();
                 if (response == 1) {
-                    
+
                     try {
                         System.out.print("Enter New First Name> ");
 
                         currentCustomer.setFirstName(newScanner.nextLine().trim());
                         customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
-                        
+
                     } catch (UpdateCustomerException ex) {
                         System.out.print("There was an error, please try again ");
                     }
-                    
+
                     System.out.print("First Name has been successfully changed! ");
-       
+
                 } else if (response == 2) {
-                    
+
                     System.out.print("Enter New Last Name> ");
                     currentCustomer.setLastName(newScanner.nextLine().trim());
                     try {
@@ -452,9 +458,8 @@ public class MainApp {
                         System.out.print("Last Name has been successfully changed! ");
                     }
 
-                    
                 } else if (response == 3) {
-                    
+
                     System.out.print("Enter Postal Code> ");
                     currentCustomer.setPostalCode(Integer.valueOf(newScanner.nextLine().trim()));
                     try {
@@ -462,16 +467,16 @@ public class MainApp {
                     } catch (UpdateCustomerException ex) {
                         System.out.print("Last Name has been successfully changed! ");
                     }
-                
+
                 } else if (response == 4) {
-                    
+
                     System.out.print("Enter Contact Number> ");
                     currentCustomer.setContactNumber(Integer.valueOf(newScanner.nextLine().trim()));
                     customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
                     System.out.print("Contact Number has been successfully changed! ");
-                
+
                 } else if (response == 5) {
-                    
+
                     System.out.print("Enter New Email Address> ");
                     currentCustomer.setEmailAddress(newScanner.nextLine().trim());
                     try {
@@ -479,7 +484,7 @@ public class MainApp {
                     } catch (UpdateCustomerException ex) {
                         System.out.print("Email Address has been successfully changed! ");
                     }
-                
+
                 } else if (response == 6) {
 
                     System.out.print("Enter New Password> ");
@@ -490,23 +495,22 @@ public class MainApp {
                         System.out.print("Password has been successfully changed! ");
                     }
                 } else if (response == 7) {
-                
+
                     break;
-                    
+
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
-                    
+
             }
-            
-            if (response == 7){
+
+            if (response == 7) {
                 break;
             }
 
+        }
 
-        }    
-       
-    
-    };
+    }
+;
 
 }

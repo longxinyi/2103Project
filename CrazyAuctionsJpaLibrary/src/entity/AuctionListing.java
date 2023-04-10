@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,8 @@ public class AuctionListing implements Serializable {
     private Long auctionListingId;
     private String auctionName;
     private BigDecimal reservePrice;
-    private String startDateTime;
+    private Date startDateTime;
+    private Date endDateTime;
     private boolean active;
     
     @OneToMany
@@ -45,10 +47,11 @@ public class AuctionListing implements Serializable {
     public AuctionListing() {
     }
 
-    public AuctionListing(String auctionName, BigDecimal reservePrice, String startDateTime, boolean active) {
+    public AuctionListing(String auctionName, BigDecimal reservePrice, Date startDateTime, Date endDateTime, boolean active) {
         this.auctionName = auctionName;
         this.reservePrice = reservePrice;
         this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
         this.active = active;
     }
     
@@ -103,14 +106,14 @@ public class AuctionListing implements Serializable {
     /**
      * @return the startDateTime
      */
-    public String getStartDateTime() {
+    public Date getStartDateTime() {
         return startDateTime;
     }
 
     /**
      * @param startDateTime the startDateTime to set
      */
-    public void setStartDateTime(String startDateTime) {
+    public void setStartDateTime(Date startDateTime) {
         this.startDateTime = startDateTime;
     }
 
@@ -154,6 +157,48 @@ public class AuctionListing implements Serializable {
      */
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * @return the customer
+     */
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * @return the endDateTime
+     */
+    public Date getEndDateTime() {
+        return endDateTime;
+    }
+
+    /**
+     * @param endDateTime the endDateTime to set
+     */
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
     }
     
 }

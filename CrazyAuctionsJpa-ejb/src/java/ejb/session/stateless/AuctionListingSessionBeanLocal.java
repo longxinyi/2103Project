@@ -20,6 +20,8 @@ import util.exception.AuctionListingNotFoundException;
  */
 @Local
 public interface AuctionListingSessionBeanLocal {
+    
+    public Long createNewAuctionListing(AuctionListing auctionListing);
 
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException;
 
