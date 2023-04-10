@@ -477,7 +477,7 @@ public class MainApp {
                     try {
                         customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
                     } catch (UpdateCustomerException ex) {
-                        System.out.print("Last Name has been successfully changed! ");
+                        System.out.print("Email Address has been successfully changed! ");
                     }
                 
                 } else if (response == 6) {
@@ -487,7 +487,7 @@ public class MainApp {
                     try {
                         customerSessionBeanRemote.updateCustomerProfile(currentCustomer);
                     } catch (UpdateCustomerException ex) {
-                        System.out.print("Last Name has been successfully changed! ");
+                        System.out.print("Password has been successfully changed! ");
                     }
                 } else if (response == 7) {
                 

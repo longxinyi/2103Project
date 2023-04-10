@@ -14,7 +14,9 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.EmployeeNotFoundException;
+import util.exception.EmployeeUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.UpdateEmployeeException;
 
 /**
  *
@@ -28,6 +30,12 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
+    public Long createNewEmployee(Employee employee) throws EmployeeUsernameExistException{
+        em.persist(employee);
+        return employee.getEmployeeId();
+    }
+    
     @Override
     public Employee retrieveEmployeeByUsername(String username) throws EmployeeNotFoundException
     {
@@ -65,6 +73,30 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
         {
             throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
         }
+    }
+    
+    public void updateEmployeeProfile(Employee employee) throws EmployeeNotFoundException, UpdateEmployeeException{
+        if(employee != null && employee.getEmployeeId() != null)
+        {
+            Employee employeeToUpdate = retrieveEmployeeByUsername(employee.getUsername());
+            
+            if(employeeToUpdate.getUsername().equals(employee.getUsername()))
+            {
+                employeeToUpdate.setFirstName(employee.getFirstName());
+                employeeToUpdate.setLastName(employee.getLastName());
+                employeeToUpdate.setPassword(employee.getPassword());
+                
+            }
+            else
+            {
+                throw new UpdateEmployeeException("Username of user record to be updated does not match the existing record");
+            }
+        }
+        else
+        {
+            throw new EmployeeNotFoundException("User not found!");
+        }
+        
     }
 
    

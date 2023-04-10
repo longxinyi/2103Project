@@ -7,6 +7,7 @@ package crazyauctionsjpaadminclient;
 
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import javax.ejb.EJB;
+import util.exception.EmployeeNotFoundException;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EmployeeNotFoundException {
         // TODO code application logic here
         MainApp mainApp = new MainApp(employeeSessionBeanRemote);
 

@@ -8,7 +8,11 @@ package crazyauctionsjpaadminclient;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
 import java.util.Scanner;
+import util.enumeration.AccessRightEnum;
+import util.exception.EmployeeNotFoundException;
+import util.exception.EmployeeUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.UpdateEmployeeException;
 
 /**
  *
@@ -28,7 +32,7 @@ public class MainApp {
         this.employeeSessionBeanRemote = employeeSessionBeanRemote;
     }
     
-    public void runApp(){
+    public void runApp() throws EmployeeNotFoundException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -83,7 +87,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain()  {
+    private void menuMain() throws EmployeeNotFoundException  {
 
 
         Scanner scanner = new Scanner(System.in);
@@ -93,7 +97,7 @@ public class MainApp {
             System.out.println("*** Crazy Auction Employee ***\n");
             System.out.println("You are login as " + currentEmployee.getFirstName() + " " + currentEmployee.getLastName());
             System.out.println("1: Change Password");
-            System.out.println("2: Create New Employee");
+           
             System.out.println("3: Delete Credit Package");
             System.out.println("4: Create Auction Listing");
             System.out.println("5: Delete Auction Listing");
@@ -155,9 +159,18 @@ public class MainApp {
         
     }
     
-    public void changePassword(){}
+    public void changePassword() throws EmployeeNotFoundException{
+        Scanner newScanner = new Scanner(System.in);
+        System.out.print("Enter New Password> ");
+        currentEmployee.setPassword(newScanner.nextLine().trim());
+        try {
+            employeeSessionBeanRemote.updateEmployeeProfile(currentEmployee);
+        } catch (UpdateEmployeeException ex) {
+            System.out.print("Password has been successfully changed! ");
+        }
+    }
         
-    public void createNewEmployee(){}
+    
     
     public void deleteCreditPackage(){}
     
