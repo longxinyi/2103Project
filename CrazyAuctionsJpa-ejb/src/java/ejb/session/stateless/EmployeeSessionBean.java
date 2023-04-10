@@ -7,12 +7,15 @@ package ejb.session.stateless;
 
 import entity.Customer;
 import entity.Employee;
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.AccessRightEnum;
+import util.exception.CustomerUsernameExistException;
 import util.exception.EmployeeNotFoundException;
 import util.exception.EmployeeUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
@@ -30,10 +33,24 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    
-    public Long createNewEmployee(Employee employee) throws EmployeeUsernameExistException{
+
+   
+    @Override 
+    public Long createNewEmployee(Employee employee) throws EmployeeUsernameExistException
+    {
+        
         em.persist(employee);
+        
         return employee.getEmployeeId();
+        
+    }
+    
+    @Override
+    public Employee createNewEmployee(String firstName, String lastName, String username, String password, AccessRightEnum accessRightEnum){
+        Employee employee = new Employee(firstName, lastName, username, password, accessRightEnum);
+        em.persist(employee);
+        return employee;
+
     }
     
     @Override

@@ -9,13 +9,15 @@ package util.exception;
  *
  * @author xinyi
  */
-public class EmployeeUsernameExistException extends Exception {
-
-    public EmployeeUsernameExistException() {
-    }
-
-    public EmployeeUsernameExistException(String string) {
-        super(string);
+public class EmployeeUsernameExistException extends Exception{
+    public EmployeeUsernameExistException()
+    {
     }
     
+    
+    
+    public EmployeeUsernameExistException(String msg)
+    {
+        super(msg);
+    }
 }

@@ -25,19 +25,27 @@ public class Employee implements Serializable {
     private Long employeeId;
     private String firstName;
     private String lastName;
-    private String password;
     private String username;
+
     private AccessRightEnum accessRightEnum;
+
+    private String password;
+
 
     public Employee() {
     }
 
+
     public Employee(String firstName, String lastName, String password, String username, AccessRightEnum accessRightEnum) {
+
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.username = username;
+
         this.accessRightEnum = accessRightEnum;
+
+        this.password = password;
+
     }
 
     
