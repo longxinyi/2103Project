@@ -7,10 +7,13 @@ package ejb.session.stateless;
 
 import entity.CreditPackage;
 import entity.Customer;
+import entity.Employee;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Remote;
+import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
+import util.exception.UpdateCreditPackageException;
 
 /**
  *
@@ -18,7 +21,10 @@ import util.exception.CreditTransactionHistoryNotFoundException;
  */
 @Remote
 public interface CreditPackageSessionBeanRemote {
-    public Long createNewCreditPackage(BigDecimal creditPrice, String creditPackageType, BigDecimal creditPackageQuantity);
+    public Long createNewCreditPackage(BigDecimal creditPrice, String creditPackageType, Boolean isActive);
     public Long createNewCreditPackage(CreditPackage creditPackage);
     public List<CreditPackage> retrieveCreditTransactionHistory(Customer customer) throws CreditTransactionHistoryNotFoundException;
+    public List<CreditPackage> retrieveCreditPackage() throws CreditTransactionHistoryNotFoundException;
+    public CreditPackage retrieveCreditPackageById(Long creditPackageId) throws CreditPackageNotFoundException ;
+    public void updateCreditPackage(CreditPackage creditPackage) throws CreditPackageNotFoundException, UpdateCreditPackageException;
 }

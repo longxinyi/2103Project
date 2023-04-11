@@ -16,11 +16,14 @@ import javax.ejb.EJB;
 import util.exception.AddressNotFoundException;
 import util.exception.ListingNotFoundException;
 import util.exception.BidIncrementException;
+import util.exception.CreditPackageNotFoundException;
+import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.CustomerNotFoundException;
 import util.exception.ImposterWinnerException;
 import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
+import util.exception.UpdateCreditPackageException;
 import util.exception.UpdateCustomerException;
 
 /**
@@ -50,7 +53,7 @@ public class Main {
      * @param args the command line arguments
      */
 
-    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException {
+    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException {
 
 
         // TODO code application logic here

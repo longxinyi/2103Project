@@ -9,10 +9,13 @@ import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
 import java.util.Scanner;
+import util.exception.CreditPackageNotFoundException;
+import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.EmployeeNotFoundException;
 import util.exception.InvalidAccessRightException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ListingNotFoundException;
+import util.exception.UpdateCreditPackageException;
 import util.exception.UpdateEmployeeException;
 
 /**
@@ -43,7 +46,7 @@ public class MainApp {
         this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
     }
     
-    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException{
+    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -103,7 +106,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException  {
+    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException  {
 
 
         Scanner scanner = new Scanner(System.in);

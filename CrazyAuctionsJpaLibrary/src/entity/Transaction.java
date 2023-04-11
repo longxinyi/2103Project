@@ -40,10 +40,15 @@ public class Transaction implements Serializable {
     
     @OneToOne
     private AuctionListingBid bid;
+    
+    private Long creditPackageQuantity;
 
     public Transaction() {
     }
     
+    public Transaction(Long creditPackageQuantity){
+        this.creditPackageQuantity = creditPackageQuantity;
+    }
     
 
     public Long getTransactionId() {
@@ -91,6 +96,20 @@ public class Transaction implements Serializable {
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    /**
+     * @return the creditPackageQuantity
+     */
+    public Long getCreditPackageQuantity() {
+        return creditPackageQuantity;
+    }
+
+    /**
+     * @param creditPackageQuantity the creditPackageQuantity to set
+     */
+    public void setCreditPackageQuantity(Long creditPackageQuantity) {
+        this.creditPackageQuantity = creditPackageQuantity;
     }
     
 }

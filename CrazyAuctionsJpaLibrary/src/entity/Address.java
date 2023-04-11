@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -28,8 +31,15 @@ public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(min = 1, max = 32)
     private String addressName;
+    @Column(nullable = false)
+    @NotNull
     private boolean associated;
+    @Column(nullable = false)
+    @NotNull
     private boolean enabled;
     
     @OneToMany(mappedBy = "address")
@@ -41,6 +51,7 @@ public class Address implements Serializable {
 
     public Address() {
         this.listOfWinningAuction = new ArrayList<AuctionListing>();
+        // enabled or associated be true
     }
 
     public Address(String addressName, boolean associated, boolean enabled) {

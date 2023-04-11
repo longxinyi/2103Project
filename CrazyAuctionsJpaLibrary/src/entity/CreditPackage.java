@@ -28,7 +28,7 @@ public class CreditPackage implements Serializable {
     private Long creditPackageId;
     private BigDecimal creditPrice;
     private String creditPackageType;
-    private BigDecimal creditPackageQuantity;
+    private Boolean isActive;
 
     @ManyToOne (optional = false)
     @JoinColumn
@@ -41,10 +41,10 @@ public class CreditPackage implements Serializable {
     public CreditPackage() {
     }
 
-    public CreditPackage(BigDecimal creditPrice, String creditPackageType, BigDecimal creditPackageQuantity) {
+    public CreditPackage(BigDecimal creditPrice, String creditPackageType, Boolean isActive) {
         this.creditPrice = creditPrice;
         this.creditPackageType = creditPackageType;
-        this.creditPackageQuantity = creditPackageQuantity;
+        this.isActive = isActive;
     }
     
 
@@ -112,15 +112,19 @@ public class CreditPackage implements Serializable {
     /**
      * @return the creditPackageQuantity
      */
-    public BigDecimal getCreditPackageQuantity() {
-        return creditPackageQuantity;
+
+    /**
+     * @return the isActive
+     */
+    public Boolean getIsActive() {
+        return isActive;
     }
 
     /**
-     * @param creditPackageQuantity the creditPackageQuantity to set
+     * @param isActive the isActive to set
      */
-    public void setCreditPackageQuantity(BigDecimal creditPackageQuantity) {
-        this.creditPackageQuantity = creditPackageQuantity;
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
     
 }

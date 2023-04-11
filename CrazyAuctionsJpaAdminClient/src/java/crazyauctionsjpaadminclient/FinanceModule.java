@@ -7,10 +7,18 @@ package crazyauctionsjpaadminclient;
 
 import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import entity.CreditPackage;
+import entity.Customer;
 import entity.Employee;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
+import javax.persistence.Query;
 import util.enumeration.AccessRightEnum;
+import util.exception.CreditPackageNotFoundException;
+import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.InvalidAccessRightException;
+import util.exception.UpdateCreditPackageException;
 
 /**
  *
@@ -31,7 +39,7 @@ public class FinanceModule {
         this.currentEmployee = currentEmployee;
     }
     
-    public void financeOperation() throws InvalidAccessRightException
+    public void financeOperation() throws InvalidAccessRightException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException
     {
         if(currentEmployee.getAccessRightEnum() != AccessRightEnum.FINANCE)
         {
@@ -87,13 +95,89 @@ public class FinanceModule {
     }
  
     
-    public void createCreditPackage(){}
+    public void createCreditPackage(){
+        Scanner scanner = new Scanner(System.in);
+        Integer response = 0;
+        BigDecimal price = new BigDecimal(0);
+        BigDecimal quantity = new BigDecimal(0);
+        while (true) {
+            response = 0;
+            quantity = new BigDecimal(0);
+            price = new BigDecimal(0);
+            System.out.println("*** Crazy Auction Create Credit Packages ***\n");
+            System.out.println("1: Key in Price of Credit Package");
+            System.out.println("2: Exit\n");
+            
+            while (response < 1 || response > 2) {
+                System.out.print("> ");
+                response = scanner.nextInt();
+                if(response ==1){
+                    System.out.println("What's the price set for Credit Package ?");
+                    System.out.print("> ");
+                    price = scanner.nextBigDecimal();
+                    Long creditPackageId = creditPackageSessionBeanRemote.createNewCreditPackage(price, null, false);
+                } else if (response == 2) {
+                    break;
+                
+                }
+            
+            }
+            if (response == 2) {
+                break;
+            }
+        }
+    }
     
-    public void viewCreditPackageDetails(){}
+    public void viewCreditPackageDetails() throws CreditTransactionHistoryNotFoundException{
+        Scanner scanner = new Scanner(System.in);
+        Integer response = 0;
+        System.out.println("*** View Credit Package Details ***");
+        System.out.println("Enter the credit package id to check");
+        System.out.print(">");
+        int creditPackageId = scanner.nextInt();
+        List<CreditPackage> listOfCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackage();
+        for (CreditPackage creditPackage : listOfCreditPackage) {
+            if(creditPackage.getCreditPackageId() == creditPackageId){
+                System.out.println("Name of Credit Package : Credit Package " + creditPackage.getCreditPackageId()+ " with the price of: $" + creditPackage.getCreditPrice() + " \n");
+        
+            }   
+        }
     
-    public void updateCreditPackage(){}
+    }
+    
+    public void updateCreditPackage() throws CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException{
+       Scanner scanner = new Scanner(System.in);
+       Integer response = 0;
+       System.out.println("*** Update Credit Package ***");
+       System.out.println("Enter the credit package id to update");
+       int creditPackageId = scanner.nextInt();
+       List<CreditPackage> listOfCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackage();
+        for (CreditPackage creditPackage : listOfCreditPackage) {
+            if(creditPackage.getCreditPackageId() == creditPackageId){
+               System.out.println("Enter the new price");
+               System.out.print(">");
+               BigDecimal newPrice = scanner.nextBigDecimal();
+               creditPackage.setCreditPrice(newPrice);
+               response=1; 
+               creditPackageSessionBeanRemote.updateCreditPackage(creditPackage);
+                
+            }
+        }
+        if (response==0){
+            System.out.println("Invalid Package Id inputted");
+        }
+        
+        
+        
+    }
     
     public void deleteCreditPackage(){}
     
-    public void viewAllCreditPackages(){}
+    public void viewAllCreditPackages() throws CreditTransactionHistoryNotFoundException{
+        List<CreditPackage> listOfCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackage();
+        for (CreditPackage creditPackage : listOfCreditPackage) {
+            System.out.println("Name of Credit Package : Credit Package " + creditPackage.getCreditPackageId()+ " with the price of: $" + creditPackage.getCreditPrice() + " \n");
+        }   
+        
+    }
 }
