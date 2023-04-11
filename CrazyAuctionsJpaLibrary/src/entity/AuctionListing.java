@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,6 +40,9 @@ public class AuctionListing implements Serializable {
     @NotNull
     @Size(min = 1, max = 32)
     private String auctionName;
+    @Column(precision = 18, scale = 4)
+    @DecimalMin("0.0000")
+    @Digits(integer = 14, fraction = 4)
     private BigDecimal reservePrice;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -48,6 +53,8 @@ public class AuctionListing implements Serializable {
     @Column(nullable = false)
     @NotNull
     private Date endDateTime;
+    @Column(nullable = false)
+    @NotNull
     private boolean active;
     
     
@@ -69,7 +76,7 @@ public class AuctionListing implements Serializable {
         this.reservePrice = reservePrice;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.active = active;
+        this.active = false;
         
     }
     
