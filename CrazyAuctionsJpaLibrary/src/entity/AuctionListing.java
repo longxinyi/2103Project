@@ -50,6 +50,7 @@ public class AuctionListing implements Serializable {
     private Date endDateTime;
     private boolean active;
     
+    
     @OneToMany
     private List<AuctionListingBid> auctionListingBids;
     
@@ -69,6 +70,7 @@ public class AuctionListing implements Serializable {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.active = active;
+        
     }
     
 

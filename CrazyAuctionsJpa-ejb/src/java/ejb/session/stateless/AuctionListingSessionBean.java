@@ -6,7 +6,10 @@
 package ejb.session.stateless;
 
 import entity.AuctionListing;
+import entity.AuctionListingBid;
 import entity.Customer;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,6 +35,9 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     
     
     public Long createNewAuctionListing(AuctionListing auctionListing){
+        
+        
+       
         em.persist(auctionListing);
         em.flush();
         
@@ -83,7 +89,83 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         return activeAuctions;
     }
 
+    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException{
+        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
+        query.setParameter("inAuctionName", auctionListingName);
+        AuctionListing auctionListing;
+        
+        try {
+            auctionListing = (AuctionListing) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new ListingNotFoundException("Listing Name: " + auctionListingName + " does not exist!");
+        }
+        
+        if(type == 1){
+            auctionListing.setAuctionName(newDetail);
+        } else if (type == 2){
+            auctionListing.setReservePrice(new BigDecimal(newDetail));
+        } else if (type == 3){
+            //auctionListing.setStartDateTime(newDetail);
+        } else if (type == 4){
+            //auctionListing.setEndDateTime(newDetail);
+        } else if (type == 5){
+            auctionListing.setActive(Boolean.valueOf(newDetail));
+        }
+        
+     
+    }
     
+    public void deleteAuctionListing(String auctionName) throws ListingNotFoundException
+    {
+        AuctionListing auctionListingToRemove;
+        try {
+        auctionListingToRemove = findListingByName(auctionName);
+        } catch (ListingNotFoundException e){
+            throw new ListingNotFoundException("Listing does not exist!");
+        }
+        
+        em.remove(auctionListingToRemove);
+       
+    }
     
+    public List<AuctionListing> viewAuctionListingsBelowReservePrice(){
+        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.active = false ");
+        
+        
+        List<AuctionListing> auctionListings = query.getResultList();
+        List<AuctionListing> belowReservePrice = new ArrayList<AuctionListing>();
+        for (AuctionListing auctionListing : auctionListings){
+            if (auctionListing.getAuctionListingBids().size() != 0){
+                if (auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size() - 1).getBidPrice().compareTo(auctionListing.getReservePrice()) == -1 ){
+                    belowReservePrice.add(auctionListing);
+                }
+            }
+        }
+        return belowReservePrice;
+       
+    }
+    
+    public void assignWinningBid(String auctionName){
+    //once closed
+        AuctionListing auctionListing = new AuctionListing();
+        try{
+            auctionListing = findListingByName(auctionName);
+        } catch (ListingNotFoundException e){
+            System.out.println("Listing Not Found, please try again");
+        }
+        
+        int size = auctionListing.getAuctionListingBids().size();
+        
+        if (size == 0){
+            auctionListing.setActive(false);
+        } else {
+            auctionListing.setActive(false);
+            AuctionListingBid winningBid = auctionListing.getAuctionListingBids().get(size - 1);
+            Customer winningCustomer = winningBid.getCustomer();
+
+            winningCustomer.getListOfWonAuctionListings().add(auctionListing);
+        }
+        
+    }
 
 }
