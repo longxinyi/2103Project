@@ -71,7 +71,7 @@ public class DataInitSessionBean {
             //addressSessionBeanLocal.createNewAddress(new Address("home", false, true));
             
             employeeSessionBeanLocal.createNewEmployee("Prof","Lek","manager","password", AccessRightEnum.SYSTEMADMIN);
-            
+            employeeSessionBeanLocal.createNewEmployee("Prof","Lek","manager1","password", AccessRightEnum.FINANCE);
         
             
         }

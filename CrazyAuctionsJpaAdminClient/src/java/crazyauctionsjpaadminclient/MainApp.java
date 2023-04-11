@@ -5,6 +5,7 @@
  */
 package crazyauctionsjpaadminclient;
 
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
 import java.util.Scanner;
@@ -24,6 +25,8 @@ public class MainApp {
     
     private EmployeeSessionBeanRemote employeeSessionBeanRemote;
     
+    private CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
+    
     private SystemAdminModule systemAdminModule;
     
     private FinanceModule financeModule;
@@ -35,9 +38,9 @@ public class MainApp {
         
     }
     
-    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote){
+    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote){
         this.employeeSessionBeanRemote = employeeSessionBeanRemote;
-        this.currentEmployee = currentEmployee;
+        this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
     }
     
     public void runApp() throws EmployeeNotFoundException, ListingNotFoundException{
@@ -61,7 +64,7 @@ public class MainApp {
                         System.out.println("Login successful!\n");
                         
                         systemAdminModule = new SystemAdminModule(employeeSessionBeanRemote, currentEmployee);
-                        financeModule = new FinanceModule();
+                        financeModule = new FinanceModule(creditPackageSessionBeanRemote, employeeSessionBeanRemote, currentEmployee );
                         salesModule = new SalesModule();
                         
 

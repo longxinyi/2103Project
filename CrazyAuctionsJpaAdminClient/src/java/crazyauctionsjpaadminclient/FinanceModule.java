@@ -5,6 +5,8 @@
  */
 package crazyauctionsjpaadminclient;
 
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
 import java.util.Scanner;
 import util.enumeration.AccessRightEnum;
@@ -17,10 +19,17 @@ import util.exception.InvalidAccessRightException;
 public class FinanceModule {
     
     private Employee currentEmployee;
+    private CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
+    private EmployeeSessionBeanRemote employeeSessionBeanRemote;
 
     public FinanceModule() {
     }
-    
+    public FinanceModule(CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, EmployeeSessionBeanRemote employeeSessionBeanRemote, Employee currentEmployee) 
+    {
+        this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
+        this.employeeSessionBeanRemote = employeeSessionBeanRemote;
+        this.currentEmployee = currentEmployee;
+    }
     
     public void financeOperation() throws InvalidAccessRightException
     {
