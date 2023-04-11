@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.CustomerNotFoundException;
+import util.exception.DeleteCreditPackageException;
 import util.exception.UpdateCreditPackageException;
 
 /**
@@ -115,6 +116,20 @@ public class CreditPackageSessionBean implements CreditPackageSessionBeanRemote,
             throw new CreditPackageNotFoundException("Credit Package not found!");
         }
         
+    }
+    public void deleteCreditPackage(Long creditPackageId) throws CreditPackageNotFoundException, DeleteCreditPackageException
+    {
+        CreditPackage creditPackageEntityToRemove = retrieveCreditPackageById(creditPackageId);
+        
+        if(creditPackageEntityToRemove.getIsActive() == false)
+        {
+            em.remove(creditPackageEntityToRemove);
+        }
+        else
+        {
+            // New in v4.1 to prevent deleting staff with existing sale transaction(s)
+            throw new DeleteCreditPackageException("Credit Package " + creditPackageId + " is associated with existing transaction(s) and cannot be deleted!");
+        }
     }
     
     

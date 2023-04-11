@@ -11,6 +11,7 @@ import entity.Employee;
 import java.util.Scanner;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
+import util.exception.DeleteCreditPackageException;
 import util.exception.EmployeeNotFoundException;
 import util.exception.InvalidAccessRightException;
 import util.exception.InvalidLoginCredentialException;
@@ -46,7 +47,7 @@ public class MainApp {
         this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
     }
     
-    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException{
+    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, DeleteCreditPackageException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -106,7 +107,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException  {
+    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, DeleteCreditPackageException  {
 
 
         Scanner scanner = new Scanner(System.in);

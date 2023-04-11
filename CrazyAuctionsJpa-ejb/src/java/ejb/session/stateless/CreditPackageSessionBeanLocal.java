@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
+import util.exception.DeleteCreditPackageException;
 import util.exception.UpdateCreditPackageException;
 
 /**
@@ -26,4 +27,5 @@ public interface CreditPackageSessionBeanLocal {
     public List<CreditPackage> retrieveCreditTransactionHistory(Customer customer) throws CreditTransactionHistoryNotFoundException;
     public List<CreditPackage> retrieveCreditPackage() throws CreditTransactionHistoryNotFoundException;
     public void updateCreditPackage(CreditPackage creditPackage) throws CreditPackageNotFoundException, UpdateCreditPackageException;
+    public void deleteCreditPackage(Long creditPackageId) throws CreditPackageNotFoundException, DeleteCreditPackageException;
 }

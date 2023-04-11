@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.Remote;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
+import util.exception.DeleteCreditPackageException;
 import util.exception.UpdateCreditPackageException;
 
 /**
@@ -27,4 +28,5 @@ public interface CreditPackageSessionBeanRemote {
     public List<CreditPackage> retrieveCreditPackage() throws CreditTransactionHistoryNotFoundException;
     public CreditPackage retrieveCreditPackageById(Long creditPackageId) throws CreditPackageNotFoundException ;
     public void updateCreditPackage(CreditPackage creditPackage) throws CreditPackageNotFoundException, UpdateCreditPackageException;
+    public void deleteCreditPackage(Long creditPackageId) throws CreditPackageNotFoundException, DeleteCreditPackageException;
 }

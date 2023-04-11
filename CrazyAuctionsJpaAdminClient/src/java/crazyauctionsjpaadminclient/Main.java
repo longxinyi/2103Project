@@ -10,6 +10,7 @@ import ejb.session.stateless.EmployeeSessionBeanRemote;
 import javax.ejb.EJB;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
+import util.exception.DeleteCreditPackageException;
 import util.exception.EmployeeNotFoundException;
 import util.exception.ListingNotFoundException;
 import util.exception.UpdateCreditPackageException;
@@ -31,7 +32,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException {
+    public static void main(String[] args) throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, DeleteCreditPackageException {
         // TODO code application logic here
         MainApp mainApp = new MainApp(employeeSessionBeanRemote, creditPackageSessionBeanRemote);
 

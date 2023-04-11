@@ -263,17 +263,20 @@ public class MainApp {
                 System.out.print("> ");
                 if (response == i) {
                     break;
+                } else if (response > i){
+                    System.out.println("Invalid Response, please try again");
                 } else {
-                    System.out.println("Invalid option, please try again!\n");
-                }
-                quantity = scanner.nextBigDecimal();
-                CreditPackage currentCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackageById(Long.valueOf(response));
-                //setactive
-                currentCreditPackage.setIsActive(Boolean.TRUE);
-                creditPackageSessionBeanRemote.updateCreditPackage(currentCreditPackage);
-                Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10)));
-                System.out.println("Successful Transaction: You have purchased " + quantity + " credit package");
+                    quantity = scanner.nextBigDecimal();
+                    CreditPackage currentCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackageById(Long.valueOf(response));
+                    //setactive
+                    currentCreditPackage.setIsActive(Boolean.TRUE);
+                    creditPackageSessionBeanRemote.updateCreditPackage(currentCreditPackage);
+                    Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10)));
+                    System.out.println("Successful Transaction: You have purchased " + quantity + " credit package "+currentCreditPackage.getCreditPackageId());
+
                 
+                   
+                }
                 
             }
             
