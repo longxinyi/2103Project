@@ -261,6 +261,11 @@ public class MainApp {
                 
                 System.out.println("How many quantity?");
                 System.out.print("> ");
+                if (response == i) {
+                    break;
+                } else {
+                    System.out.println("Invalid option, please try again!\n");
+                }
                 quantity = scanner.nextBigDecimal();
                 CreditPackage currentCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackageById(Long.valueOf(response));
                 //setactive
@@ -268,12 +273,8 @@ public class MainApp {
                 creditPackageSessionBeanRemote.updateCreditPackage(currentCreditPackage);
                 Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10)));
                 System.out.println("Successful Transaction: You have purchased " + quantity + " credit package");
-                System.out.println(i + "VALUE OF I");
-                if (response == i) {
-                    break;
-                } else {
-                    System.out.println("Invalid option, please try again!\n");
-                }
+                
+                
             }
             
             if (response == i){
