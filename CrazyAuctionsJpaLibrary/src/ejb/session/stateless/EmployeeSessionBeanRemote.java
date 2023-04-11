@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Employee;
+import java.util.List;
 import javax.ejb.Remote;
 import util.enumeration.AccessRightEnum;
 import util.exception.EmployeeNotFoundException;
@@ -24,4 +25,5 @@ public interface EmployeeSessionBeanRemote {
     public Employee retrieveEmployeeByUsername(String username) throws EmployeeNotFoundException;
     public Employee employeeLogin(String username, String password) throws InvalidLoginCredentialException;
     public void updateEmployeeProfile(Employee employee) throws EmployeeNotFoundException, UpdateEmployeeException;
+    public List<Employee> retrieveAllEmployees();
 }

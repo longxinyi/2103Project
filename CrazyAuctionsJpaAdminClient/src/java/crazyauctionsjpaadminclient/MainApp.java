@@ -33,8 +33,9 @@ public class MainApp {
         
     }
     
-    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote){
+    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote, Employee currentEmployee){
         this.employeeSessionBeanRemote = employeeSessionBeanRemote;
+        this.currentEmployee = currentEmployee;
     }
     
     public void runApp() throws EmployeeNotFoundException{
@@ -57,7 +58,7 @@ public class MainApp {
                         doLogin();
                         System.out.println("Login successful!\n");
                         
-                        SystemAdminModule systemAdminModule = new SystemAdminModule();
+                        SystemAdminModule systemAdminModule = new SystemAdminModule(employeeSessionBeanRemote, currentEmployee);
                         FinanceModule financeModule = new FinanceModule();
                         SalesModule salesModule = new SalesModule();
                         
@@ -181,6 +182,8 @@ public class MainApp {
         } catch (UpdateEmployeeException ex) {
             System.out.print("Password has been successfully changed! ");
         }
+        
+        
     }
         
     

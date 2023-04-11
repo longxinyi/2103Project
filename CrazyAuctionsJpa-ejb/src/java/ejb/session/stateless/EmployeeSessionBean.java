@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.Customer;
 import entity.Employee;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -92,27 +93,17 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
         }
     }
     
-    public void updateEmployeeProfile(Employee employee) throws EmployeeNotFoundException, UpdateEmployeeException{
-        if(employee != null && employee.getEmployeeId() != null)
-        {
-            Employee employeeToUpdate = retrieveEmployeeByUsername(employee.getUsername());
-            
-            if(employeeToUpdate.getUsername().equals(employee.getUsername()))
-            {
-                employeeToUpdate.setFirstName(employee.getFirstName());
-                employeeToUpdate.setLastName(employee.getLastName());
-                employeeToUpdate.setPassword(employee.getPassword());
-                
-            }
-            else
-            {
-                throw new UpdateEmployeeException("Username of user record to be updated does not match the existing record");
-            }
-        }
-        else
-        {
-            throw new EmployeeNotFoundException("User not found!");
-        }
+    public void updateEmployeeProfile(String username, String newDetail, int type) throws EmployeeNotFoundException, UpdateEmployeeException{
+       if(type == 1){
+           
+       }
+    }
+    
+    public List<Employee> retrieveAllEmployees() {
+
+        Query query = em.createQuery("SELECT s FROM StaffEntity s");
+
+        return query.getResultList();
         
     }
 

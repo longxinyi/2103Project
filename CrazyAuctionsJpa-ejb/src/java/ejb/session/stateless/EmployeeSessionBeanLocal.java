@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Employee;
+import java.util.List;
 import javax.ejb.Local;
 import util.enumeration.AccessRightEnum;
 import util.exception.EmployeeNotFoundException;
@@ -20,7 +21,7 @@ import util.exception.UpdateEmployeeException;
 @Local
 public interface EmployeeSessionBeanLocal {
     public Long createNewEmployee(Employee employee) throws EmployeeUsernameExistException;
-
+    public List<Employee> retrieveAllEmployees();
 
     public Employee createNewEmployee(String firstName, String lastName, String username, String password, AccessRightEnum accessRightEnum);
 

@@ -70,13 +70,12 @@ public class DataInitSessionBean {
             
             addressSessionBeanLocal.createNewAddress(new Address("home", false, true));
             
+            employeeSessionBeanLocal.createNewEmployee("Prof","Lek","manager","password", AccessRightEnum.SYSTEMADMIN);
+            
            
         }
         
-        if (em.find(Employee.class, 1l) == null){
-            employeeSessionBeanLocal.createNewEmployee("Prof","Lek","manager","password", AccessRightEnum.SYSTEMADMIN);
-            
-        }
+ 
     }
 
 }
