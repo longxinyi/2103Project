@@ -16,6 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -28,15 +32,30 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long CustomerId;
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(min = 1, max = 32)
     private String firstName;
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(min = 1, max = 32)
     private String lastName;
     
-    @Column(precision = 22, scale = 4)
+    @Column(nullable = false, precision = 18, scale = 4)
+    @NotNull
+    @DecimalMin("0.0000")
+    @Digits(integer = 14, fraction = 4)
     private BigDecimal creditBalance;
     private int postalCode;
     private int contactNumber;
     private String emailAddress;
+    @Column(nullable = false, unique = true, length = 32)
+    @NotNull
+    @Size(min = 5, max = 32)
     private String username;
+    @Column(nullable = false, length = 32)
+    @NotNull
+    @Size(min = 8, max = 32)
     private String password;
     //private String paymentDetails
     
@@ -51,16 +70,13 @@ public class Customer implements Serializable {
            
     @OneToMany(mappedBy = "customer")
     private List<Address> listOfAddresses;
-    
-    @OneToMany(mappedBy = "customer")
-    private List<CreditPackage> listOfCreditPackages;
+   
     
     @OneToMany(mappedBy = "customer")
     private List<AuctionListing> listOfWonAuctionListings;
 
     public Customer() {
         this.listOfAddresses = new ArrayList<Address>();
-        this.listOfCreditPackages = new ArrayList<CreditPackage>();
         this.listOfTransaction = new ArrayList<Transaction>();
         this.listOfAuctionListingBid = new ArrayList<AuctionListingBid>();
         this.listOfAuctionListings = new ArrayList<AuctionListing>();
@@ -294,19 +310,6 @@ public class Customer implements Serializable {
         this.listOfAuctionListingBid = listOfAuctionListingBid;
     }
 
-    /**
-     * @return the listOfCreditPackages
-     */
-    public List<CreditPackage> getListOfCreditPackages() {
-        return listOfCreditPackages;
-    }
-
-    /**
-     * @param listOfCreditPackages the listOfCreditPackages to set
-     */
-    public void setListOfCreditPackages(List<CreditPackage> listOfCreditPackages) {
-        this.listOfCreditPackages = listOfCreditPackages;
-    }
 
     /**
      * @return the listOfWonAuctionListings

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -29,6 +33,10 @@ public class AuctionListingBid implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long auctionListingBidId;
+    @Column(nullable = false, precision = 18, scale = 4)
+    @NotNull
+    @DecimalMin("0.0500")
+    @Digits(integer = 14, fraction = 4)
     private BigDecimal bidPrice;
     
     @OneToMany
@@ -38,10 +46,10 @@ public class AuctionListingBid implements Serializable {
     private Transaction bidTransaction;
     
     @OneToOne
-    private Customer customer;
+    private Customer customer; //@ManyToOne
     
     @ManyToOne(optional = false)
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private AuctionListing auction;
 
     public AuctionListingBid() {

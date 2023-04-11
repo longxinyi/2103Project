@@ -7,14 +7,22 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -27,12 +35,24 @@ public class Transaction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
-    private BigDecimal amount;
+    @Column(nullable = false, precision = 18, scale = 4)
+    @NotNull
+    @Digits(integer = 14, fraction = 4)
+    private BigDecimal transactionAmount;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    @NotNull
+    private Date timeOfTransaction;
+    @Column(nullable = false)
+    @NotNull
+    @Min(1)
+    private Integer quantity;
 
-    @OneToMany(mappedBy = "transaction")
-    private List<CreditPackage> creditPackage;
+    @OneToOne
+    private CreditPackage creditPackage;
     
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private Customer customer;
     
     @OneToOne
@@ -85,17 +105,17 @@ public class Transaction implements Serializable {
     }
 
     /**
-     * @return the amount
+     * @return the transactionAmount
      */
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getTransactionAmount() {
+        return transactionAmount;
     }
 
     /**
-     * @param amount the amount to set
+     * @param transactionAmount the transactionAmount to set
      */
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setTransactionAmount(BigDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
     /**

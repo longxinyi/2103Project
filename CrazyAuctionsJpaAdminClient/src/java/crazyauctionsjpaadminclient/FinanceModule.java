@@ -17,6 +17,7 @@ import javax.persistence.Query;
 import util.enumeration.AccessRightEnum;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
+import util.exception.DeleteCreditPackageException;
 import util.exception.InvalidAccessRightException;
 import util.exception.UpdateCreditPackageException;
 
@@ -39,7 +40,7 @@ public class FinanceModule {
         this.currentEmployee = currentEmployee;
     }
     
-    public void financeOperation() throws InvalidAccessRightException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException
+    public void financeOperation() throws InvalidAccessRightException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, DeleteCreditPackageException
     {
         if(currentEmployee.getAccessRightEnum() != AccessRightEnum.FINANCE)
         {
@@ -171,7 +172,15 @@ public class FinanceModule {
         
     }
     
-    public void deleteCreditPackage(){}
+    public void deleteCreditPackage() throws CreditPackageNotFoundException, DeleteCreditPackageException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("*** Remove Credit Package ***");
+        System.out.println("Enter the credit package id to update");
+        Long creditPackageId = scanner.nextLong();
+        creditPackageSessionBeanRemote.deleteCreditPackage(creditPackageId);
+        
+        System.out.println("Delete Credit Package "+creditPackageId+" Successfully");
+    }
     
     public void viewAllCreditPackages() throws CreditTransactionHistoryNotFoundException{
         List<CreditPackage> listOfCreditPackage = creditPackageSessionBeanRemote.retrieveCreditPackage();
