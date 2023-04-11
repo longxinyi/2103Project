@@ -42,7 +42,7 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
     
     public void placeNewBid(String auctionName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException {
         AuctionListingBid newBid = createNewBid(price);
-        Query query = em.createQuery("SELECT l FROM AuctionListing l WHERE l.auctionName := inAuctionName ");
+        Query query = em.createQuery("SELECT l FROM AuctionListing l WHERE l.auctionName = :inAuctionName");
         query.setParameter("inAuctionName", auctionName);
         AuctionListing currentListing;
         try{

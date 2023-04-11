@@ -68,14 +68,14 @@ public class DataInitSessionBean {
             
             auctionListingSessionBeanLocal.createNewAuctionListing(new AuctionListing("hello", new BigDecimal(0.5), new Date(123,4,7,8,00), new Date(123,5,7,8,00),true));
             
-            addressSessionBeanLocal.createNewAddress(new Address("home", false, true));
+            //addressSessionBeanLocal.createNewAddress(new Address("home", false, true));
             
             employeeSessionBeanLocal.createNewEmployee("Prof","Lek","manager","password", AccessRightEnum.SYSTEMADMIN);
             
            
+            employeeSessionBeanLocal.createNewEmployee("Prof","Lek","manager","password", AccessRightEnum.SYSTEMADMIN);
+            
         }
-        
- 
     }
 
 }
