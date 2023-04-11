@@ -60,9 +60,9 @@ public class MainApp {
                         doLogin();
                         System.out.println("Login successful!\n");
                         
-                        SystemAdminModule systemAdminModule = new SystemAdminModule(employeeSessionBeanRemote, currentEmployee);
-                        FinanceModule financeModule = new FinanceModule();
-                        SalesModule salesModule = new SalesModule();
+                        systemAdminModule = new SystemAdminModule(employeeSessionBeanRemote, currentEmployee);
+                        financeModule = new FinanceModule();
+                        salesModule = new SalesModule();
                         
 
                         menuMain();
