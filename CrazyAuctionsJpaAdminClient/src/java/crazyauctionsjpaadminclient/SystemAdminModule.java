@@ -102,7 +102,7 @@ public class SystemAdminModule {
         }
 
         try {
-            Long employeeId = employeeSessionBeanRemote.createNewEmployee(currentEmployee);
+            Long employeeId = employeeSessionBeanRemote.createNewEmployee(newEmployee);
 
         } catch (EmployeeUsernameExistException ex) {
             System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
@@ -224,11 +224,11 @@ public class SystemAdminModule {
         System.out.println("*** Crazy Auctions :: System Administration :: View All Staffs ***\n");
         
         List<Employee> employees = employeeSessionBeanRemote.retrieveAllEmployees();
-        System.out.printf("%20s%20s%15s%20s\n", "First Name", "Last Name", "Access Right", "Username");
+        
 
         for(Employee employee: employees)
         {
-            System.out.printf("%20s%20s%15s%\n", employee.getFirstName(), employee.getLastName(), employee.getAccessRightEnum().toString(), employee.getUsername());
+            System.out.println("Employee Name : " + employee.getFirstName() + employee.getLastName() + " with access right of : " + employee.getAccessRightEnum().toString() + " with username of : " + employee.getUsername());
         }
         
         System.out.print("Press any key to continue...> ");

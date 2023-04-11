@@ -166,7 +166,7 @@ public class MainApp {
                 }
             }
 
-            if (response == 9) {
+            if (response == 5) {
                 break;
 
             }
