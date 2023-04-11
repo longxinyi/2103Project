@@ -51,7 +51,7 @@ public class Customer implements Serializable {
     private String emailAddress;
     @Column(nullable = false, unique = true, length = 32)
     @NotNull
-    @Size(min = 6, max = 32)
+    @Size(min = 5, max = 32)
     private String username;
     @Column(nullable = false, length = 32)
     @NotNull

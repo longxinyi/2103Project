@@ -36,9 +36,9 @@ public class CreditPackage implements Serializable {
     @DecimalMin("0.0000")
     @Digits(integer = 14, fraction = 4)
     private BigDecimal creditPrice;
-    @Column(nullable = false, unique = true, length = 32)
-    @NotNull
-    @Size(min = 1, max = 32)
+//    @Column(nullable = false, unique = true, length = 32)
+//    @NotNull
+//    @Size(min = 1, max = 32)
     private String creditPackageType;
     @Column(nullable = false)
     @NotNull
