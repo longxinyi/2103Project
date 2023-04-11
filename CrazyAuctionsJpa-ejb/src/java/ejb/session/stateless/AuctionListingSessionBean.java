@@ -129,7 +129,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     }
     
     public List<AuctionListing> viewAuctionListingsBelowReservePrice(){
-        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.active = false ");
+        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.active = FALSE ");
         
         
         List<AuctionListing> auctionListings = query.getResultList();
