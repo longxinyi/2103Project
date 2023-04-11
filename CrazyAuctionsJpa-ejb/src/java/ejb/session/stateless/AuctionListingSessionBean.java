@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.ListingNotFoundException;
 
-import util.exception.AuctionListingNotFoundException;
+import util.exception.ListingNotFoundException;
 import util.exception.CustomerNotFoundException;
 
 
@@ -56,7 +56,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     
 
     @Override
-    public List<AuctionListing> retrieveAuctionListing() throws AuctionListingNotFoundException
+    public List<AuctionListing> retrieveAuctionListing() throws ListingNotFoundException
     {
         Query query = em.createQuery("SELECT a FROM AuctionListing a ");
         
@@ -66,7 +66,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         }
         catch(NoResultException | NonUniqueResultException ex)
         {
-            throw new AuctionListingNotFoundException("Auction Listing not ready!");
+            throw new ListingNotFoundException("Auction Listing not ready!");
         }
     }
     

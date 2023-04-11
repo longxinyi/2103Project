@@ -93,10 +93,28 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
         }
     }
     
-    public void updateEmployeeProfile(String username, String newDetail, int type) throws EmployeeNotFoundException, UpdateEmployeeException{
-       if(type == 1){
-           
-       }
+    public void updateEmployeeProfile(Employee employee) throws EmployeeNotFoundException, UpdateEmployeeException{
+        if(employee != null && employee.getEmployeeId() != null)
+        {
+            Employee employeeToUpdate = retrieveEmployeeByUsername(employee.getUsername());
+            
+            if(employeeToUpdate.getUsername().equals(employee.getUsername()))
+            {
+                employeeToUpdate.setFirstName(employee.getFirstName());
+                employeeToUpdate.setLastName(employee.getLastName());
+                employeeToUpdate.setPassword(employee.getPassword());
+                
+            }
+            else
+            {
+                throw new UpdateEmployeeException("Username of user record to be updated does not match the existing record");
+            }
+        }
+        else
+        {
+            throw new EmployeeNotFoundException("User not found!");
+        }
+        
     }
     
     public List<Employee> retrieveAllEmployees() {
@@ -105,6 +123,28 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
 
         return query.getResultList();
         
+    }
+    
+    public void updateEmployeeProfileByAdmin(String username, String newDetail, int type) throws EmployeeNotFoundException, UpdateEmployeeException{
+        Query query = em.createQuery("SELECT e from EMPLOYEE e WHERE e.username = :inUsername");
+        query.setParameter("inUsername", username);
+        Employee currentEmployee;
+        
+        try {
+            currentEmployee = (Employee) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new EmployeeNotFoundException("Employee Username " + username + " does not exist!");
+        }
+        
+        if(type == 1){
+            currentEmployee.setFirstName(newDetail);
+        } else if (type == 2){
+            currentEmployee.setLastName(newDetail);
+        } else if (type == 3){
+            currentEmployee.setUsername(newDetail);
+        } else if (type == 4){
+            currentEmployee.setPassword(newDetail);
+        }
     }
 
    

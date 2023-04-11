@@ -23,7 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 import util.exception.AddressNotFoundException;
-import util.exception.AuctionListingNotFoundException;
+import util.exception.ListingNotFoundException;
 import util.exception.ImposterWinnerException;
 
 /**
@@ -48,7 +48,7 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
     }
     
     
-    public void selectAddressForWinningBid(String addressName, Customer customer, String wonListing) throws AddressNotFoundException, AuctionListingNotFoundException, ImposterWinnerException{
+    public void selectAddressForWinningBid(String addressName, Customer customer, String wonListing) throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException{
         //check if address input exists, if not create new one, associate with address
         Query query1 = em.createQuery("SELECT a from Address a WHERE a.addressName = :inAddressName");
         query1.setParameter("inAddressName", addressName);
@@ -67,7 +67,7 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
             }
            
         } catch(NoResultException | NonUniqueResultException ex) {
-            throw new AuctionListingNotFoundException("Auction Listing not found, please add address!");
+            throw new ListingNotFoundException("Auction Listing not found, please add address!");
             
         }
         

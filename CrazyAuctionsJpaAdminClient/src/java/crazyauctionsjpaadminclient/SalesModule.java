@@ -5,10 +5,15 @@
  */
 package crazyauctionsjpaadminclient;
 
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
+import entity.AuctionListing;
 import entity.Employee;
+import java.util.List;
 import java.util.Scanner;
 import util.enumeration.AccessRightEnum;
+import util.exception.ListingNotFoundException;
 import util.exception.InvalidAccessRightException;
+import util.exception.ListingNotFoundException;
 
 /**
  *
@@ -17,14 +22,20 @@ import util.exception.InvalidAccessRightException;
 public class SalesModule {
     
     private Employee currentEmployee;
+    
+    private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
 
     public SalesModule() {
+    }
+
+    public SalesModule(AuctionListingSessionBeanRemote auctionListingSessionBeanRemote) {
+        this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
     }
     
     
     
     
-    public void salesOperation() throws InvalidAccessRightException
+    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException
     {
         if(currentEmployee.getAccessRightEnum() != AccessRightEnum.SALES)
         {
@@ -93,10 +104,32 @@ public class SalesModule {
     
 
     public void createAuctionListing(){}
-    public void viewAuctionListingDetails(){}
+    
+    public void viewAuctionListingDetails() throws ListingNotFoundException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter auction listing name > ");
+        String auctionListingName = scanner.nextLine().trim();
+        AuctionListing auctionListing;
+        try{
+            auctionListing = auctionListingSessionBeanRemote.findListingByName(auctionListingName);
+            System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size() - 1).getBidPrice());
+        } catch (ListingNotFoundException e){
+            throw new ListingNotFoundException("Listing not found, please try again");
+        }
+    }
     public void updateAuctionListing(){}
     public void deleteAuctionListing(){}
-    public void viewAllAuctionListing(){}
+    
+    public void viewAllAuctionListing() throws ListingNotFoundException{
+        try {
+            List<AuctionListing> activeAuctions = auctionListingSessionBeanRemote.retrieveAuctionListing();
+            for (AuctionListing auctionListing : activeAuctions) {
+                System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+            }
+        } catch (ListingNotFoundException e){
+            throw new ListingNotFoundException("No Listings found!");
+        }
+    }
     public void assignWinningBid(){}
     
 }

@@ -11,6 +11,7 @@ import java.util.Scanner;
 import util.exception.EmployeeNotFoundException;
 import util.exception.InvalidAccessRightException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ListingNotFoundException;
 import util.exception.UpdateEmployeeException;
 
 /**
@@ -34,12 +35,12 @@ public class MainApp {
         
     }
     
-    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote, Employee currentEmployee){
+    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote){
         this.employeeSessionBeanRemote = employeeSessionBeanRemote;
         this.currentEmployee = currentEmployee;
     }
     
-    public void runApp() throws EmployeeNotFoundException{
+    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -99,7 +100,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain() throws EmployeeNotFoundException  {
+    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException  {
 
 
         Scanner scanner = new Scanner(System.in);

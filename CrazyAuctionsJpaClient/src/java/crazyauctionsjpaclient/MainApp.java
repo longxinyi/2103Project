@@ -17,7 +17,7 @@ import entity.Customer;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
-import util.exception.AuctionListingNotFoundException;
+import util.exception.ListingNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.AddressNotFoundException;
 import util.exception.BidIncrementException;
@@ -59,7 +59,7 @@ public class MainApp {
 
     }
 
-    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, AuctionListingNotFoundException, ImposterWinnerException {
+    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -155,7 +155,7 @@ public class MainApp {
 
     }
 
-    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, AuctionListingNotFoundException, ImposterWinnerException {
+    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -336,7 +336,7 @@ public class MainApp {
                 }
             }
 
-        } catch (AuctionListingNotFoundException ex) {
+        } catch (ListingNotFoundException ex) {
             System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
         }
     }
@@ -383,7 +383,7 @@ public class MainApp {
 
     ;
     
-    public void selectDeliveryAddress() throws AddressNotFoundException, AuctionListingNotFoundException, ImposterWinnerException {
+    public void selectDeliveryAddress() throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter address name > ");
         String addressName = scanner.nextLine().trim();

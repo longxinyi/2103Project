@@ -32,7 +32,7 @@ public class SystemAdminModule {
         this.currentEmployee = currentEmployee;
     }
 
-    public void systemAdminOperation() throws InvalidAccessRightException {
+    public void systemAdminOperation() throws InvalidAccessRightException, EmployeeNotFoundException {
         if (currentEmployee.getAccessRightEnum() != AccessRightEnum.SYSTEMADMIN) {
             throw new InvalidAccessRightException("You don't have SYSTEM ADMIN rights to access the system administration module.");
         }
@@ -130,7 +130,7 @@ public class SystemAdminModule {
 
     }
 
-    public void updateEmployee() {
+    public void updateEmployee() throws EmployeeNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
         
@@ -159,7 +159,7 @@ public class SystemAdminModule {
                     try {
                         System.out.print("Enter New First Name> ");
                         String newFirstName = newScanner.nextLine().trim();
-                        employeeSessionBeanRemote.updateEmployeeProfile(username, newFirstName, 1);
+                        employeeSessionBeanRemote.updateEmployeeProfileByAdmin(username, newFirstName, 1);
 
                     } catch (UpdateEmployeeException ex) {
                         System.out.print("There was an error, please try again ");
@@ -171,7 +171,7 @@ public class SystemAdminModule {
                     try {
                         System.out.print("Enter New Last Name> ");
                         String newLastName = newScanner.nextLine().trim();
-                        employeeSessionBeanRemote.updateEmployeeProfile(username, newLastName, 2);
+                        employeeSessionBeanRemote.updateEmployeeProfileByAdmin(username, newLastName, 2);
 
                     } catch (UpdateEmployeeException ex) {
                         System.out.print("There was an error, please try again ");
@@ -181,7 +181,7 @@ public class SystemAdminModule {
                     try {
                         System.out.print("Enter New username> ");
                         String newUsername = newScanner.nextLine().trim();
-                        employeeSessionBeanRemote.updateEmployeeProfile(username, newUsername, 3);
+                        employeeSessionBeanRemote.updateEmployeeProfileByAdmin(username, newUsername, 3);
 
                     } catch (UpdateEmployeeException ex) {
                         System.out.print("There was an error, please try again ");
@@ -191,7 +191,7 @@ public class SystemAdminModule {
                      try {
                         System.out.print("Enter New Password> ");
                         String newPassword = newScanner.nextLine().trim();
-                        employeeSessionBeanRemote.updateEmployeeProfile(username, newPassword, 4);
+                        employeeSessionBeanRemote.updateEmployeeProfileByAdmin(username, newPassword, 4);
 
                     } catch (UpdateEmployeeException ex) {
                         System.out.print("There was an error, please try again ");
@@ -223,7 +223,7 @@ public class SystemAdminModule {
         
         System.out.println("*** Crazy Auctions :: System Administration :: View All Staffs ***\n");
         
-        List<Employee> employees = employeeSessionBeanRemote.retrieveAllStaffs();
+        List<Employee> employees = employeeSessionBeanRemote.retrieveAllEmployees();
         System.out.printf("%20s%20s%15s%20s\n", "First Name", "Last Name", "Access Right", "Username");
 
         for(Employee employee: employees)

@@ -10,7 +10,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import util.exception.ListingNotFoundException;
-import util.exception.AuctionListingNotFoundException;
+import util.exception.ListingNotFoundException;
 
 /**
  *
@@ -20,7 +20,7 @@ import util.exception.AuctionListingNotFoundException;
 public interface AuctionListingSessionBeanRemote {
     public Long createNewAuctionListing(AuctionListing auctionListing);
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException;
-    public List<AuctionListing> retrieveAuctionListing() throws AuctionListingNotFoundException;
+    public List<AuctionListing> retrieveAuctionListing() throws ListingNotFoundException;
     public List<AuctionListing> viewActiveListings() throws ListingNotFoundException;
             
 }

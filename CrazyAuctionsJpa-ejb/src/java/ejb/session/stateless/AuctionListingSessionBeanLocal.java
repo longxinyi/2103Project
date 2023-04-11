@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 import util.exception.ListingNotFoundException;
 
-import util.exception.AuctionListingNotFoundException;
+import util.exception.ListingNotFoundException;
 
 
 /**
@@ -25,6 +25,6 @@ public interface AuctionListingSessionBeanLocal {
 
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException;
 
-    public List<AuctionListing> retrieveAuctionListing() throws AuctionListingNotFoundException;
+    public List<AuctionListing> retrieveAuctionListing() throws ListingNotFoundException;
     public List<AuctionListing> viewActiveListings() throws ListingNotFoundException;
 }
