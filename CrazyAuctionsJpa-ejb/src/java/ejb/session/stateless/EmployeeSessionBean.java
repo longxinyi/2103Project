@@ -119,14 +119,14 @@ public class EmployeeSessionBean implements EmployeeSessionBeanRemote, EmployeeS
     
     public List<Employee> retrieveAllEmployees() {
 
-        Query query = em.createQuery("SELECT s FROM StaffEntity s");
+        Query query = em.createQuery("SELECT e FROM Employee e");
 
         return query.getResultList();
         
     }
     
     public void updateEmployeeProfileByAdmin(String username, String newDetail, int type) throws EmployeeNotFoundException, UpdateEmployeeException{
-        Query query = em.createQuery("SELECT e from EMPLOYEE e WHERE e.username = :inUsername");
+        Query query = em.createQuery("SELECT e FROM Employee e WHERE e.username = :inUsername");
         query.setParameter("inUsername", username);
         Employee currentEmployee;
         
