@@ -5,8 +5,10 @@
  */
 package crazyauctionsjpaadminclient;
 
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
+import java.text.ParseException;
 import javax.ejb.EJB;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
@@ -20,6 +22,9 @@ import util.exception.UpdateCreditPackageException;
  */
 public class Main {
 
+    @EJB(name = "AuctionListingSessionBeanRemote")
+    private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
+
     @EJB(name = "CreditPackageSessionBeanRemote")
     private static CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
 
@@ -31,9 +36,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException {
+    public static void main(String[] args) throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException {
         // TODO code application logic here
-        MainApp mainApp = new MainApp(employeeSessionBeanRemote, creditPackageSessionBeanRemote);
+        MainApp mainApp = new MainApp(employeeSessionBeanRemote, creditPackageSessionBeanRemote, auctionListingSessionBeanRemote);
 
         mainApp.runApp();
     }

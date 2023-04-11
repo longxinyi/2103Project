@@ -5,9 +5,11 @@
  */
 package crazyauctionsjpaadminclient;
 
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.EmployeeSessionBeanRemote;
 import entity.Employee;
+import java.text.ParseException;
 import java.util.Scanner;
 import util.exception.CreditPackageNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
@@ -35,18 +37,23 @@ public class MainApp {
     private FinanceModule financeModule;
     
     private SalesModule salesModule;
+    
+    private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
+    
+    
 
     
     public MainApp() {
         
     }
     
-    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote){
+    public MainApp(EmployeeSessionBeanRemote employeeSessionBeanRemote, CreditPackageSessionBeanRemote creditPackageSessionBeanRemote, AuctionListingSessionBeanRemote auctionListingSessionBeanRemote){
         this.employeeSessionBeanRemote = employeeSessionBeanRemote;
         this.creditPackageSessionBeanRemote = creditPackageSessionBeanRemote;
+        this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
     }
     
-    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException{
+    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -68,7 +75,7 @@ public class MainApp {
                         
                         systemAdminModule = new SystemAdminModule(employeeSessionBeanRemote, currentEmployee);
                         financeModule = new FinanceModule(creditPackageSessionBeanRemote, employeeSessionBeanRemote, currentEmployee );
-                        salesModule = new SalesModule();
+                        salesModule = new SalesModule(auctionListingSessionBeanRemote, currentEmployee);
                         
 
                         menuMain();
@@ -106,7 +113,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException  {
+    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException  {
 
 
         Scanner scanner = new Scanner(System.in);

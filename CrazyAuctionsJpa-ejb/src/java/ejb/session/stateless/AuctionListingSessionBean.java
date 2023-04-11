@@ -47,8 +47,8 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
 
     public AuctionListing findListingByName(String auctionName) throws ListingNotFoundException
     {
-        Query query = em.createQuery("SELECT l FROM Listing l WHERE l.auctionName = :inname");
-        query.setParameter("inname", auctionName);
+        Query query = em.createQuery("SELECT l FROM AuctionListing l WHERE l.auctionName = :inauctionName");
+        query.setParameter("inauctionName", auctionName);
         
         try
         {

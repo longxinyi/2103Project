@@ -9,6 +9,8 @@ import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import entity.AuctionListing;
 import entity.Employee;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -28,6 +30,8 @@ public class SalesModule {
     private Employee currentEmployee;
     
     private AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
+    
+    
 
     public SalesModule() {
     }
@@ -40,7 +44,7 @@ public class SalesModule {
     
     
     
-    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException
+    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException, ParseException
     {
         if(currentEmployee.getAccessRightEnum() != AccessRightEnum.SALES)
         {
@@ -113,39 +117,29 @@ public class SalesModule {
     }
     
 
-    public void createAuctionListing() throws ListingNotFoundException{
+    public void createAuctionListing() throws ListingNotFoundException, ParseException{
     //not visible to customers until start date time is reached
         Scanner scanner = new Scanner(System.in);
         AuctionListing newAuctionListing = new AuctionListing();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
-        //public AuctionListing(String auctionName, BigDecimal reservePrice, Date startDateTime, Date endDateTime, boolean active)
-        
-        System.out.println("*** Crazy Auctions :: System Administration :: Create New Auction Listing ***\n");
-        System.out.print("Enter Auction Name> ");
+        System.out.println("*** Crazy Auctions :: Sales :: Create New Auction Listing ***\n");
+        System.out.print("Enter Auction Name > ");
         String auctionName = scanner.nextLine().trim();
         newAuctionListing.setAuctionName(auctionName);
-        System.out.print("Enter Reserve Price> ");
+        System.out.print("Enter Reserve Price > ");
         newAuctionListing.setReservePrice(new BigDecimal(scanner.nextLine().trim()));
-        System.out.print("Enter Start Date Time (YYYYMMDDHHMM) > ");
-        //newAuctionListing.setStartDateTime(scanner.nextLine().trim());
-        System.out.print("Enter End Date Time (YYYYMMDDHHMM) > ");
-        //newAuctionListing.setEndDateTime(scanner.nextInt());        
-        System.out.print("Set Active or Inactive > $");
+        System.out.print("Enter Start Date Time (YYYY-MM-DD HH:MM:SS) > ");
+        newAuctionListing.setStartDateTime(format.parse(scanner.nextLine().trim()));
+        System.out.print("Enter End Date Time (YYYY-MM-DD HH:MM:SS) > ");
+        newAuctionListing.setEndDateTime(format.parse(scanner.nextLine().trim()));        
         newAuctionListing.setActive(true);
-        scanner.nextLine();
         
         
-        try
-        {
-            auctionListingSessionBeanRemote.findListingByName(auctionName);
-           
-        }
-        catch(ListingNotFoundException ex)
-        {
-            Long newAuctionListingId = auctionListingSessionBeanRemote.createNewAuctionListing(newAuctionListing);
-            
-            System.out.println("New auction listing created successfully!: " + newAuctionListing.getAuctionListingId() + "\n");
-        }
+        Long newAuctionListingId = auctionListingSessionBeanRemote.createNewAuctionListing(newAuctionListing);
+        
+        System.out.println("New auction listing created successfully!: " + newAuctionListing.getAuctionListingId() + "\n");
+
     }
     
     public void viewAuctionListingDetails() throws ListingNotFoundException{
