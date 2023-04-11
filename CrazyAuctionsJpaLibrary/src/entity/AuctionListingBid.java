@@ -100,5 +100,61 @@ public class AuctionListingBid implements Serializable {
     public void setBidPrice(BigDecimal bidPrice) {
         this.bidPrice = bidPrice;
     }
+
+    /**
+     * @return the listOfRefundTransaction
+     */
+    public List<Transaction> getListOfRefundTransaction() {
+        return listOfRefundTransaction;
+    }
+
+    /**
+     * @param listOfRefundTransaction the listOfRefundTransaction to set
+     */
+    public void setListOfRefundTransaction(List<Transaction> listOfRefundTransaction) {
+        this.listOfRefundTransaction = listOfRefundTransaction;
+    }
+
+    /**
+     * @return the bidTransaction
+     */
+    public Transaction getBidTransaction() {
+        return bidTransaction;
+    }
+
+    /**
+     * @param bidTransaction the bidTransaction to set
+     */
+    public void setBidTransaction(Transaction bidTransaction) {
+        this.bidTransaction = bidTransaction;
+    }
+
+    /**
+     * @return the customer
+     */
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * @return the auction
+     */
+    public AuctionListing getAuction() {
+        return auction;
+    }
+
+    /**
+     * @param auction the auction to set
+     */
+    public void setAuction(AuctionListing auction) {
+        this.auction = auction;
+    }
     
 }

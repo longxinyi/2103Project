@@ -27,4 +27,7 @@ public interface AuctionListingSessionBeanLocal {
 
     public List<AuctionListing> retrieveAuctionListing() throws ListingNotFoundException;
     public List<AuctionListing> viewActiveListings() throws ListingNotFoundException;
+    public void deleteAuctionListing(String auctionName) throws ListingNotFoundException;
+    public List<AuctionListing> viewAuctionListingsBelowReservePrice();
+    public void assignWinningBid(String auctionName);
 }
