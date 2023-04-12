@@ -44,14 +44,14 @@ public class AuctionListing implements Serializable {
     @DecimalMin("0.0000")
     @Digits(integer = 14, fraction = 4)
     private BigDecimal reservePrice;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    @NotNull
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(nullable = false)
+//    @NotNull
     private Date startDateTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Future
-    @Column(nullable = false)
-    @NotNull
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Future
+//    @Column(nullable = false)
+//    @NotNull
     private Date endDateTime;
     @Column(nullable = false)
     @NotNull
