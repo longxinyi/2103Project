@@ -182,6 +182,15 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         
     }
     
+    public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException{
+        AuctionListing auctionListing = findListingByName(auctionName);
+        List<AuctionListingBid> auctionListingBids = auctionListing.getAuctionListingBids();
+        int size = auctionListingBids.size();
+        AuctionListingBid highestBid = auctionListingBids.get(size - 1);
+        return highestBid;
+        
+    }
+    
     public TimerHandle newTimer(Date date, AuctionListing auctionListing){
         Timer timer = timerService.createTimer(date, auctionListing);
         System.out.println("TIMER CREATED");

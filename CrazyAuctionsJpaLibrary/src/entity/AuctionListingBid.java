@@ -48,8 +48,8 @@ public class AuctionListingBid implements Serializable {
     @OneToOne
     private Customer customer; //@ManyToOne
     
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne //(optional = false)
+    //@JoinColumn(nullable = false)
     private AuctionListing auction;
 
     public AuctionListingBid() {

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AuctionListing;
+import entity.AuctionListingBid;
 import java.text.ParseException;
 import java.util.List;
 import javax.ejb.Remote;
@@ -27,5 +28,5 @@ public interface AuctionListingSessionBeanRemote {
     public List<AuctionListing> viewAuctionListingsBelowReservePrice();
     public void assignWinningBid(String auctionName);
     public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException;
-            
+    public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException;
 }
