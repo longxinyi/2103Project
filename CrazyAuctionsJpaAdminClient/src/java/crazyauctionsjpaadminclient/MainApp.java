@@ -54,7 +54,7 @@ public class MainApp {
         this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
     }
     
-    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException{
+    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException, DeleteCreditPackageException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -114,7 +114,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException  {
+    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException, DeleteCreditPackageException  {
 
 
         Scanner scanner = new Scanner(System.in);

@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Timer;
+import javax.ejb.TimerHandle;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,19 +46,20 @@ public class AuctionListing implements Serializable {
     @DecimalMin("0.0000")
     @Digits(integer = 14, fraction = 4)
     private BigDecimal reservePrice;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    @NotNull
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(nullable = false)
+//    @NotNull
     private Date startDateTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Future
-    @Column(nullable = false)
-    @NotNull
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Future
+//    @Column(nullable = false)
+//    @NotNull
     private Date endDateTime;
     @Column(nullable = false)
     @NotNull
     private boolean active;
     
+    private TimerHandle timerHandle;
     
     @OneToMany
     private List<AuctionListingBid> auctionListingBids;
@@ -71,12 +74,13 @@ public class AuctionListing implements Serializable {
     public AuctionListing() {
     }
 
-    public AuctionListing(String auctionName, BigDecimal reservePrice, Date startDateTime, Date endDateTime, boolean active) {
+    public AuctionListing(String auctionName, BigDecimal reservePrice, Date startDateTime, Date endDateTime, boolean active, TimerHandle timerHandle) {
         this.auctionName = auctionName;
         this.reservePrice = reservePrice;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.active = false;
+        this.timerHandle = timerHandle;
         
     }
     
@@ -225,5 +229,22 @@ public class AuctionListing implements Serializable {
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
     }
+
+    /**
+     * @return the timer
+     */
+    public TimerHandle getTimerHandle() {
+        return timerHandle;
+    }
+
+    /**
+     * @param timer the timer to set
+     */
+    public void setTimerHandle(TimerHandle timerHandle) {
+        this.timerHandle = timerHandle;
+    }
+    
+    
+
     
 }

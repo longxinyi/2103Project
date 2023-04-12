@@ -9,14 +9,24 @@ import entity.AuctionListing;
 import entity.AuctionListingBid;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.ejb.Timeout;
+import javax.ejb.Timer;
+import javax.ejb.TimerHandle;
+import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+
 import util.exception.ListingNotFoundException;
 
 import util.exception.ListingNotFoundException;
@@ -28,18 +38,21 @@ import util.exception.CustomerNotFoundException;
  * @author xinyi
  */
 @Stateless
-public class AuctionListingSessionBean implements AuctionListingSessionBeanRemote, AuctionListingSessionBeanLocal {
+public class AuctionListingSessionBean implements AuctionListingSessionBeanRemote, AuctionListingSessionBeanLocal{
 
+    @Resource
+    private TimerService timerService;
+    
     @PersistenceContext(unitName = "CrazyAuctionsJpa-ejbPU")
     private EntityManager em;
     
     
     public Long createNewAuctionListing(AuctionListing auctionListing){
-        
-        
-       
         em.persist(auctionListing);
         em.flush();
+        TimerHandle newStartTimer = newTimer(auctionListing.getStartDateTime(), auctionListing);
+        auctionListing.setTimerHandle(newStartTimer);
+        
         
         return auctionListing.getAuctionListingId();
     }
@@ -89,10 +102,11 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         return activeAuctions;
     }
 
-    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException{
+    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException{
         Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
         query.setParameter("inAuctionName", auctionListingName);
         AuctionListing auctionListing;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
         try {
             auctionListing = (AuctionListing) query.getSingleResult();
@@ -105,9 +119,9 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         } else if (type == 2){
             auctionListing.setReservePrice(new BigDecimal(newDetail));
         } else if (type == 3){
-            //auctionListing.setStartDateTime(newDetail);
+            auctionListing.setStartDateTime(format.parse(newDetail));
         } else if (type == 4){
-            //auctionListing.setEndDateTime(newDetail);
+            auctionListing.setEndDateTime(format.parse(newDetail));
         } else if (type == 5){
             auctionListing.setActive(Boolean.valueOf(newDetail));
         }
@@ -166,6 +180,31 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
             winningCustomer.getListOfWonAuctionListings().add(auctionListing);
         }
         
+    }
+    
+    public TimerHandle newTimer(Date date, AuctionListing auctionListing){
+        Timer timer = timerService.createTimer(date, auctionListing);
+        return timer.getHandle();
+        
+    }
+    
+    @Timeout
+    public void timeout(Timer timer){
+        //change active status
+        
+        AuctionListing auctionListing = (AuctionListing) timer.getInfo();
+        
+        if(auctionListing.isActive() == false){
+            auctionListing.setActive(true);
+            TimerHandle newEndTimer = newTimer(auctionListing.getEndDateTime(), auctionListing);
+            auctionListing.setTimerHandle(newEndTimer);
+            
+        } else {
+            //if listing is active
+            auctionListing.setActive(false);
+            
+            
+        }
     }
 
 }

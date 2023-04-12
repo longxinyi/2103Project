@@ -38,7 +38,7 @@ public class Employee implements Serializable {
     private String lastName;
     @Column(nullable = false, unique = true, length = 32)
     @NotNull
-    @Size(min = 6, max = 32)
+    @Size(min = 5, max = 32)
     private String username;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

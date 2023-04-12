@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import static oracle.jrockit.jfr.events.Bits.doubleValue;
 import util.exception.BidIncrementException;
 import util.exception.InvalidBidIncrementException;
+import util.exception.ListingNotActiveException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
 
@@ -40,7 +41,7 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
         return newBid;
     }
     
-    public void placeNewBid(String auctionName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException {
+    public void placeNewBid(String auctionName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException {
         AuctionListingBid newBid = createNewBid(price);
         Query query = em.createQuery("SELECT l FROM AuctionListing l WHERE l.auctionName = :inAuctionName");
         query.setParameter("inAuctionName", auctionName);
@@ -49,6 +50,10 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
             currentListing = (AuctionListing) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException ex){
             throw new ListingNotFoundException("Listing not found, please try again");
+        }
+        
+        if (currentListing.isActive() == false){
+            throw new ListingNotActiveException("Listing Not Active, please try again!");
         }
         
         List<AuctionListingBid> listingBids = currentListing.getAuctionListingBids();

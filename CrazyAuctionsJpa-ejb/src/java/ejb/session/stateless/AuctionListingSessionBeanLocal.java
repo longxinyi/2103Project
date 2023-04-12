@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AuctionListing;
+import java.text.ParseException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,6 @@ public interface AuctionListingSessionBeanLocal {
     public List<AuctionListing> viewActiveListings() throws ListingNotFoundException;
     public void deleteAuctionListing(String auctionName) throws ListingNotFoundException;
     public List<AuctionListing> viewAuctionListingsBelowReservePrice();
+    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException;
     public void assignWinningBid(String auctionName);
 }

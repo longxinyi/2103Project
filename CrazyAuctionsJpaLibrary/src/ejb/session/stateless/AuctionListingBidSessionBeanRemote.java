@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import javax.ejb.Remote;
 import util.exception.BidIncrementException;
 import util.exception.InvalidBidIncrementException;
+import util.exception.ListingNotActiveException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
 
@@ -21,5 +22,5 @@ import util.exception.MinimumBidException;
 @Remote
 public interface AuctionListingBidSessionBeanRemote {
     public AuctionListingBid createNewBid(BigDecimal price);
-    public void placeNewBid(String listingName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException;
+    public void placeNewBid(String listingName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException;
 }
