@@ -20,6 +20,7 @@ import util.exception.InvalidLoginCredentialException;
 import util.exception.ListingNotFoundException;
 import util.exception.UpdateCreditPackageException;
 import util.exception.UpdateEmployeeException;
+import util.exception.WrongDateException;
 
 /**
  *
@@ -54,7 +55,7 @@ public class MainApp {
         this.auctionListingSessionBeanRemote = auctionListingSessionBeanRemote;
     }
     
-    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException, DeleteCreditPackageException{
+    public void runApp() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException, DeleteCreditPackageException, WrongDateException{
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -114,7 +115,7 @@ public class MainApp {
         }
     }
     
-    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException, DeleteCreditPackageException  {
+    private void menuMain() throws EmployeeNotFoundException, ListingNotFoundException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ParseException, DeleteCreditPackageException, WrongDateException  {
 
 
         Scanner scanner = new Scanner(System.in);

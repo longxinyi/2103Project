@@ -40,7 +40,7 @@ public class SalesModule {
         this.currentEmployee = currentEmployee;
     }
 
-    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException, ParseException {
+    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException, ParseException, WrongDateException {
         if (currentEmployee.getAccessRightEnum() != AccessRightEnum.SALES) {
             throw new InvalidAccessRightException("You don't have SALES rights to access the system administration module.");
         }
@@ -101,7 +101,7 @@ public class SalesModule {
 
     }
 
-    public void createAuctionListing() throws ListingNotFoundException, ParseException {
+    public void createAuctionListing() throws ListingNotFoundException, ParseException, WrongDateException {
         //not visible to customers until start date time is reached
         Scanner scanner = new Scanner(System.in);
         AuctionListing newAuctionListing = new AuctionListing();
@@ -123,7 +123,16 @@ public class SalesModule {
         }
         try{
             System.out.print("Enter End Date Time (YYYY-MM-DD HH:MM:SS) > ");
-            newAuctionListing.setEndDateTime(format.parse(scanner.nextLine().trim()));
+            Date newEndDateTime = format.parse(scanner.nextLine().trim());
+            newAuctionListing.setEndDateTime(newEndDateTime);
+            
+            if(newAuctionListing.getStartDateTime().before(newEndDateTime)){
+                newAuctionListing.setEndDateTime(newEndDateTime);
+            } else {
+                throw new WrongDateException("Ending Date cannot be before Starting Date");
+            }
+            
+            
         } catch(ParseException e){
             System.out.println("Invalid date and time! please enter in the correct format!");
         }
