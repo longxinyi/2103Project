@@ -31,6 +31,7 @@ import util.exception.ListingNotFoundException;
 
 import util.exception.ListingNotFoundException;
 import util.exception.CustomerNotFoundException;
+import util.exception.WrongDateException;
 
 
 /**
@@ -102,7 +103,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         return activeAuctions;
     }
 
-    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException{
+    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException, WrongDateException {
         Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
         query.setParameter("inAuctionName", auctionListingName);
         AuctionListing auctionListing;
@@ -120,8 +121,18 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
             auctionListing.setReservePrice(new BigDecimal(newDetail));
         } else if (type == 3){
             auctionListing.setStartDateTime(format.parse(newDetail));
+            
+            TimerHandle newStartTimeHandle = newTimer(format.parse(newDetail), auctionListing);
+            auctionListing.setTimerHandle(newStartTimeHandle);
+            
         } else if (type == 4){
-            auctionListing.setEndDateTime(format.parse(newDetail));
+            
+            if(auctionListing.getStartDateTime().before(format.parse(newDetail))){
+                auctionListing.setEndDateTime(format.parse(newDetail));
+            } else {
+                throw new WrongDateException("Ending Date cannot be before Starting Date");
+            }
+            
         } else if (type == 5){
             auctionListing.setActive(Boolean.valueOf(newDetail));
         }

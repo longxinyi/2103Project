@@ -13,6 +13,7 @@ import javax.ejb.Remote;
 
 import util.exception.ListingNotFoundException;
 import util.exception.ListingNotFoundException;
+import util.exception.WrongDateException;
 
 /**
  *
@@ -27,6 +28,6 @@ public interface AuctionListingSessionBeanRemote {
     public void deleteAuctionListing(String auctionName) throws ListingNotFoundException;
     public List<AuctionListing> viewAuctionListingsBelowReservePrice();
     public void assignWinningBid(String auctionName);
-    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException;
+    public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException, WrongDateException;
     public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException;
 }

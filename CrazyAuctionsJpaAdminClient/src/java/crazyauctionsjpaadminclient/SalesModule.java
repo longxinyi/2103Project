@@ -7,6 +7,7 @@ package crazyauctionsjpaadminclient;
 
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import entity.AuctionListing;
+import entity.AuctionListingBid;
 import entity.Employee;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -19,6 +20,7 @@ import util.exception.ListingNotFoundException;
 import util.exception.InvalidAccessRightException;
 import util.exception.ListingExistException;
 import util.exception.ListingNotFoundException;
+import util.exception.WrongDateException;
 
 /**
  *
@@ -141,13 +143,14 @@ public class SalesModule {
         AuctionListing auctionListing;
         try {
             auctionListing = auctionListingSessionBeanRemote.findListingByName(auctionListingName);
-            System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size() - 1).getBidPrice());
+            AuctionListingBid highestBid = auctionListingSessionBeanRemote.getHighestBid(auctionListingName);
+            System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + " with the current highest bid of: " + highestBid.getBidPrice());
         } catch (ListingNotFoundException e) {
             throw new ListingNotFoundException("Listing not found, please try again");
         }
     }
 
-    public void updateAuctionListing() throws ParseException {
+    public void updateAuctionListing() throws ParseException, WrongDateException {
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
