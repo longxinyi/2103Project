@@ -184,6 +184,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     
     public TimerHandle newTimer(Date date, AuctionListing auctionListing){
         Timer timer = timerService.createTimer(date, auctionListing);
+        System.out.println("TIMER CREATED");
         return timer.getHandle();
         
     }
@@ -191,17 +192,21 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     @Timeout
     public void timeout(Timer timer){
         //change active status
-        
+        System.out.println("TIME OUT METHOD");
         AuctionListing auctionListing = (AuctionListing) timer.getInfo();
+        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
+        query.setParameter("inAuctionName", auctionListing.getAuctionName());
+        AuctionListing setAuctionListing = (AuctionListing) query.getSingleResult();
         
         if(auctionListing.isActive() == false){
-            auctionListing.setActive(true);
-            TimerHandle newEndTimer = newTimer(auctionListing.getEndDateTime(), auctionListing);
-            auctionListing.setTimerHandle(newEndTimer);
+            System.out.println("TIME OUT METHOD IF{} ");
+            setAuctionListing.setActive(true);
+            TimerHandle newEndTimer = newTimer(setAuctionListing.getEndDateTime(), setAuctionListing);
+            setAuctionListing.setTimerHandle(newEndTimer);
             
         } else {
             //if listing is active
-            auctionListing.setActive(false);
+            setAuctionListing.setActive(false);
             
             
         }

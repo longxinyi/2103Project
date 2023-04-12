@@ -125,7 +125,7 @@ public class SalesModule {
         } catch(ParseException e){
             System.out.println("Invalid date and time! please enter in the correct format!");
         }
-        
+        newAuctionListing.setActive(false);
         
 
         Long newAuctionListingId = auctionListingSessionBeanRemote.createNewAuctionListing(newAuctionListing);
