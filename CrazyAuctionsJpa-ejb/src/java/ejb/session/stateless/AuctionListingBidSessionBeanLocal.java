@@ -6,12 +6,14 @@
 package ejb.session.stateless;
 
 import entity.AuctionListingBid;
+import entity.Customer;
 import java.math.BigDecimal;
 import javax.ejb.Local;
 import util.exception.BidIncrementException;
 import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotActiveException;
 import util.exception.ListingNotFoundException;
+import util.exception.LowBalanceException;
 import util.exception.MinimumBidException;
 import util.exception.NoBidException;
 
@@ -22,6 +24,5 @@ import util.exception.NoBidException;
 @Local
 public interface AuctionListingBidSessionBeanLocal {
     public AuctionListingBid createNewBid(BigDecimal price);
-    public void placeNewBid(String listingName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException;
-    
+    public void placeNewBid(String auctionName, BigDecimal price, Customer currentCustomer) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException, LowBalanceException;
 }

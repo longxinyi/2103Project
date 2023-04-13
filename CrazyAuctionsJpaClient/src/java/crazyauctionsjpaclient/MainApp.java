@@ -29,6 +29,7 @@ import util.exception.InvalidBidIncrementException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ListingNotActiveException;
 import util.exception.ListingNotFoundException;
+import util.exception.LowBalanceException;
 import util.exception.MinimumBidException;
 import util.exception.NoBidException;
 import util.exception.UpdateCreditPackageException;
@@ -63,7 +64,7 @@ public class MainApp {
 
     }
 
-    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ListingNotActiveException, NoBidException {
+    public void runApp() throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ListingNotActiveException, NoBidException, LowBalanceException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -159,7 +160,7 @@ public class MainApp {
 
     }
 
-    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ListingNotActiveException, NoBidException {
+    private void menuMain() throws InvalidLoginCredentialException, AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ListingNotActiveException, NoBidException, LowBalanceException {
 
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
@@ -335,7 +336,7 @@ public class MainApp {
 
     ;
     
-    public void placeNewBid() throws ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotActiveException, NoBidException {
+    public void placeNewBid() throws ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotActiveException, NoBidException, LowBalanceException {
         //enter bid amount -> check if higher than current highest
         //if no bid, check if more than 0.05
         Scanner scanner = new Scanner(System.in);
@@ -346,8 +347,11 @@ public class MainApp {
         BigDecimal price = new BigDecimal(0);
         price = scanner.nextBigDecimal();
         
-
-        auctionListingBidSessionBeanRemote.placeNewBid(auctionName, price);
+        try{
+            auctionListingBidSessionBeanRemote.placeNewBid(auctionName, price, currentCustomer);
+        } catch (LowBalanceException e){
+            System.out.println("You do not have enough credits! Please buy more credit packages!");
+        }
 
     }
 
