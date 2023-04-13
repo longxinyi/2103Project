@@ -31,6 +31,7 @@ import util.exception.ListingNotFoundException;
 
 import util.exception.ListingNotFoundException;
 import util.exception.CustomerNotFoundException;
+import util.exception.NoBidException;
 import util.exception.WrongDateException;
 
 
@@ -145,6 +146,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         AuctionListing auctionListingToRemove;
         try {
         auctionListingToRemove = findListingByName(auctionName);
+        auctionListingToRemove.getTimerHandle().getTimer().cancel();
         } catch (ListingNotFoundException e){
             throw new ListingNotFoundException("Listing does not exist!");
         }
@@ -153,20 +155,40 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
        
     }
     
-    public List<AuctionListing> viewAuctionListingsBelowReservePrice(){
+    public List<AuctionListing> viewAuctionListingsBelowReservePrice() throws ListingNotFoundException, NoBidException {
         Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.active = FALSE ");
+        List<AuctionListing> auctionListings;
         
-        
-        List<AuctionListing> auctionListings = query.getResultList();
         List<AuctionListing> belowReservePrice = new ArrayList<AuctionListing>();
-        for (AuctionListing auctionListing : auctionListings){
-            if (auctionListing.getAuctionListingBids().size() != 0){
-                if (auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size() - 1).getBidPrice().compareTo(auctionListing.getReservePrice()) == -1 ){
+        try{
+            auctionListings = query.getResultList();
+            for(AuctionListing auctionListing : auctionListings){
+                boolean isBelowReservePrice = false;
+                try {
+                    AuctionListingBid highestBid = getHighestBid(auctionListing.getAuctionName());
+                } catch (NoBidException e){
+                    
+                }
+                
+                List<AuctionListingBid> bids = auctionListing.getAuctionListingBids();
+                for(AuctionListingBid auctionListingBid : bids){
+                    if (auctionListingBid.getBidPrice().compareTo(auctionListing.getReservePrice()) == -1){
+                        isBelowReservePrice = true;
+                    }
+                    
+                }
+                
+                if (isBelowReservePrice == true) {
                     belowReservePrice.add(auctionListing);
                 }
             }
+        } catch (NoResultException e){
+            System.out.println("No inactive auction listings with bids below reserve price!");
         }
+        
         return belowReservePrice;
+        
+    
        
     }
     
@@ -193,12 +215,16 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         
     }
     
-    public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException{
+    public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException, NoBidException {
         AuctionListing auctionListing = findListingByName(auctionName);
         List<AuctionListingBid> auctionListingBids = auctionListing.getAuctionListingBids();
         int size = auctionListingBids.size();
-        AuctionListingBid highestBid = auctionListingBids.get(size - 1);
-        return highestBid;
+        if (size == 0){
+            throw new NoBidException("No bids made yet!");
+        } else {
+            AuctionListingBid highestBid = auctionListingBids.get(size - 1);
+            return highestBid;
+        }
         
     }
     

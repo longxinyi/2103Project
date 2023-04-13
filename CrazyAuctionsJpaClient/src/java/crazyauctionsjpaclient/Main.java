@@ -24,6 +24,7 @@ import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotActiveException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
+import util.exception.NoBidException;
 import util.exception.UpdateCreditPackageException;
 import util.exception.UpdateCustomerException;
 
@@ -54,7 +55,7 @@ public class Main {
      * @param args the command line arguments
      */
 
-    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ListingNotActiveException {
+    public static void main(String[] args) throws AddressNotFoundException, CustomerNotFoundException, UpdateCustomerException, ListingNotFoundException, MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ImposterWinnerException, CreditTransactionHistoryNotFoundException, CreditPackageNotFoundException, UpdateCreditPackageException, ListingNotActiveException, NoBidException {
 
 
         // TODO code application logic here

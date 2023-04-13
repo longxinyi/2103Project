@@ -13,6 +13,7 @@ import util.exception.InvalidBidIncrementException;
 import util.exception.ListingNotActiveException;
 import util.exception.ListingNotFoundException;
 import util.exception.MinimumBidException;
+import util.exception.NoBidException;
 
 /**
  *
@@ -21,6 +22,6 @@ import util.exception.MinimumBidException;
 @Local
 public interface AuctionListingBidSessionBeanLocal {
     public AuctionListingBid createNewBid(BigDecimal price);
-    public void placeNewBid(String listingName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException;
+    public void placeNewBid(String listingName, BigDecimal price) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException;
     
 }

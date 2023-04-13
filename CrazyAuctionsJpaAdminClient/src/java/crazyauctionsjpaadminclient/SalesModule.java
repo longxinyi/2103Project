@@ -298,8 +298,11 @@ public class SalesModule {
 
     public void viewAllAuctionListingsBelowReservePrice() throws ListingNotFoundException, NoBidException {
         //filter to show only expired or closed listings
-        auctionListingSessionBeanRemote.viewAuctionListingsBelowReservePrice();
+        List<AuctionListing> belowReservePrice = auctionListingSessionBeanRemote.viewAuctionListingsBelowReservePrice();
         
+        for (AuctionListing listing : belowReservePrice){
+            System.out.println("This listing: " + listing.getAuctionName() + " only has bids below its reserve price!");
+        }
 
     }
 

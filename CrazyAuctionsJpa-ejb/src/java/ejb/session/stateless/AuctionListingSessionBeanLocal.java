@@ -14,6 +14,7 @@ import javax.ejb.Local;
 import util.exception.ListingNotFoundException;
 
 import util.exception.ListingNotFoundException;
+import util.exception.NoBidException;
 import util.exception.WrongDateException;
 
 
@@ -31,8 +32,8 @@ public interface AuctionListingSessionBeanLocal {
     public List<AuctionListing> retrieveAuctionListing() throws ListingNotFoundException;
     public List<AuctionListing> viewActiveListings() throws ListingNotFoundException;
     public void deleteAuctionListing(String auctionName) throws ListingNotFoundException;
-    public List<AuctionListing> viewAuctionListingsBelowReservePrice();
+    public List<AuctionListing> viewAuctionListingsBelowReservePrice() throws ListingNotFoundException, NoBidException;
     public void updateAuctionListing(String auctionListingName, String newDetail, int type) throws ListingNotFoundException, ParseException, WrongDateException;
     public void assignWinningBid(String auctionName);
-    public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException;
+    public AuctionListingBid getHighestBid(String auctionName) throws ListingNotFoundException, NoBidException;
 }
