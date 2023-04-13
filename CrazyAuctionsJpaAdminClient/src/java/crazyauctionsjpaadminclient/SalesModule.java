@@ -20,6 +20,7 @@ import util.exception.ListingNotFoundException;
 import util.exception.InvalidAccessRightException;
 import util.exception.ListingExistException;
 import util.exception.ListingNotFoundException;
+import util.exception.NoBidException;
 import util.exception.WrongDateException;
 
 /**
@@ -40,7 +41,7 @@ public class SalesModule {
         this.currentEmployee = currentEmployee;
     }
 
-    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException, ParseException, WrongDateException {
+    public void salesOperation() throws InvalidAccessRightException, ListingNotFoundException, ParseException, WrongDateException, NoBidException {
         if (currentEmployee.getAccessRightEnum() != AccessRightEnum.SALES) {
             throw new InvalidAccessRightException("You don't have SALES rights to access the system administration module.");
         }
@@ -152,11 +153,18 @@ public class SalesModule {
         AuctionListing auctionListing;
         try {
             auctionListing = auctionListingSessionBeanRemote.findListingByName(auctionListingName);
-            AuctionListingBid highestBid = auctionListingSessionBeanRemote.getHighestBid(auctionListingName);
-            System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + " with the current highest bid of: " + highestBid.getBidPrice());
         } catch (ListingNotFoundException e) {
             throw new ListingNotFoundException("Listing not found, please try again");
         }
+        
+        try {
+            AuctionListingBid highestBid = auctionListingSessionBeanRemote.getHighestBid(auctionListingName);
+            System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + " with the current highest bid of: " + highestBid.getBidPrice());
+        } catch (NoBidException e) {
+                System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + " has no bids currently!");
+        }
+       
+    
     }
 
     public void updateAuctionListing() throws ParseException, WrongDateException {
@@ -188,48 +196,49 @@ public class SalesModule {
                         System.out.print("Enter New Auction Name > ");
                         String newAuctionName = newScanner.nextLine().trim();
                         auctionListingSessionBeanRemote.updateAuctionListing(auctionListingName, newAuctionName, 1);
-
+                        auctionListingName = newAuctionName;
+                        System.out.print("Name has been successfully changed! ");
                     } catch (ListingNotFoundException e) {
                         System.out.print("There was an error, please try again ");
                     }
 
-                    System.out.print("First Name has been successfully changed! ");
+                    
 
                 } else if (response == 2) {
                     try {
                         System.out.print("Enter New Reserve Price > ");
                         String newReservePrice = newScanner.nextLine().trim();
                         auctionListingSessionBeanRemote.updateAuctionListing(auctionListingName, newReservePrice, 2);
-
+                        System.out.print("Reserve Price has been successfully changed! ");
                     } catch (ListingNotFoundException e) {
                         System.out.print("There was an error, please try again ");
                     }
 
-                    System.out.print("Reserve Price has been successfully changed! ");
+                    
 
                 } else if (response == 3) {
                     try {
-                        System.out.print("Enter New Start Date Time > ");
+                        System.out.print("Enter New Start Date Time (YYYY-MM-DD HH:MM:SS) > ");
                         String newStartDateTime = newScanner.nextLine().trim();
                         auctionListingSessionBeanRemote.updateAuctionListing(auctionListingName, newStartDateTime, 3);
-
+                        System.out.print("Start Date Time has been successfully changed! ");
                     } catch (ListingNotFoundException e) {
                         System.out.print("There was an error, please try again ");
                     }
 
-                    System.out.print("Start Date Time has been successfully changed! ");
+                    
 
                 } else if (response == 4) {
                     try {
-                        System.out.print("Enter New End Date Time > ");
+                        System.out.print("Enter New End Date Time (YYYY-MM-DD HH:MM:SS) > ");
                         String newEndDateTime = newScanner.nextLine().trim();
                         auctionListingSessionBeanRemote.updateAuctionListing(auctionListingName, newEndDateTime, 4);
-
+                        System.out.print("End Date Time has been successfully changed! ");
                     } catch (ListingNotFoundException e) {
                         System.out.print("There was an error, please try again ");
                     }
 
-                    System.out.print("End Date Time has been successfully changed! ");
+                    
 
                 } else if (response == 5) {
 
@@ -237,12 +246,12 @@ public class SalesModule {
                         System.out.print("Enter New Active Status > ");
                         String newActiveStatus = newScanner.nextLine().trim();
                         auctionListingSessionBeanRemote.updateAuctionListing(auctionListingName, newActiveStatus, 5);
-
+                        System.out.print("Active Status has been successfully changed! ");
                     } catch (ListingNotFoundException e) {
                         System.out.print("There was an error, please try again ");
                     }
 
-                    System.out.print("Active Status has been successfully changed! ");
+                    
 
                 } else if (response == 6) {
                     break;
@@ -269,6 +278,7 @@ public class SalesModule {
 
         try {
             auctionListingSessionBeanRemote.deleteAuctionListing(input);
+            System.out.println("Listing deleted successfully!");
         } catch (ListingNotFoundException e) {
             System.out.println("Listing not found!");
         }
@@ -277,6 +287,7 @@ public class SalesModule {
     public void viewAllAuctionListing() throws ListingNotFoundException {
         try {
             List<AuctionListing> activeAuctions = auctionListingSessionBeanRemote.retrieveAuctionListing();
+            
             for (AuctionListing auctionListing : activeAuctions) {
                 System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
             }
@@ -285,17 +296,10 @@ public class SalesModule {
         }
     }
 
-    public void viewAllAuctionListingsBelowReservePrice() {
+    public void viewAllAuctionListingsBelowReservePrice() throws ListingNotFoundException, NoBidException {
         //filter to show only expired or closed listings
-        List<AuctionListing> belowReservePrice = auctionListingSessionBeanRemote.viewAuctionListingsBelowReservePrice();
-
-        if (belowReservePrice.size() == 0) {
-            System.out.println("No inactive/closed auctions with bids below reserve price!");
-        }
-
-        for (AuctionListing auctionListing : belowReservePrice) {
-            System.out.println("Name of Listing: " + auctionListing.getAuctionName() + "with the highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
-        }
+        auctionListingSessionBeanRemote.viewAuctionListingsBelowReservePrice();
+        
 
     }
 
