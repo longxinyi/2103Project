@@ -8,6 +8,7 @@ package crazyauctionsjpaadminclient;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import entity.AuctionListing;
 import entity.AuctionListingBid;
+import entity.Customer;
 import entity.Employee;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -86,7 +87,7 @@ public class SalesModule {
 
                 } else if (response == 7) {
 
-                    assignWinningBid();
+                    //assignWinningBidForListingsWBidsBelowReservePrice();
 
                 } else if (response == 8) {
                     break;
@@ -306,15 +307,29 @@ public class SalesModule {
 
     }
 
-    public void assignWinningBid() {
-        Scanner scanner = new Scanner(System.in);
-        String auctionName;
-
-        System.out.println("*** Crazy Auctions :: Sales :: View Product Details :: Assign Winning Bid ***\n");
-        System.out.println("Enter Name of auction listing >");
-        auctionName = scanner.nextLine().trim();
-        auctionListingSessionBeanRemote.assignWinningBid(auctionName);
-
-    }
+//    public void assignWinningBidForListingsWBidsBelowReservePrice() throws ListingNotFoundException {
+//        Scanner scanner = new Scanner(System.in);
+//        String auctionName;
+//
+//        System.out.println("*** Crazy Auctions :: Sales :: View Product Details :: Assign Winning Bid ***\n");
+//        System.out.println("Enter Name of auction listing >");
+//        auctionName = scanner.nextLine().trim();
+//        AuctionListing currListing = auctionListingSessionBeanRemote.findListingByName(auctionName);
+//        
+//        List<AuctionListingBid> bids = currListing.getAuctionListingBids();
+//        for(AuctionListingBid bid : bids){
+//            System.out.println("This bid is made by " + bid.getCustomer().getUsername() + " of price: " + bid.getBidPrice());
+//        }
+//        
+//        System.out.println("Enter Name of winning customer >");
+//        String customerName = scanner.nextLine().trim();
+//        
+//        Customer winningCustomer = customerSessionBeanRemote.retrieveCustomerByUsername(customerName);
+//       
+//
+//        winningCustomer.getListOfWonAuctionListings().add(currListing);
+//        
+//
+//    }
 
 }

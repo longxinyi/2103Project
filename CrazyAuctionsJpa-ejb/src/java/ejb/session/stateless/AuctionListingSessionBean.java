@@ -253,9 +253,15 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         } else {
             //if listing is active
             setAuctionListing.setActive(false);
+            //assignWinningBid(setAuctionListing.getAuctionName());
             
             
         }
     }
+    
+//    public void assignWinningBidForListingsWBidsBelowReservePrice(String auctionName){
+//        List<AuctionListing> listings = viewAuctionListingsBelowReservePrice();
+//        
+//    }
 
 }
