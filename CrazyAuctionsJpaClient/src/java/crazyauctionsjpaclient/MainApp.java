@@ -275,7 +275,7 @@ public class MainApp {
                     currentCreditPackage.setIsActive(Boolean.TRUE);
                     creditPackageSessionBeanRemote.updateCreditPackage(currentCreditPackage);
                     Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10)));
-                    System.out.println("Successful Transaction: You have purchased " + quantity + " credit package "+currentCreditPackage.getCreditPackageId());
+                    System.out.println("Successful Transaction: You have purchased " + quantity + " credit package "+ currentCreditPackage.getCreditPrice());
 
                 
                    
