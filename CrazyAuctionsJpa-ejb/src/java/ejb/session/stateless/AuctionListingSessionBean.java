@@ -235,42 +235,7 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         
     }
     
-//    @Timeout
-//    public void timeout(Timer timer){
-//        //change active status
-//        System.out.println("TIME OUT METHOD");
-//        AuctionListing auctionListing = (AuctionListing) timer.getInfo();
-//        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
-//        query.setParameter("inAuctionName", auctionListing.getAuctionName());
-//        AuctionListing setAuctionListing = (AuctionListing) query.getSingleResult();
-//        
-//        if(setAuctionListing.isActive() == false){
-//            System.out.println("TIME OUT METHOD IF{} ");
-//            setAuctionListing.setActive(true);
-//            TimerHandle newEndTimer = newTimer(setAuctionListing.getEndDateTime(), setAuctionListing);
-//            setAuctionListing.setTimerHandle(newEndTimer);
-//            
-//        } else {
-//            //if listing is active
-//            setAuctionListing.setActive(false);
-//            assignWinningBid(setAuctionListing.getAuctionName());
-//            int size = setAuctionListing.getAuctionListingBids().size();
-//            System.out.println("NUMBER OF BIDS :" + size);
-//            if (size != 0) {
-//                AuctionListingBid winningBid = setAuctionListing.getAuctionListingBids().get(size - 1);
-//                if (winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0){
-//                
-//                    Customer winningCustomer = winningBid.getCustomer();
-//
-//                    winningCustomer.getListOfWonAuctionListings().add(setAuctionListing);
-//                }
-//            } else {
-//                System.out.println("This listing has no bids!");
-//            }
-//
-//            
-//        }
-//    }
+
     
     @Timeout
     public void timeout(Timer timer) {
@@ -313,9 +278,6 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
     }
 
     
-//    public void assignWinningBidForListingsWBidsBelowReservePrice(String auctionName){
-//        List<AuctionListing> listings = viewAuctionListingsBelowReservePrice();
-//        
-//    }
+
 
 }

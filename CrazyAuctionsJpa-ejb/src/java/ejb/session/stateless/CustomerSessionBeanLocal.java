@@ -13,6 +13,7 @@ import javax.ejb.Local;
 import util.enumeration.CustomerType;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.UpdateCustomerException;
 //import util.exception.CustomerNotFoundException;
 //import util.exception.InvalidLoginCredentialException;
@@ -30,12 +31,15 @@ public interface CustomerSessionBeanLocal {
 
     public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException;
 
+    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
     
     public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
     
     public List<AuctionListing> browseWonAuctionListings(Customer customer);
     
     public void registerPremium(String customerUsername) throws CustomerNotFoundException;
+    
+    public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
 
 //    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 //    

@@ -5,8 +5,14 @@
  */
 package crazyauctionsjpajavaseclient;
 
+import entity.AuctionListing;
+import entity.Customer;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
+import util.exception.CustomerNotFoundException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ListingNotFoundException;
 
 /**
  *
@@ -14,8 +20,18 @@ import util.exception.InvalidLoginCredentialException;
  */
 public class MainApp {
     
-//    public void runApp()
-//    {
+    Customer currentCustomer;
+
+    public MainApp() {
+    }
+
+//    public MainApp(Customer currentCustomer) {
+//        this.currentCustomer = currentCustomer;
+//    }
+    
+    
+    
+//    public void runApp(){
 //        Scanner scanner = new Scanner(System.in);
 //        Integer response;
 //        
@@ -23,50 +39,23 @@ public class MainApp {
 //        {
 //            System.out.println("*** Welcome to Crazy AUctions Premium Customer ***\n");
 //            System.out.println("1: Login");
-//            System.out.println("2: View Credit Balance");
-//            System.out.println("3: View Auction Listing Details");
-//            System.out.println("4: Configure Proxy Bidding for Auction Listing");
-//            System.out.println("5 : Configure Sniping for Auction Listing");
-//            System.out.println("6: Browse All Auction Listings");
-//            System.out.println("7: View Won Auction Listings");
-//            System.out.println("8: Logout\n");
+//            System.out.println("2: Logout\n");
 //            response = 0;
 //            
-//            while(response < 1 || response > 8)
+//            while(response < 1 || response > 2)
 //            {
 //                System.out.print("> ");
 //
 //                response = scanner.nextInt();
 //
-//                if(response == 1)
+//                if (response == 1)
 //                {
+//                    
 //                    login();
-//                }
-//                else if (response == 2)
-//                {
-//                    viewCreditBalance();
-//                }
-//                else if (response == 3)
-//                {
-//                    viewAuctionListingDetails();
-//                    
-//                } else if (response == 4){
-//                    
-//                    proxyBidding();
-//                
-//                } else if (response == 5) {
-//                
-//                    sniping();
-//                    
-//                } else if (response == 6) {
-//                
-//                    browseAllAuctionListings();
-//                    
-//                } else if (response == 7) {
-//                
-//                    viewWonAuctionListings();
-//                    
-//                } else if (response == 8)
+//                       
+//                    menuApp();
+//               
+//                } else if (response == 2)
 //                {
 //                    break;
 //                }
@@ -76,13 +65,148 @@ public class MainApp {
 //                }
 //            }
 //            
-//            if(response == 8)
+//            if(response == 2)
+//            {
+//                break;
+//            }
+//        }
+//    
+//    }
+//    
+//    public void menuApp()
+//    {
+//        Scanner scanner = new Scanner(System.in);
+//        Integer response;
+//        
+//        while(true)
+//        {
+//            System.out.println("*** Welcome to Crazy AUctions Premium Customer ***\n");
+//            System.out.println("1: View Credit Balance");
+//            System.out.println("2: View Auction Listing Details");
+//            System.out.println("3: Configure Proxy Bidding for Auction Listing");
+//            System.out.println("4: Configure Sniping for Auction Listing");
+//            System.out.println("5: Browse All Auction Listings");
+//            System.out.println("6: View Won Auction Listings");
+//            System.out.println("7: Logout\n");
+//            response = 0;
+//            
+//            while(response < 1 || response > 7)
+//            {
+//                System.out.print("> ");
+//
+//                response = scanner.nextInt();
+//
+//                if (response == 1)
+//                {
+//                    viewCreditBalance();
+//                }
+//                else if (response == 2)
+//                {
+//                    viewAuctionListingDetails();
+//                    
+//                } else if (response == 3){
+//                    
+//                    proxyBidding();
+//                
+//                } else if (response == 4) {
+//                
+//                    sniping();
+//                    
+//                } else if (response == 5) {
+//               
+//                    browseAllAuctionListings();
+//                    
+//                } else if (response == 6) {
+//                
+//                    viewWonAuctionListings();
+//                    
+//                } else if (response == 7)
+//                {
+//                    break;
+//                }
+//                else
+//                {
+//                    System.out.print("Invalid option, please try again!\n");                
+//                }
+//            }
+//            
+//            if(response == 7)
 //            {
 //                break;
 //            }
 //        }
 //    }
-    
-    
+//    
+//    private void login(){
+//        Scanner scanner = new Scanner(System.in);
+//           
+//        System.out.print("Enter username> ");
+//        String username = scanner.nextLine().trim();
+//        System.out.print("Enter password> ");
+//        String password = scanner.nextLine().trim();
+//        
+//        try {
+//            currentCustomer = customerLogin(username, password);
+//        } catch (InvalidLoginCredentialException e){
+//            System.out.println("Invalid login credentials!");
+//        }
+//    }
+//    
+//    private void viewCreditBalance(){
+//        
+//        
+//        try{
+//            BigDecimal creditBalance = viewCreditBalance(currentCustomer.getUsername());
+//            System.out.println("Remaining Balance: " + creditBalance);
+//        } catch (CustomerNotFoundException e){
+//            System.out.println("There was an error, please try again!");
+//        }
+//    }
+//    
+//    private void viewAuctionListingDetails(){
+//        Scanner scanner = new Scanner(System.in);
+//           
+//        System.out.print("Enter auction name> ");
+//        String auctionName = scanner.nextLine().trim();
+//        
+//        AuctionListing auctionListing = auctionListingSessionBeanLocal.viewAuctionListingDetails(auctionName);
+//        
+//        System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+//        
+//    }
+//    
+//    private void proxyBidding(){}
+//    
+//    private void sniping(){}
+//    
+//    private void browseAllAuctionListings(){
+//        try {
+//            List<AuctionListing> auctionListings = auctionListingSessionBeanLocal.retrieveAuctionListing();
+//
+//            for (AuctionListing auctionListing : auctionListings) {
+//                if (auctionListing.isActive() == true) {
+//                    System.out.println("Auction listing : " + auctionListing.getAuctionName() + " with reserve price of: " + auctionListing.getReservePrice() + "\n");
+//                }
+//            }
+//
+//        } catch (ListingNotFoundException ex) {
+//            System.out.println("An error has occurred! Please try again! \n");
+//        }
+//    }
+//    
+//    private void viewWonAuctionListings(){
+//        List<AuctionListing> wonListings = customerSessionBeanLocal.browseWonAuctionListings(currentCustomer);
+//
+//        if (wonListings.size() == 0) {
+//            System.out.println("You have won 0 listings.");
+//        } else {
+//            for (AuctionListing auctionListing : wonListings) {
+//                System.out.println("Name of listing won: " + auctionListing.getAuctionName() + " with the bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+//            }
+//
+//        }
+//    }
+            
+        
     
 }

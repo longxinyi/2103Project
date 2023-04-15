@@ -386,7 +386,7 @@ public class MainApp {
             }
 
         } catch (ListingNotFoundException ex) {
-            System.out.println("An error has occurred while creating the new staff!: The user name already exist\n");
+            System.out.println("An error has occurred! Please try again! \n");
         }
     }
 
