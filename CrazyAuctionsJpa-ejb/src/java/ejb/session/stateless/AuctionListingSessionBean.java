@@ -252,18 +252,18 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         } else {
             //if listing is active
             setAuctionListing.setActive(false);
-            //assignWinningBid(setAuctionListing.getAuctionName());
-//            int size = setAuctionListing.getAuctionListingBids().size();
-//
-//            if (size != 0) {
-//                AuctionListingBid winningBid = auctionListing.getAuctionListingBids().get(size - 1);
-//                if (winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) == 1 |winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) == 0){
-//                
-//                    Customer winningCustomer = winningBid.getCustomer();
-//
-//                    winningCustomer.getListOfWonAuctionListings().add(auctionListing);
-//                }
-//            } 
+            assignWinningBid(setAuctionListing.getAuctionName());
+            int size = setAuctionListing.getAuctionListingBids().size();
+
+            if (size != 0) {
+                AuctionListingBid winningBid = auctionListing.getAuctionListingBids().get(size - 1);
+                if (winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0){
+                
+                    Customer winningCustomer = winningBid.getCustomer();
+
+                    winningCustomer.getListOfWonAuctionListings().add(auctionListing);
+                }
+            } 
 
             
         }

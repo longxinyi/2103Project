@@ -24,5 +24,5 @@ import util.exception.NoBidException;
 @Local
 public interface AuctionListingBidSessionBeanLocal {
     public AuctionListingBid createNewBid(BigDecimal price);
-    public void placeNewBid(String auctionName, BigDecimal price, Customer currentCustomer) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException, LowBalanceException;
+    public void placeNewBid(String auctionName, BigDecimal price, String customerUsername) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException, LowBalanceException;
 }

@@ -10,11 +10,13 @@ import ejb.session.stateless.AuctionListingBidSessionBeanRemote;
 import ejb.session.stateless.AuctionListingSessionBeanRemote;
 import ejb.session.stateless.CreditPackageSessionBeanRemote;
 import ejb.session.stateless.CustomerSessionBeanRemote;
+import entity.Address;
 import entity.AuctionListing;
 import entity.AuctionListingBid;
 import entity.CreditPackage;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import util.exception.ListingNotFoundException;
@@ -168,66 +170,104 @@ public class MainApp {
         while (true) {
             System.out.println("*** Crazy Auction Customer ***\n");
             System.out.println("You are login as " + currentCustomer.getFirstName() + " " + currentCustomer.getLastName());
-            System.out.println("1: Purchase Credit Package");
-            System.out.println("2: View Credit Transaction History");
-            System.out.println("3: Browse All Auction Listing");
-            System.out.println("4: View Auction Listing Details");
-            System.out.println("5: Place New Bid");
-            System.out.println("6: Browse Won Auction Listing");
-            System.out.println("7: Select Delivery Address For Won Auction Listing");
-            System.out.println("8: Delete Address");
-            System.out.println("9: Update Customer Profile");
-            System.out.println("10: Logout\n");
+            System.out.println("1: View Customer Profile");
+            System.out.println("2: Update Customer Profile");
+            System.out.println("3: Create Address");
+            System.out.println("3: View Address Details");
+            System.out.println("4: Update Address");
+            System.out.println("5: Delete Address");
+            System.out.println("6: View All Addresses");
+            System.out.println("7: View Credit Balance");
+            System.out.println("8: View Credit Transaction History");
+            System.out.println("9: Purchase Credit Package");
+            System.out.println("10: Browse All Auction Listings");
+            System.out.println("11: View Auction Listing Details");
+            System.out.println("12: Place New Bid");
+            System.out.println("13: Refresh Auction Listing Bids");
+            System.out.println("14: Browse Won Auction Listings");
+            System.out.println("15: Select Delivery Address for Won Auction Listing");
+            System.out.println("16: Logout\n");
             response = 0;
 
-            while (response < 1 || response > 10) {
+            while (response < 1 || response > 16) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
+                
                 if (response == 1) {
 
-                    purchaseCreditPackage();
+                    
+                    viewCustomerProfile();
 
                 } else if (response == 2) {
 
-                    viewCreditTransactionHistory();
+                    updateCustomerProfile();
 
                 } else if (response == 3) {
-
-                    browseAllAuctionListing();
+                    
+                    addAddress();
 
                 } else if (response == 4) {
 
                     viewAuctionListingDetails();
 
                 } else if (response == 5) {
-
-                    placeNewBid();
-
-                } else if (response == 6) {
-
-                    browseWonAuctionListing();
-
-                } else if (response == 7) {
-
-                    selectDeliveryAddress();
-
-                } else if (response == 8) {
-
+                    
                     deleteAddress();
 
+                } else if (response == 6) {
+                    
+                    viewAllAddresses();
+
+
+                } else if(response == 7){
+                    
+                    viewCreditBalance();
+                    
+                    
+                } else if(response == 8){
+                    
+                    viewCreditTransactionHistory();
+                    
+                    
                 } else if (response == 9) {
 
-                    updateCustomerProfile();
+                    purchaseCreditPackage();
 
                 } else if (response == 10) {
+
+                    browseAllAuctionListing();
+
+                } else if (response == 11) {
+
+                    viewAuctionListingDetails();
+
+                } else if (response == 12) {
+                    
+                    placeNewBid();
+                
+                } else if (response == 13) {
+                    
+                    refreshAuctionListings();
+                
+                } else if (response == 14) {
+                    
+                    browseWonAuctionListing();
+
+                } else if (response == 15) {
+                    
+                    selectDeliveryAddress();
+                
+                } else if (response == 16){
+                    
                     break;
+                    
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
             }
 
-            if (response == 10) {
+            if (response == 16) {
                 break;
 
             }
@@ -274,7 +314,7 @@ public class MainApp {
                     //setactive
                     currentCreditPackage.setIsActive(Boolean.TRUE);
                     creditPackageSessionBeanRemote.updateCreditPackage(currentCreditPackage);
-                    Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(new BigDecimal(10)));
+                    Long customerId = customerSessionBeanRemote.updateCreditBalance(currentCustomer.getUsername(), quantity.multiply(currentCreditPackage.getCreditPrice()));
                     System.out.println("Successful Transaction: You have purchased " + quantity + " credit package "+ currentCreditPackage.getCreditPrice());
 
                 
@@ -348,7 +388,7 @@ public class MainApp {
         price = scanner.nextBigDecimal();
         
         try{
-            auctionListingBidSessionBeanRemote.placeNewBid(auctionName, price, currentCustomer);
+            auctionListingBidSessionBeanRemote.placeNewBid(auctionName, price, currentCustomer.getUsername());
         } catch (LowBalanceException e){
             System.out.println("You do not have enough credits! Please buy more credit packages!");
         }
@@ -500,6 +540,57 @@ public class MainApp {
         }
 
     }
+    
+    public void addAddress(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter name of address > ");
+        String addressName = scanner.nextLine().trim();
+        addressSessionBeanRemote.addAddress(addressName, currentCustomer.getUsername());
+        System.out.println("Address added successfully!");
+    }
+    
+    public void viewAllAddresses() throws AddressNotFoundException {
+        List<Address> addresses = new ArrayList<Address>();
+        
+        try {
+            addresses = addressSessionBeanRemote.viewAllAddress(currentCustomer.getUsername());
+        } catch (AddressNotFoundException e){
+            System.out.println("No Address Added!");
+        }
+        
+        for(Address address : addresses){
+            System.out.println("Address Name: " + address.getAddressName());
+        }
+    }
+    
+    public void viewCustomerProfile() throws CustomerNotFoundException, CustomerNotFoundException{
+        Customer customer = customerSessionBeanRemote.retrieveCustomerByUsername(currentCustomer.getUsername());
+        
+        System.out.println("First Name: " + customer.getFirstName() + "\n" + "Last Name: " + customer.getLastName() + "\n" + "Username: " + customer.getUsername()  + "\n" + "Password:" + customer.getPassword() + "\n" + "Contact Number: " + customer.getContactNumber() + "\n" + "Credit Balance: " + customer.getCreditBalance() + "\n" + "Postal Code: " + customer.getPostalCode());
+    }
+    
+    public void viewCreditBalance() throws CustomerNotFoundException, CustomerNotFoundException {
+        Customer customer = customerSessionBeanRemote.retrieveCustomerByUsername(currentCustomer.getUsername());
+        
+        System.out.println("Credit Balance: " + customer.getCreditBalance());
+    }
+    
+    public void refreshAuctionListings() throws ListingNotFoundException{
+        List<AuctionListing> auctionListings = auctionListingSessionBeanRemote.retrieveAuctionListing();
+        for (AuctionListing auctionListing : auctionListings){
+            try {
+                AuctionListingBid winningBid = auctionListingSessionBeanRemote.getHighestBid(auctionListing.getAuctionName());
+                System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + "\n" + "Current Highest Bid: " + winningBid.getBidPrice());
+            } catch (NoBidException e) {
+                System.out.println("Auction Listing Name: " + auctionListing.getAuctionName());
+            }
+            
+        }
+    }
+    
+    
+    
+    
 ;
 
 }

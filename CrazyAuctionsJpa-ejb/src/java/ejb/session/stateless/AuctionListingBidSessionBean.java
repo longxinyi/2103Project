@@ -48,10 +48,14 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
         return newBid;
     }
     
-    public void placeNewBid(String auctionName, BigDecimal price, Customer currentCustomer) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException, LowBalanceException {
+    public void placeNewBid(String auctionName, BigDecimal price, String customerUsername) throws MinimumBidException, BidIncrementException, InvalidBidIncrementException, ListingNotFoundException, ListingNotActiveException, NoBidException, LowBalanceException {
         AuctionListingBid newBid = createNewBid(price);
         Query query = em.createQuery("SELECT l FROM AuctionListing l WHERE l.auctionName = :inAuctionName");
         query.setParameter("inAuctionName", auctionName);
+        Query query2 = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inUsername");
+        query2.setParameter("inUsername", customerUsername);
+        Customer currentCustomer = (Customer) query2.getSingleResult();
+        
         AuctionListing currentListing;
         try{
             currentListing = (AuctionListing) query.getSingleResult();
@@ -66,7 +70,8 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
         List<AuctionListingBid> listingBids = currentListing.getAuctionListingBids();
         BigDecimal balance = currentCustomer.getCreditBalance();
         
-        if (balance.compareTo(new BigDecimal(0)) == 0 | balance.compareTo(new BigDecimal(0)) == 0){
+        if (balance.compareTo(new BigDecimal(0)) == 0){
+            //System.out.println("BALANCE COMPARE TO 0" + balance);
             throw new LowBalanceException("You have no credits at the moment, please buy credit packages!");
         }
         if (listingBids.size() == 0){
@@ -188,6 +193,9 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
                 throw new InvalidBidIncrementException("Invalid bid! Please try again!");
             }
         }
+        
+        BigDecimal newBalance = currentCustomer.getCreditBalance().subtract(price);
+        currentCustomer.setCreditBalance(newBalance);
     }
 
     

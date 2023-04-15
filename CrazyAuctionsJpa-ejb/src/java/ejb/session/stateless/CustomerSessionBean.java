@@ -133,6 +133,8 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         return customer.getListOfWonAuctionListings();
     }
     
-    
+//    public void addAddress(Customer customer, Add addressName){
+//        customer.getListOfAddresses().add(addressName);
+//    }
     
 }

@@ -11,6 +11,7 @@ import entity.AuctionListingBid;
 import entity.Customer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -47,6 +48,19 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
         return address;
     }
     
+    public Address findAddressByName(String addressName) throws AddressNotFoundException{
+        Query query = em.createQuery("SELECT a from Address a WHERE a.addressName = :inAddressName");
+        query.setParameter("inAddressName", addressName);
+        Address address;
+        try{
+            address = (Address) query.getSingleResult();
+        } catch(NoResultException | NonUniqueResultException ex) {
+            throw new AddressNotFoundException("Address not found, please add address!");
+            
+        }
+        
+        return address;
+    }
     
     public void selectAddressForWinningBid(String addressName, Customer customer, String wonListing) throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException{
         //check if address input exists, if not create new one, associate with address
@@ -107,5 +121,39 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
         }
     }
 
+    public void addAddress(String addressName, String customerUsername){
+        Address newAddress = new Address();
+        Query query = em.createQuery("SELECT c from Customer c WHERE c.username = :inUsername");
+        query.setParameter("inUsername", customerUsername);
+        
+        Customer customer = (Customer) query.getSingleResult();
+        
+        try{
+            findAddressByName(addressName);
+            System.out.println("Address already exists!");
+        } catch (AddressNotFoundException e){
+            newAddress = createAddress(addressName);
+            customer.getListOfAddresses().add(newAddress);
+            newAddress.setCustomer(customer);
+        }
+    }
+    
+    public List<Address> viewAllAddress(String customerUsername) throws AddressNotFoundException {
+        Query query2 = em.createQuery("SELECT c from Customer c WHERE c.username = :inUsername");
+        query2.setParameter("inUsername", customerUsername);
+        
+        Customer customer = (Customer) query2.getSingleResult();
+        Query query1 = em.createQuery("SELECT a FROM Address a");
+        List<Address> addresses;
+        
+        try{
+            addresses = query1.getResultList();
+        } catch (NoResultException ex){
+            throw new AddressNotFoundException("No addresses added!");
+        }
+        
+        return addresses;
+    }
+    
     
 }
