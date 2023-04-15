@@ -274,7 +274,11 @@ public class MainApp {
                 
                 } else if(response == 16){
                 
-                    selectDeliveryAddress();
+                    try {
+                        selectDeliveryAddress();
+                    } catch (AddressNotFoundException | ListingNotFoundException | ImposterWinnerException e) {
+                        System.out.println("error");
+                    }
                     
                     
                 } else if (response == 17) {
