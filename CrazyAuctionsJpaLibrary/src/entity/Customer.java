@@ -20,6 +20,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import util.enumeration.CustomerType;
 
 /**
  *
@@ -59,6 +60,8 @@ public class Customer implements Serializable {
     private String password;
     //private String paymentDetails
     
+    private CustomerType customerType;
+    
     @OneToMany(mappedBy = "customer")
     private List<AuctionListing> listOfAuctionListings;
     
@@ -90,7 +93,7 @@ public class Customer implements Serializable {
 //        
 //    }
     
-    public Customer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password) {
+    public Customer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password, CustomerType customerType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.listOfAddresses = new ArrayList<Address>();
@@ -100,7 +103,7 @@ public class Customer implements Serializable {
         this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
-        
+        this.customerType = customerType;
     }
     
     
@@ -323,6 +326,20 @@ public class Customer implements Serializable {
      */
     public void setListOfWonAuctionListings(List<AuctionListing> listOfWonAuctionListings) {
         this.listOfWonAuctionListings = listOfWonAuctionListings;
+    }
+
+    /**
+     * @return the customerType
+     */
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    /**
+     * @param customerType the customerType to set
+     */
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
     }
 
 

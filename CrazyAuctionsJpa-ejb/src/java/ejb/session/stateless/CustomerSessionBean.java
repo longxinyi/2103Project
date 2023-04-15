@@ -16,6 +16,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.CustomerType;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
@@ -43,8 +44,8 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
     }
     
     @Override
-    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password){
-        Customer customer = new Customer(firstName, lastName, creditBalance, postalCode, contactNumber, emailAddress, username, password);
+    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password, CustomerType customerType){
+        Customer customer = new Customer(firstName, lastName, creditBalance, postalCode, contactNumber, emailAddress, username, password, customerType);
         em.persist(customer);
         return customer;
     }
@@ -136,5 +137,20 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
 //    public void addAddress(Customer customer, Add addressName){
 //        customer.getListOfAddresses().add(addressName);
 //    }
+    
+    public void registerPremium(String customerUsername) throws CustomerNotFoundException{
+        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inUsername");
+        query.setParameter("inUsername", customerUsername);
+        try
+        {
+            Customer customer = (Customer)query.getSingleResult();
+            customer.setCustomerType(CustomerType.PREMIUM);
+        }
+        catch(NoResultException | NonUniqueResultException ex)
+        {
+            throw new CustomerNotFoundException("Customer Username " + customerUsername + " does not exist! Please Register!");
+        }
+        
+    }
     
 }

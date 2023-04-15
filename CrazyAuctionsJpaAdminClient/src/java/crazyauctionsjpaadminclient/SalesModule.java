@@ -136,7 +136,7 @@ public class SalesModule {
             
             
         } catch(ParseException e){
-            System.out.println("Invalid date and time! please enter in the correct format!");
+            throw new ParseException("Invalid date and time! please enter in the correct format!", e.getErrorOffset());
         }
         newAuctionListing.setActive(false);
         

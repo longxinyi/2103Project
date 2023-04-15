@@ -24,6 +24,7 @@ import javax.ejb.Timer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.AccessRightEnum;
+import util.enumeration.CustomerType;
 import util.exception.CustomerUsernameExistException;
 import util.exception.EmployeeUsernameExistException;
 
@@ -66,7 +67,7 @@ public class DataInitSessionBean {
         
         if(em.find(Customer.class, 1l) == null){
             
-            customerSessionBeanLocal.createNewCustomer("alice", "tan", new BigDecimal(0), 2, 999, "email", "alice", "password");
+            customerSessionBeanLocal.createNewCustomer("alice", "tan", new BigDecimal(0), 2, 999, "email", "alice", "password", CustomerType.NORMAL);
             
             
             //auctionListingSessionBeanLocal.createNewAuctionListing(new AuctionListing("hello", new BigDecimal(0.5), new Date(123,4,7,8,00), new Date(123,5,7,8,00),true));

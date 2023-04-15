@@ -25,6 +25,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TransactionRequiredException;
 
 
 import util.exception.ListingNotFoundException;
@@ -234,40 +235,83 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
         
     }
     
+//    @Timeout
+//    public void timeout(Timer timer){
+//        //change active status
+//        System.out.println("TIME OUT METHOD");
+//        AuctionListing auctionListing = (AuctionListing) timer.getInfo();
+//        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
+//        query.setParameter("inAuctionName", auctionListing.getAuctionName());
+//        AuctionListing setAuctionListing = (AuctionListing) query.getSingleResult();
+//        
+//        if(setAuctionListing.isActive() == false){
+//            System.out.println("TIME OUT METHOD IF{} ");
+//            setAuctionListing.setActive(true);
+//            TimerHandle newEndTimer = newTimer(setAuctionListing.getEndDateTime(), setAuctionListing);
+//            setAuctionListing.setTimerHandle(newEndTimer);
+//            
+//        } else {
+//            //if listing is active
+//            setAuctionListing.setActive(false);
+//            assignWinningBid(setAuctionListing.getAuctionName());
+//            int size = setAuctionListing.getAuctionListingBids().size();
+//            System.out.println("NUMBER OF BIDS :" + size);
+//            if (size != 0) {
+//                AuctionListingBid winningBid = setAuctionListing.getAuctionListingBids().get(size - 1);
+//                if (winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0){
+//                
+//                    Customer winningCustomer = winningBid.getCustomer();
+//
+//                    winningCustomer.getListOfWonAuctionListings().add(setAuctionListing);
+//                }
+//            } else {
+//                System.out.println("This listing has no bids!");
+//            }
+//
+//            
+//        }
+//    }
+    
     @Timeout
-    public void timeout(Timer timer){
-        //change active status
-        System.out.println("TIME OUT METHOD");
-        AuctionListing auctionListing = (AuctionListing) timer.getInfo();
-        Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
-        query.setParameter("inAuctionName", auctionListing.getAuctionName());
-        AuctionListing setAuctionListing = (AuctionListing) query.getSingleResult();
-        
-        if(auctionListing.isActive() == false){
-            System.out.println("TIME OUT METHOD IF{} ");
-            setAuctionListing.setActive(true);
-            TimerHandle newEndTimer = newTimer(setAuctionListing.getEndDateTime(), setAuctionListing);
-            setAuctionListing.setTimerHandle(newEndTimer);
-            
-        } else {
-            //if listing is active
-            setAuctionListing.setActive(false);
-            assignWinningBid(setAuctionListing.getAuctionName());
-            int size = setAuctionListing.getAuctionListingBids().size();
+    public void timeout(Timer timer) {
+        try {
+            //change active status
+            System.out.println("TIME OUT METHOD");
+            AuctionListing auctionListing = (AuctionListing) timer.getInfo();
+            Query query = em.createQuery("SELECT a FROM AuctionListing a WHERE a.auctionName = :inAuctionName");
+            query.setParameter("inAuctionName", auctionListing.getAuctionName());
+            AuctionListing setAuctionListing = (AuctionListing) query.getSingleResult();
 
-            if (size != 0) {
-                AuctionListingBid winningBid = auctionListing.getAuctionListingBids().get(size - 1);
-                if (winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0){
-                
-                    Customer winningCustomer = winningBid.getCustomer();
+            if (!setAuctionListing.isActive()) {
+                System.out.println("TIME OUT METHOD IF{} ");
+                setAuctionListing.setActive(true);
+                TimerHandle newEndTimer = newTimer(setAuctionListing.getEndDateTime(), setAuctionListing);
+                setAuctionListing.setTimerHandle(newEndTimer);
+            } else {
+                //if listing is active
+                setAuctionListing.setActive(false);
+                assignWinningBid(setAuctionListing.getAuctionName());
+                int size = setAuctionListing.getAuctionListingBids().size();
+                System.out.println("NUMBER OF BIDS :" + size);
+                if (size != 0) {
+                    AuctionListingBid winningBid = setAuctionListing.getAuctionListingBids().get(size - 1);
+                    if (winningBid.getBidPrice() != null && setAuctionListing.getReservePrice() != null
+                            && winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0) {
 
-                    winningCustomer.getListOfWonAuctionListings().add(auctionListing);
+                        Customer winningCustomer = winningBid.getCustomer();
+                        winningCustomer.getListOfWonAuctionListings().add(setAuctionListing);
+                    }
+                } else {
+                    System.out.println("This listing has no bids!");
                 }
-            } 
-
+            }
+        } catch (IllegalArgumentException | TransactionRequiredException | NoResultException
+                | NonUniqueResultException | IndexOutOfBoundsException | NullPointerException ex) {
+            // handle any potential exceptions thrown by the methods in your code
             
         }
     }
+
     
 //    public void assignWinningBidForListingsWBidsBelowReservePrice(String auctionName){
 //        List<AuctionListing> listings = viewAuctionListingsBelowReservePrice();

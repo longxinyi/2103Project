@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import util.enumeration.CustomerType;
 import util.exception.ListingNotFoundException;
 import util.exception.CreditTransactionHistoryNotFoundException;
 import util.exception.AddressNotFoundException;
@@ -101,8 +102,10 @@ public class MainApp {
                     } catch (InvalidLoginCredentialException ex) {
                         System.out.println("Invalid login credential: " + ex.getMessage() + "\n");
                     }
-                } else if (response == 3) {
+                } else if (response == 3){
+                    
                     break;
+                    
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
@@ -152,6 +155,7 @@ public class MainApp {
         System.out.print("Enter Password> ");
         currentCustomer.setPassword(scanner.nextLine().trim());
         currentCustomer.setCreditBalance(new BigDecimal(0));
+        currentCustomer.setCustomerType(CustomerType.NORMAL);
 
         try {
             Long customerId = customerSessionBeanRemote.createNewCustomer(currentCustomer);
@@ -173,23 +177,24 @@ public class MainApp {
             System.out.println("1: View Customer Profile");
             System.out.println("2: Update Customer Profile");
             System.out.println("3: Create Address");
-            System.out.println("3: View Address Details");
-            System.out.println("4: Update Address");
-            System.out.println("5: Delete Address");
-            System.out.println("6: View All Addresses");
-            System.out.println("7: View Credit Balance");
-            System.out.println("8: View Credit Transaction History");
-            System.out.println("9: Purchase Credit Package");
-            System.out.println("10: Browse All Auction Listings");
-            System.out.println("11: View Auction Listing Details");
-            System.out.println("12: Place New Bid");
-            System.out.println("13: Refresh Auction Listing Bids");
-            System.out.println("14: Browse Won Auction Listings");
-            System.out.println("15: Select Delivery Address for Won Auction Listing");
-            System.out.println("16: Logout\n");
+            System.out.println("4: View Address Details");
+            System.out.println("5: Update Address");
+            System.out.println("6: Delete Address");
+            System.out.println("7: View All Addresses");
+            System.out.println("8: View Credit Balance");
+            System.out.println("9: View Credit Transaction History");
+            System.out.println("10: Purchase Credit Package");
+            System.out.println("11: Browse All Auction Listings");
+            System.out.println("12: View Auction Listing Details");
+            System.out.println("13: Place New Bid");
+            System.out.println("14: Refresh Auction Listing Bids");
+            System.out.println("15: Browse Won Auction Listings");
+            System.out.println("16: Select Delivery Address for Won Auction Listing");
+            System.out.println("17: Register for Premium");
+            System.out.println("18: Logout\n");
             response = 0;
 
-            while (response < 1 || response > 16) {
+            while (response < 1 || response > 18) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
@@ -208,57 +213,75 @@ public class MainApp {
                     addAddress();
 
                 } else if (response == 4) {
-
-                    viewAuctionListingDetails();
+ 
+                    viewAddressDetails();
 
                 } else if (response == 5) {
                     
-                    deleteAddress();
+                    updateAddress();
+                    
 
                 } else if (response == 6) {
                     
-                    viewAllAddresses();
+                    deleteAddress();
+                    
 
 
                 } else if(response == 7){
                     
-                    viewCreditBalance();
+                    viewAllAddresses();
                     
                     
                 } else if(response == 8){
                     
-                    viewCreditTransactionHistory();
                     
+                    viewCreditBalance();
                     
                 } else if (response == 9) {
 
-                    purchaseCreditPackage();
+                    viewCreditTransactionHistory();
+                    
 
                 } else if (response == 10) {
 
-                    browseAllAuctionListing();
+                    purchaseCreditPackage();
+                    
 
                 } else if (response == 11) {
 
-                    viewAuctionListingDetails();
+                    browseAllAuctionListing();
+                    
 
                 } else if (response == 12) {
                     
-                    placeNewBid();
+                    viewAuctionListingDetails();
+                    
                 
                 } else if (response == 13) {
                     
-                    refreshAuctionListings();
+                    placeNewBid();
+                    
                 
                 } else if (response == 14) {
                     
-                    browseWonAuctionListing();
+                    refreshAuctionListings();
+                    
 
                 } else if (response == 15) {
                     
-                    selectDeliveryAddress();
+                    browseWonAuctionListing();
+                    
                 
-                } else if (response == 16){
+                } else if(response == 16){
+                
+                    selectDeliveryAddress();
+                    
+                    
+                } else if (response == 17) {
+                
+                    registerPremium();
+                
+                } else if (response == 18){
                     
                     break;
                     
@@ -267,7 +290,7 @@ public class MainApp {
                 }
             }
 
-            if (response == 16) {
+            if (response == 17) {
                 break;
 
             }
@@ -419,8 +442,12 @@ public class MainApp {
         System.out.print("Enter listing name > ");
         String listingName = scanner.nextLine().trim();
         
-        addressSessionBeanRemote.selectAddressForWinningBid(addressName, currentCustomer, listingName);
-        System.out.println("Address successfully selected");
+        try{
+            addressSessionBeanRemote.selectAddressForWinningBid(addressName, currentCustomer.getUsername(), listingName);
+            System.out.println("Address successfully selected");
+        } catch (AddressNotFoundException | ListingNotFoundException | ImposterWinnerException e){
+            throw new AddressNotFoundException("There was an error! Please try again.");
+        }
     }
 
     ;
@@ -583,12 +610,46 @@ public class MainApp {
                 System.out.println("Auction Listing Name: " + auctionListing.getAuctionName() + "\n" + "Current Highest Bid: " + winningBid.getBidPrice());
             } catch (NoBidException e) {
                 System.out.println("Auction Listing Name: " + auctionListing.getAuctionName());
-            }
+            } 
             
         }
     }
     
+    public void registerPremium() throws CustomerNotFoundException{
+        
+        customerSessionBeanRemote.registerPremium(currentCustomer.getUsername());
+        System.out.println("Successfully registered as Premium!");
+        
+    }
     
+    public void viewAddressDetails() throws AddressNotFoundException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter name of address > ");
+        String addressName = scanner.nextLine().trim();
+        Address address;
+        try {
+            address = addressSessionBeanRemote.findAddressByName(addressName);
+        } catch (AddressNotFoundException e){
+            throw new AddressNotFoundException("Address not found, please try again!");
+        }
+        
+        System.out.println("Address name: " + address.getAddressName());
+    }
+    
+    public void updateAddress() throws AddressNotFoundException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter name of address > ");
+        String addressName = scanner.nextLine().trim();
+        
+        try {
+            addressSessionBeanRemote.updateAddress(addressName);
+        } catch (AddressNotFoundException e){
+            throw new AddressNotFoundException("Address not found, please try again!");
+        }
+        
+       
+    
+    }
     
     
 ;

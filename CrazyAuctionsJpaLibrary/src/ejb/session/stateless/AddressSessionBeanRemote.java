@@ -23,7 +23,9 @@ public interface AddressSessionBeanRemote {
     public Address createNewAddress(Address address);
     public void deleteAddress(String addressName) throws AddressNotFoundException;
     public Address createAddress(String addressName);
-    public void selectAddressForWinningBid(String addressName, Customer customer, String wonListing) throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException;
+    public void selectAddressForWinningBid(String addressName, String customerUsername, String wonListing) throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException;
     public void addAddress(String addressName, String customerName);
     public List<Address> viewAllAddress(String customerUsername) throws AddressNotFoundException;
+    public Address findAddressByName(String addressName) throws AddressNotFoundException;
+    public void updateAddress(String addressName) throws AddressNotFoundException;
 }

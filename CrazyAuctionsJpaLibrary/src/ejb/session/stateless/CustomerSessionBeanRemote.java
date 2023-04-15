@@ -10,6 +10,7 @@ import entity.Customer;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Remote;
+import util.enumeration.CustomerType;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.InvalidLoginCredentialException;
@@ -22,7 +23,7 @@ import util.exception.UpdateCustomerException;
 @Remote
 public interface CustomerSessionBeanRemote {
 
-    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password);
+    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password, CustomerType customerType);
 
     public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException;
 
@@ -32,6 +33,7 @@ public interface CustomerSessionBeanRemote {
 
     public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException;
 
+    public void registerPremium(String customerUsername) throws CustomerNotFoundException;
     
     public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
 

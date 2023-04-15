@@ -10,6 +10,7 @@ import entity.Customer;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
+import util.enumeration.CustomerType;
 import util.exception.CustomerNotFoundException;
 import util.exception.CustomerUsernameExistException;
 import util.exception.UpdateCustomerException;
@@ -25,7 +26,7 @@ public interface CustomerSessionBeanLocal {
     
     public Long createNewCustomer(Customer customer) throws CustomerUsernameExistException;
     
-    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password);
+    public Customer createNewCustomer(String firstName, String lastName, BigDecimal creditBalance, int postalCode, int contactNumber, String emailAddress, String username, String password, CustomerType customerType);
 
     public void updateCustomerProfile(Customer customer) throws CustomerNotFoundException, UpdateCustomerException;
 
@@ -33,6 +34,8 @@ public interface CustomerSessionBeanLocal {
     public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
     
     public List<AuctionListing> browseWonAuctionListings(Customer customer);
+    
+    public void registerPremium(String customerUsername) throws CustomerNotFoundException;
 
 //    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 //    

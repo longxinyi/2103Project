@@ -62,17 +62,21 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
         return address;
     }
     
-    public void selectAddressForWinningBid(String addressName, Customer customer, String wonListing) throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException{
+    public void selectAddressForWinningBid(String addressName, String customerName, String wonListing) throws AddressNotFoundException, ListingNotFoundException, ImposterWinnerException{
         //check if address input exists, if not create new one, associate with address
         Query query1 = em.createQuery("SELECT a from Address a WHERE a.addressName = :inAddressName");
         query1.setParameter("inAddressName", addressName);
-        Query query2 = em.createQuery("SELECT l from AuctionListing l WHERE l.listingName = :inwonListing");
+        Query query2 = em.createQuery("SELECT l FROM AuctionListing l WHERE l.auctionName = :inwonListing");
         query2.setParameter("inwonListing", wonListing);
+        Query query3 = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inCustomerUsername");
+        query3.setParameter("inCustomerUsername", customerName);
         Address address;
         AuctionListing auctionListing;
+        Customer customer;
         
         try {
             auctionListing = (AuctionListing) query2.getSingleResult();
+            customer = (Customer) query3.getSingleResult();
             
             if(customer.getListOfWonAuctionListings().contains(auctionListing)){
                 
@@ -155,5 +159,16 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
         return addresses;
     }
     
+    public void updateAddress(String addressName) throws AddressNotFoundException{
+    
+        try {
+            Address address = findAddressByName(addressName);
+            address.setAddressName(addressName);
+        } catch(AddressNotFoundException e){
+            throw new AddressNotFoundException();
+        }
+        
+        
+    }
     
 }
