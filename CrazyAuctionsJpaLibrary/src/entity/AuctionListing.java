@@ -26,6 +26,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -233,6 +234,7 @@ public class AuctionListing implements Serializable {
     /**
      * @return the timer
      */
+    @XmlTransient
     public TimerHandle getTimerHandle() {
         return timerHandle;
     }
