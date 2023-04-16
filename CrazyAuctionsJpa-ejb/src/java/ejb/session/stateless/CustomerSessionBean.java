@@ -132,6 +132,15 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         return currentCustomer.getCustomerId(); //not done yet
 
     }
+    
+    @Override
+    public BigDecimal viewCreditBalance(String username) throws CustomerNotFoundException
+    {
+        Customer currentCustomer = retrieveCustomerByUsername(username);
+        BigDecimal currentBalance = currentCustomer.getCreditBalance();
+        return currentCustomer.getCreditBalance(); //not done yet
+
+    }
 
 //    public List<AuctionListing> browseWonAuctionListings(String customerUsername) throws CustomerNotFoundException{
 //        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inUsername");
@@ -187,5 +196,7 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         }
         
     }
+
+    
     
 }

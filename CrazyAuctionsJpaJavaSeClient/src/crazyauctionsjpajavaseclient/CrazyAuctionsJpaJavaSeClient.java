@@ -5,6 +5,14 @@
  */
 package crazyauctionsjpajavaseclient;
 
+import ejb.session.stateless.AuctionListingSessionBeanRemote;
+import ejb.session.stateless.CreditPackageSessionBeanRemote;
+import ejb.session.stateless.CustomerSessionBeanRemote;
+import ejb.session.stateless.EmployeeSessionBeanRemote;
+import javax.ejb.EJB;
+import util.exception.CustomerNotFoundException;
+import util.exception.ListingNotFoundException;
+
 /**
  *
  * @author xinyi
@@ -14,10 +22,19 @@ public class CrazyAuctionsJpaJavaSeClient {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    @EJB(name = "AuctionListingSessionBeanRemote")
+    private static AuctionListingSessionBeanRemote auctionListingSessionBeanRemote;
+
+    @EJB(name = "CreditPackageSessionBeanRemote")
+    private static CreditPackageSessionBeanRemote creditPackageSessionBeanRemote;
+
+    @EJB
+    private static CustomerSessionBeanRemote customerSessionBeanRemote;
+    
+    public static void main(String[] args) throws ListingNotFoundException, CustomerNotFoundException {
         // TODO code application logic here
-        MainApp mainApp = new MainApp();
-        //mainApp.runApp();
+        MainApp mainApp = new MainApp(auctionListingSessionBeanRemote, creditPackageSessionBeanRemote, customerSessionBeanRemote);
+        mainApp.runApp();
     }
     
 }
