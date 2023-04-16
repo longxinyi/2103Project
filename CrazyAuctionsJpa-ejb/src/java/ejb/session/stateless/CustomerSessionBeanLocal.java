@@ -40,6 +40,8 @@ public interface CustomerSessionBeanLocal {
     public void registerPremium(String customerUsername) throws CustomerNotFoundException;
     
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
+    
+    public BigDecimal viewCreditBalance(String username) throws CustomerNotFoundException;
 
 //    public Customer customerLogin(String username, String password) throws InvalidLoginCredentialException;
 //    

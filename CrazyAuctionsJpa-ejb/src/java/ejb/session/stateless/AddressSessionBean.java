@@ -91,7 +91,8 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
         
         try {
             address = (Address) query1.getSingleResult();
-            address.getListOfWinningAuction().add(address.getListOfWinningAuction().size(), auctionListing);
+            System.out.println("asd");
+            address.getListOfWinningAuction().add(auctionListing);
         } catch(NoResultException | NonUniqueResultException ex) {
             throw new AddressNotFoundException("Address not found, please add address!");
             

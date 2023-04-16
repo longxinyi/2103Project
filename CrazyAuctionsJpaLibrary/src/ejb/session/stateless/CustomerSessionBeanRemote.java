@@ -38,4 +38,6 @@ public interface CustomerSessionBeanRemote {
     public Long updateCreditBalance(String username, BigDecimal topup) throws CustomerNotFoundException;
 
     public List<AuctionListing> browseWonAuctionListings(Customer customer);
+    
+    public BigDecimal viewCreditBalance(String username) throws CustomerNotFoundException;
 }

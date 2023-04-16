@@ -129,6 +129,15 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
         return currentCustomer.getCustomerId(); //not done yet
 
     }
+    
+    @Override
+    public BigDecimal viewCreditBalance(String username) throws CustomerNotFoundException
+    {
+        Customer currentCustomer = retrieveCustomerByUsername(username);
+        BigDecimal currentBalance = currentCustomer.getCreditBalance();
+        return currentCustomer.getCreditBalance(); //not done yet
+
+    }
 
     public List<AuctionListing> browseWonAuctionListings(Customer customer){
         return customer.getListOfWonAuctionListings();
