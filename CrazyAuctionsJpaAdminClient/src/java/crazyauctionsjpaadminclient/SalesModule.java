@@ -117,6 +117,8 @@ public class SalesModule {
         System.out.print("Enter Reserve Price > ");
         newAuctionListing.setReservePrice(new BigDecimal(scanner.nextLine().trim()));
         
+        System.out.println("Enter starting bid > ");
+        
         try {
             System.out.print("Enter Start Date Time (YYYY-MM-DD HH:MM:SS) > ");
             newAuctionListing.setStartDateTime(format.parse(scanner.nextLine().trim()));
@@ -143,7 +145,7 @@ public class SalesModule {
 
         Long newAuctionListingId = auctionListingSessionBeanRemote.createNewAuctionListing(newAuctionListing);
 
-        System.out.println("New auction listing created successfully!: " + newAuctionListing.getAuctionListingId() + "\n");
+        System.out.println("New auction listing created successfully!: " + newAuctionListing.getAuctionName()+ "\n");
 
     }
 

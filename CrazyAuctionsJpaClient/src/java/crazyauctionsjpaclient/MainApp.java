@@ -379,14 +379,24 @@ public class MainApp {
 
     ;
     
-    public void browseAllAuctionListing() {
+    public void browseAllAuctionListing() throws NoBidException {
         try {
             List<AuctionListing> auctionListings = auctionListingSessionBeanRemote.retrieveAuctionListing();
 
-            for (AuctionListing auctionListing : auctionListings) {
-                if (auctionListing.isActive() == true) {
-                    System.out.println("Auction listing : " + auctionListing.getAuctionName() + " with reserve price of: " + auctionListing.getReservePrice() + "\n");
+            if (auctionListings.isEmpty() == false ){
+                for (AuctionListing auctionListing : auctionListings) {
+                    if (auctionListing.isActive() == true) {
+                        try {
+                            AuctionListingBid bid = auctionListingSessionBeanRemote.getHighestBid(auctionListing.getAuctionName());
+                            System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + bid.getBidPrice() + " \n");
+                        } catch (NoBidException e){
+                            System.out.println("Auction listing : " + auctionListing.getAuctionName() + " with no bids currently"  + "\n");
+                        }
+  
+                    }
                 }
+            } else {
+                System.out.println("No active auction Listings at the moment!");
             }
 
         } catch (ListingNotFoundException ex) {
@@ -394,10 +404,16 @@ public class MainApp {
         }
     }
 
-    public void viewAuctionListingDetails() throws ListingNotFoundException {
+    public void viewAuctionListingDetails() throws ListingNotFoundException, NoBidException {
         List<AuctionListing> activeAuctions = auctionListingSessionBeanRemote.viewActiveListings();
         for (AuctionListing auctionListing : activeAuctions) {
-            System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
+            List<AuctionListingBid> auctionListingBids = auctionListing.getAuctionListingBids();
+            if (auctionListingBids.size() == 0){
+                AuctionListingBid bid = auctionListingSessionBeanRemote.getHighestBid(auctionListing.getAuctionName());
+                System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with the current highest bid of: " + bid.getBidPrice() + " \n");
+            } else {
+                System.out.println("Name of listing : " + auctionListing.getAuctionName() + " with no bids at the moment!" + " \n");
+            }
         }
     }
 
