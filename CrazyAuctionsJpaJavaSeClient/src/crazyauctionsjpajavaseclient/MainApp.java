@@ -155,6 +155,7 @@ public class MainApp {
         
         try {
             currentCustomer = customerSessionBeanRemote.customerLogin(username, password);
+            System.out.println(currentCustomer);
         } catch (InvalidLoginCredentialException e){
             System.out.println("Invalid login credentials!");
         }
