@@ -214,7 +214,34 @@ public class MainApp {
 
         }
     }
-            
+
         
-    
+//    private static Customer premiumLogin (java.lang.String username, java.lang.String password) throws InvalidLoginCredentialException_Exception{
+//        ws.soap.PremiumCustomerWebService_Service service = new ... ();
+//        ws.soap.PremiumCustomerWebService port = service.getPremiumCustomerWebServicePort();
+//        return port.premiumLogin(username, password);
+//    }
+//    
+//    
+//    private static AuctionListing viewAuctionListingDetails(java.lang.String auctionName) throws ListingNotFoundException_Exception {
+//        ws.soap.PremiumCustomerWebService_Service service = new ... ();
+//        ws.soap.PremiumCustomerWebService port = service.getPremiumCustomerWebServicePort();
+//        return port.viewAuctionListingDetails(auctionName);
+//        
+//    }
+//
+//    private static java.util.BigDecimal viewCreditBalance(java.lang.String username)throws CustomerNotFoundException_Exception {
+//        ws.soap.PremiumCustomerWebService_Service service = new ... ();
+//        ws.soap.PremiumCustomerWebService port = service.getPremiumCustomerWebServicePort();
+//        return port.viewCreditBalance(username);
+//        
+//    }
+//
+//    private static java.util.List<AuctionListing> browseAllAuctionListings()throws ListingNotFoundException_Exception {
+//        ws.soap.PremiumCustomerWebService_Service service = new ... ();
+//        ws.soap.PremiumCustomerWebService port = service.getPremiumCustomerWebServicePort();
+//        return port.retrieveAuctionListing();
+//        
+//    }
+
 }

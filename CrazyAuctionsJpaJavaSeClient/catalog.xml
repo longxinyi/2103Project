@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?wsdl" uri="xml-resources/web-service-references/PremiumCustomerWebService/wsdl/localhost_8080/PremiumCustomerWebService/PremiumCustomerWebService.wsdl"/>
-    <system systemId="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?xsd=1" uri="xml-resources/web-service-references/PremiumCustomerWebService/wsdl/localhost_8080/PremiumCustomerWebService/PremiumCustomerWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:4848/common/applications/webServiceWsdl.jsf?appName=CrazyAuctionsJpa&amp;wsdl=/PremiumCustomerWebService/PremiumCustomerWebService?wsdl" uri="xml-resources/web-service-references/PremiumCustomerWebService/wsdl/localhost_4848/common/applications/webServiceWsdl.jsf.appName_CrazyAuctionsJpa_wsdl_/PremiumCustomerWebService/PremiumCustomerWebService.wsdl"/>
+    <system systemId="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?wsdl" uri="xml-resources/web-service-references/PremiumCustomerWebService_1/wsdl/localhost_8080/PremiumCustomerWebService/PremiumCustomerWebService.wsdl"/>
+    <system systemId="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?xsd=1" uri="xml-resources/web-service-references/PremiumCustomerWebService_1/wsdl/localhost_8080/PremiumCustomerWebService/PremiumCustomerWebService.xsd_1.xsd"/>
 </catalog>

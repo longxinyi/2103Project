@@ -13,13 +13,13 @@
     <target name="wsimport-init" depends="init">
         <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
         <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
-            <classpath path="${libs.metro.classpath}"/>
+            <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
     <target name="wsimport-client-PremiumCustomerWebService" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService"/>
-        <property name="wsdl-PremiumCustomerWebService" location="xml-resources/web-service-references/PremiumCustomerWebService/wsdl/localhost_8080/PremiumCustomerWebService/PremiumCustomerWebService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService" destdir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService" wsdl="${wsdl-PremiumCustomerWebService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?wsdl" xnocompile="true" xendorsed="true" package="ws.soap">
+        <property name="wsdl-PremiumCustomerWebService" location="xml-resources/web-service-references/PremiumCustomerWebService/wsdl/localhost_4848/common/applications/webServiceWsdl.jsf.appName_CrazyAuctionsJpa_wsdl_/PremiumCustomerWebService/PremiumCustomerWebService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService" destdir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService" wsdl="${wsdl-PremiumCustomerWebService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:4848/common/applications/webServiceWsdl.jsf?appName=CrazyAuctionsJpa&amp;wsdl=/PremiumCustomerWebService/PremiumCustomerWebService?wsdl" xnocompile="true" xendorsed="true" package="ws.soap">
             <depends file="${wsdl-PremiumCustomerWebService}"/>
             <produces dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService"/>
         </wsimport>
@@ -33,5 +33,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/ws/soap"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-PremiumCustomerWebService"/>
+    <target name="wsimport-client-PremiumCustomerWebService_1" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService_1"/>
+        <property name="wsdl-PremiumCustomerWebService_1" location="xml-resources/web-service-references/PremiumCustomerWebService_1/wsdl/localhost_8080/PremiumCustomerWebService/PremiumCustomerWebService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService_1" destdir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService_1" wsdl="${wsdl-PremiumCustomerWebService_1}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?wsdl" xnocompile="true" xendorsed="true" package="ws.soap">
+            <depends file="${wsdl-PremiumCustomerWebService_1}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService_1"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService_1">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-PremiumCustomerWebService_1" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/PremiumCustomerWebService_1"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/ws/soap"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-PremiumCustomerWebService, wsimport-client-PremiumCustomerWebService_1"/>
 </project>

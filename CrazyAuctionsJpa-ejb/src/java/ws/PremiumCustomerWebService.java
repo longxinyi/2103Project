@@ -40,7 +40,7 @@ public class PremiumCustomerWebService {
      * This is a sample web service operation
      */
     @WebMethod(operationName = "customerLogin")
-    public Customer premiumRegistration(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws InvalidLoginCredentialException {
+    public Customer premiumLogin(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws InvalidLoginCredentialException {
         return customerSessionBeanLocal.customerLogin(username, password);
     }
     
