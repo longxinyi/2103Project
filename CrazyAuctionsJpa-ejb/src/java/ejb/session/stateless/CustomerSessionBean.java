@@ -9,12 +9,15 @@ package ejb.session.stateless;
 import entity.AuctionListing;
 import entity.Customer;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUtil;
 import javax.persistence.Query;
 import util.enumeration.CustomerType;
 import util.exception.CustomerNotFoundException;
@@ -130,10 +133,42 @@ public class CustomerSessionBean implements CustomerSessionBeanRemote, CustomerS
 
     }
 
-    public List<AuctionListing> browseWonAuctionListings(Customer customer){
-        return customer.getListOfWonAuctionListings();
-    }
+//    public List<AuctionListing> browseWonAuctionListings(String customerUsername) throws CustomerNotFoundException{
+//        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inUsername");
+//        query.setParameter("inUsername", customerUsername);
+//        List<AuctionListing> wonListings = new ArrayList<AuctionListing>();
+//        
+//        try
+//        {
+//            Customer customer = (Customer) query.getSingleResult();
+//            PersistenceUtil util = Persistence.getPersistenceUtil();
+//            if (!util.isLoaded(customer.getListOfWonAuctionListings())) {
+//                util.load(customer.getListOfWonAuctionListings());
+//            }
+//            wonListings= customer.getListOfWonAuctionListings();
+//            return wonListings;
+//        }
+//        catch(NoResultException | NonUniqueResultException ex)
+//        {
+//            throw new CustomerNotFoundException("Customer Username " + customerUsername + " does not exist! Please Register!");
+//        }
+//        
+//    }
     
+    public List<AuctionListing> browseWonAuctionListings(String customerUsername) throws CustomerNotFoundException {
+        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inUsername");
+        query.setParameter("inUsername", customerUsername);
+        Customer customer;
+        
+        try {
+            customer = (Customer) query.getSingleResult();
+            List<AuctionListing> wonListings = customer.getListOfWonAuctionListings();
+            return wonListings;
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new CustomerNotFoundException("Customer Username " + customerUsername + " does not exist! Please Register!");
+        }
+    }
+
 //    public void addAddress(Customer customer, Add addressName){
 //        customer.getListOfAddresses().add(addressName);
 //    }

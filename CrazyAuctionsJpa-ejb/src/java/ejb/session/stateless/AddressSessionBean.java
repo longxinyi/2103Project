@@ -70,16 +70,34 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
         query2.setParameter("inwonListing", wonListing);
         Query query3 = em.createQuery("SELECT c FROM Customer c WHERE c.username = :inCustomerUsername");
         query3.setParameter("inCustomerUsername", customerName);
+        List<Address> addresses;
         Address address;
         AuctionListing auctionListing;
         Customer customer;
+        
+        try {
+            address = (Address) query1.getSingleResult();
+            
+        } catch(NoResultException | NonUniqueResultException ex) {
+            throw new AddressNotFoundException("Address not found, please add address!");
+            
+        }
         
         try {
             auctionListing = (AuctionListing) query2.getSingleResult();
             customer = (Customer) query3.getSingleResult();
             
             if(customer.getListOfWonAuctionListings().contains(auctionListing)){
+                addresses = customer.getListOfAddresses();
                 
+                if(addresses.contains(address)){
+                    List<AuctionListing> won = address.getListOfWinningAuction();
+                    won.add(auctionListing);
+                    address.setListOfWinningAuction(won);
+                    address.setAssociated(true);
+                } else {
+                    throw new AddressNotFoundException("Error, address missing");
+                }
             } else {
                 throw new ImposterWinnerException("You did not win this listing, please try again");
             }
@@ -89,15 +107,9 @@ public class AddressSessionBean implements AddressSessionBeanRemote, AddressSess
             
         }
         
-        try {
-            address = (Address) query1.getSingleResult();
-            address.getListOfWinningAuction().add(address.getListOfWinningAuction().size(), auctionListing);
-        } catch(NoResultException | NonUniqueResultException ex) {
-            throw new AddressNotFoundException("Address not found, please add address!");
-            
-        }
+       
         
-        address.setAssociated(true);
+        
        
         
         

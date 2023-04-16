@@ -424,17 +424,24 @@ public class MainApp {
 
     ;
     
-    public void browseWonAuctionListing() {
-        List<AuctionListing> wonListings = customerSessionBeanRemote.browseWonAuctionListings(currentCustomer);
+    public void browseWonAuctionListing() throws CustomerNotFoundException, ListingNotFoundException, NoBidException {
+        
+        try {
+            List<AuctionListing> wonListings = customerSessionBeanRemote.browseWonAuctionListings(currentCustomer.getUsername());
+            if (wonListings.size() == 0) {
+                System.out.println("You have won 0 listings.");
+            } else {
+                for (AuctionListing auctionListing : wonListings) {
+                    AuctionListingBid winningBid = auctionListingSessionBeanRemote.getHighestBid(auctionListing.getAuctionName());
+                    System.out.println("Name of listing won: " + auctionListing.getAuctionName() + " with the bid of: " + winningBid.getBidPrice() + " \n");
+                }
 
-        if (wonListings.size() == 0) {
-            System.out.println("You have won 0 listings.");
-        } else {
-            for (AuctionListing auctionListing : wonListings) {
-                System.out.println("Name of listing won: " + auctionListing.getAuctionName() + " with the bid of: " + auctionListing.getAuctionListingBids().get(auctionListing.getAuctionListingBids().size()) + " \n");
             }
-
+        } catch (CustomerNotFoundException e) {
+            System.out.println("Error! Please try again!");
         }
+
+        
     }
 
     ;

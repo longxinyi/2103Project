@@ -255,17 +255,23 @@ public class AuctionListingSessionBean implements AuctionListingSessionBeanRemot
             } else {
                 //if listing is active
                 setAuctionListing.setActive(false);
-                assignWinningBid(setAuctionListing.getAuctionName());
+                
+                //assignWinningBid(setAuctionListing.getAuctionName());
+                
                 int size = setAuctionListing.getAuctionListingBids().size();
                 System.out.println("NUMBER OF BIDS :" + size);
-                if (size != 0) {
+                if (size > 0) {
+                    System.out.println("in IF bracket");
                     AuctionListingBid winningBid = setAuctionListing.getAuctionListingBids().get(size - 1);
-                    if (winningBid.getBidPrice() != null && setAuctionListing.getReservePrice() != null
-                            && winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0) {
+                    //if (winningBid.getBidPrice().compareTo(setAuctionListing.getReservePrice()) >= 0) {
 
-                        Customer winningCustomer = winningBid.getCustomer();
-                        winningCustomer.getListOfWonAuctionListings().add(setAuctionListing);
-                    }
+                    Customer winningCustomer = winningBid.getCustomer();
+                    
+                    List<AuctionListing> wonListings = winningCustomer.getListOfWonAuctionListings();
+                    wonListings.add(setAuctionListing);
+                    winningCustomer.setListOfWonAuctionListings(wonListings);
+                    System.out.println("associated with " + winningCustomer.getUsername());
+                    //}
                 } else {
                     System.out.println("This listing has no bids!");
                 }

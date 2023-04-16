@@ -64,10 +64,10 @@ public class PremiumCustomerWebService {
         return auctionListingSessionBeanLocal.retrieveAuctionListing();
     }
     
-    @WebMethod(operationName = "viewWonAuctionListings")
-    public List<AuctionListing> viewWonAuctionListings(@WebParam(name = "customer") Customer customer) throws ListingNotFoundException {
-        return customerSessionBeanLocal.browseWonAuctionListings(customer);
-    }
+//    @WebMethod(operationName = "viewWonAuctionListings")
+//    public List<AuctionListing> viewWonAuctionListings(@WebParam(name = "customer") Customer customer) throws ListingNotFoundException {
+//        return customerSessionBeanLocal.browseWonAuctionListings(customer);
+//    }
     
 
     

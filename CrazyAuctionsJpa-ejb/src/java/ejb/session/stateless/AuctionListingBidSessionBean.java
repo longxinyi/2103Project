@@ -196,6 +196,7 @@ public class AuctionListingBidSessionBean implements AuctionListingBidSessionBea
         
         BigDecimal newBalance = currentCustomer.getCreditBalance().subtract(price);
         currentCustomer.setCreditBalance(newBalance);
+        newBid.setCustomer(currentCustomer);
     }
 
     
